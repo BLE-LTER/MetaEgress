@@ -1,3 +1,4 @@
+## function to create either a dataTable or an otherEntity custom class object to use in the custom function dataset() 
 
 datatablefun <- function(datasetid, entity) {
   entities_s <- entities[entities$datasetid == datasetid & entities$entity_position == entity, ]
@@ -9,6 +10,7 @@ datatablefun <- function(datasetid, entity) {
   checksum <- digest::digest(filename, algo = "md5", file = TRUE)
 
   if (entities_s$entitytype == "dataTable") {
+    ## set_physical() is a method from `eml` package
     physical <- set_physical(
       objectName = filename,
       size = size0,
@@ -57,8 +59,6 @@ datatablefun <- function(datasetid, entity) {
         "function" = new("xml_attribute", "download")
       )))
     )
-
-
     dataTable <- new("otherEntity",
       entityName = entities_s$entityname,
       entityDescription = entities_s$entitydescription,
