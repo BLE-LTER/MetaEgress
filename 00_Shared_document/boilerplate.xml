@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packageId="edi.7.2" system="knb" xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://nis.lternet.edu/schemas/EML/eml-2.1.1/eml.xsd">
+  <access system="https://pasta.lternet.edu" scope="document" order="allowFirst" authSystem="https://pasta.lternet.edu/authentication">
+    <allow>
+      <principal>uid=BLE,o=LTER,dc=ecoinformatics,dc=org</principal>
+      <permission>all</permission>
+    </allow>
+    <allow>
+      <principal>uid=your_user_id,dc=ecoinformatics,dc=org</principal>
+      <permission>all</permission>
+    </allow>
+    <allow>
+      <principal>public</principal>
+      <permission>read</permission>
+    </allow>
+  </access>
+  
+  <dataset>
+    
+    <distribution>
+      <online>
+        <url function="information">https://ble.lternet.edu</url>
+      </online>
+    </distribution>
+    
+    <contact>
+      <organizationName>BLE LTER</organizationName>
+      <positionName>Information Manager, Beaufort Lagoon Ecosystems LTER</positionName>
+      <address>
+        <deliveryPoint>contact address1</deliveryPoint>
+        <deliveryPoint>contact address2</deliveryPoint>
+        <city>contact  City</city>
+        <administrativeArea>contact state</administrativeArea>
+        <postalCode>78759-7741</postalCode>
+        <country>United States</country>
+      </address>
+      <electronicMailAddress>contact@ble.edu</electronicMailAddress>
+      <onlineUrl>http://ble.lternet.edu</onlineUrl>
+    </contact>
+    
+    <publisher>
+      <organizationName>publisher org</organizationName>
+      <address>
+        <deliveryPoint>publisher address</deliveryPoint>
+        <city>publisher city</city>
+        <administrativeArea>publisher state</administrativeArea>
+        <postalCode>90210</postalCode>
+        <country>United States</country>
+      </address>
+    </publisher>
+    <pubPlace>pub place</pubPlace>
+    
+    <project>
+      <title>your lter spelled out</title>
+      <personnel>
+        <individualName>
+          <salutation>Dr.</salutation>
+          <givenName>PI name</givenName>
+          <surName>PI surname</surName>
+        </individualName>
+        <address> 
+          <deliveryPoint>PI address1</deliveryPoint>
+          <deliveryPoint>PI address2</deliveryPoint>
+          <city>PI city</city>
+          <administrativeArea>PI state</administrativeArea>
+          <postalCode>78758</postalCode>
+          <country>United States</country>
+        </address>
+        <phone phonetype="voice">615-867-5309</phone>
+        <electronicMailAddress>PI@abc.edu</electronicMailAddress>
+        <role>Principal Investigator</role>
+      </personnel>    
+      <personnel>
+        <individualName>
+          <salutation>Dr.</salutation>
+          <givenName>Co-PI name</givenName>
+          <surName>Co-PI surname</surName>
+        </individualName>
+        <address> 
+          <deliveryPoint>Co-PI address1</deliveryPoint>
+          <deliveryPoint>Co-PI address2</deliveryPoint>
+          <city>Co-PI city</city>
+          <administrativeArea>Co-PI state</administrativeArea>
+          <postalCode>78758</postalCode>
+          <country>United States</country>
+        </address>
+        <phone phonetype="voice">615-867-5309</phone>
+        <electronicMailAddress>Co-PI@abc.edu</electronicMailAddress>
+        <role>Co-Principal Investigator</role>
+      </personnel>     
+         
+
+      <abstract>
+        <section>
+          <para>Abstract about your LTER site.</para>
+        </section>
+      </abstract>
+      <funding>
+        <section>
+          <para>BLE is funded by the National Science Foundation under award 123456.</para>
+        </section>
+      </funding>
+    </project>
+    
+  </dataset>
+</eml:eml>

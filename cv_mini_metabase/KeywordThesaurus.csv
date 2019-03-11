@@ -1,0 +1,5 @@
+ThesaurusID,ThesaurusLabel,ThesaurusUrl,UseInMetadata,ThesaurusSortOrder
+ebv,Essential Biodiversity Variables,,t,1
+dwc,Darwin Core Terms,,t,2
+lter-cv,LTER Network Controlled Vocabulary,,t,4
+none,,,t,3

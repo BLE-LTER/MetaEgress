@@ -1,0 +1,295 @@
+# Remove these lines from the pkg_mgmt SQL.
+
+ALTER SCHEMA pkg_mgmt OWNER TO likui;
+ALTER FUNCTION pkg_mgmt.update_modified_column() OWNER TO likui;
+ALTER TABLE pkg_state OWNER TO likui;
+ALTER TABLE cv_metadata_amt OWNER TO likui;
+ALTER TABLE cv_status OWNER TO likui;
+ALTER TABLE cv_temporal_type OWNER TO likui;
+ALTER TABLE cv_trophic_level OWNER TO likui;
+ALTER TABLE pkg_sort OWNER TO likui;
+
+
+--
+-- TOC entry 2963 (class 0 OID 0)
+-- Dependencies: 10
+-- Name: pkg_mgmt; Type: ACL; Schema: -; Owner: likui
+--
+
+REVOKE ALL ON SCHEMA pkg_mgmt FROM PUBLIC;
+REVOKE ALL ON SCHEMA pkg_mgmt FROM likui;
+GRANT ALL ON SCHEMA pkg_mgmt TO likui;
+GRANT USAGE ON SCHEMA pkg_mgmt TO mcr_web_browser;
+GRANT USAGE ON SCHEMA pkg_mgmt TO im_assist;
+GRANT USAGE ON SCHEMA pkg_mgmt TO read_only_user;
+
+
+--
+-- TOC entry 2973 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: pkg_state; Type: ACL; Schema: pkg_mgmt; Owner: likui
+--
+
+REVOKE ALL ON TABLE pkg_state FROM PUBLIC;
+REVOKE ALL ON TABLE pkg_state FROM likui;
+GRANT ALL ON TABLE pkg_state TO likui;
+GRANT ALL ON TABLE pkg_state TO mob;
+
+
+--
+-- TOC entry 2975 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: cv_metadata_amt; Type: ACL; Schema: pkg_mgmt; Owner: likui
+--
+
+REVOKE ALL ON TABLE cv_metadata_amt FROM PUBLIC;
+REVOKE ALL ON TABLE cv_metadata_amt FROM likui;
+GRANT ALL ON TABLE cv_metadata_amt TO likui;
+GRANT SELECT ON TABLE cv_metadata_amt TO mcr_web_browser;
+GRANT SELECT ON TABLE cv_metadata_amt TO im_assist;
+GRANT SELECT ON TABLE cv_metadata_amt TO read_only_user;
+GRANT ALL ON TABLE cv_metadata_amt TO mob;
+
+
+--
+-- TOC entry 2977 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: cv_status; Type: ACL; Schema: pkg_mgmt; Owner: likui
+--
+
+REVOKE ALL ON TABLE cv_status FROM PUBLIC;
+REVOKE ALL ON TABLE cv_status FROM likui;
+GRANT ALL ON TABLE cv_status TO likui;
+GRANT SELECT ON TABLE cv_status TO mcr_web_browser;
+GRANT SELECT ON TABLE cv_status TO im_assist;
+GRANT SELECT ON TABLE cv_status TO read_only_user;
+GRANT ALL ON TABLE cv_status TO mob;
+
+
+--
+-- TOC entry 2978 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: cv_temporal_type; Type: ACL; Schema: pkg_mgmt; Owner: likui
+--
+
+REVOKE ALL ON TABLE cv_temporal_type FROM PUBLIC;
+REVOKE ALL ON TABLE cv_temporal_type FROM likui;
+GRANT ALL ON TABLE cv_temporal_type TO likui;
+GRANT SELECT ON TABLE cv_temporal_type TO mcr_web_browser;
+GRANT SELECT ON TABLE cv_temporal_type TO im_assist;
+GRANT SELECT ON TABLE cv_temporal_type TO read_only_user;
+GRANT ALL ON TABLE cv_temporal_type TO mob;
+
+
+--
+-- TOC entry 2980 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: cv_trophic_level; Type: ACL; Schema: pkg_mgmt; Owner: likui
+--
+
+REVOKE ALL ON TABLE cv_trophic_level FROM PUBLIC;
+REVOKE ALL ON TABLE cv_trophic_level FROM likui;
+GRANT ALL ON TABLE cv_trophic_level TO likui;
+GRANT SELECT ON TABLE cv_trophic_level TO mcr_web_browser;
+GRANT SELECT ON TABLE cv_trophic_level TO im_assist;
+GRANT SELECT ON TABLE cv_trophic_level TO read_only_user;
+GRANT ALL ON TABLE cv_trophic_level TO mob;
+
+
+--
+-- TOC entry 2983 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: pkg_sort; Type: ACL; Schema: pkg_mgmt; Owner: likui
+--
+
+REVOKE ALL ON TABLE pkg_sort FROM PUBLIC;
+REVOKE ALL ON TABLE pkg_sort FROM likui;
+GRANT ALL ON TABLE pkg_sort TO likui;
+GRANT ALL ON TABLE pkg_sort TO mob;
+
+
+-- Completed on 2018-08-10 13:21:05
+
+--
+-- PostgreSQL database dump complete
+--
+
+# Remove these lines from the mb2eml_r SQL.
+
+ALTER SCHEMA mb2eml_r OWNER TO mob;
+ALTER TABLE vw_custom_units OWNER TO likui;
+ALTER TABLE vw_eml_attributecodedefinition OWNER TO likui;
+ALTER TABLE vw_eml_attributes OWNER TO likui;
+ALTER TABLE vw_eml_creator OWNER TO likui;
+ALTER TABLE vw_eml_dataset OWNER TO likui;
+ALTER TABLE vw_eml_datasetmethod OWNER TO likui;
+ALTER TABLE vw_eml_entities OWNER TO likui;
+ALTER TABLE vw_eml_geographiccoverage OWNER TO likui;
+ALTER TABLE vw_eml_keyword OWNER TO likui;
+
+
+ALTER TABLE vw_eml_temporalcoverage OWNER TO likui;
+
+--
+-- TOC entry 2941 (class 0 OID 0)
+-- Dependencies: 8
+-- Name: mb2eml_r; Type: ACL; Schema: -; Owner: mob
+--
+
+REVOKE ALL ON SCHEMA mb2eml_r FROM PUBLIC;
+REVOKE ALL ON SCHEMA mb2eml_r FROM mob;
+GRANT ALL ON SCHEMA mb2eml_r TO mob;
+GRANT USAGE ON SCHEMA mb2eml_r TO read_only_user;
+GRANT ALL ON SCHEMA mb2eml_r TO likui;
+
+
+--
+-- TOC entry 2942 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: vw_custom_units; Type: ACL; Schema: mb2eml_r; Owner: likui
+--
+
+REVOKE ALL ON TABLE vw_custom_units FROM PUBLIC;
+REVOKE ALL ON TABLE vw_custom_units FROM likui;
+GRANT ALL ON TABLE vw_custom_units TO likui;
+GRANT SELECT ON TABLE vw_custom_units TO read_only_user;
+GRANT ALL ON TABLE vw_custom_units TO mob;
+
+
+--
+-- TOC entry 2943 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: vw_eml_attributecodedefinition; Type: ACL; Schema: mb2eml_r; Owner: likui
+--
+
+REVOKE ALL ON TABLE vw_eml_attributecodedefinition FROM PUBLIC;
+REVOKE ALL ON TABLE vw_eml_attributecodedefinition FROM likui;
+GRANT ALL ON TABLE vw_eml_attributecodedefinition TO likui;
+GRANT ALL ON TABLE vw_eml_attributecodedefinition TO mob;
+GRANT SELECT ON TABLE vw_eml_attributecodedefinition TO read_only_user;
+
+
+--
+-- TOC entry 2944 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: vw_eml_attributes; Type: ACL; Schema: mb2eml_r; Owner: likui
+--
+
+REVOKE ALL ON TABLE vw_eml_attributes FROM PUBLIC;
+REVOKE ALL ON TABLE vw_eml_attributes FROM likui;
+GRANT ALL ON TABLE vw_eml_attributes TO likui;
+GRANT SELECT ON TABLE vw_eml_attributes TO read_only_user;
+GRANT ALL ON TABLE vw_eml_attributes TO mob;
+
+
+--
+-- TOC entry 2945 (class 0 OID 0)
+-- Dependencies: 190
+-- Name: vw_eml_creator; Type: ACL; Schema: mb2eml_r; Owner: likui
+--
+
+REVOKE ALL ON TABLE vw_eml_creator FROM PUBLIC;
+REVOKE ALL ON TABLE vw_eml_creator FROM likui;
+GRANT ALL ON TABLE vw_eml_creator TO likui;
+GRANT SELECT ON TABLE vw_eml_creator TO read_only_user;
+GRANT ALL ON TABLE vw_eml_creator TO mob;
+
+
+--
+-- TOC entry 2946 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: vw_eml_dataset; Type: ACL; Schema: mb2eml_r; Owner: likui
+--
+
+REVOKE ALL ON TABLE vw_eml_dataset FROM PUBLIC;
+REVOKE ALL ON TABLE vw_eml_dataset FROM likui;
+GRANT ALL ON TABLE vw_eml_dataset TO likui;
+GRANT ALL ON TABLE vw_eml_dataset TO mob;
+GRANT SELECT ON TABLE vw_eml_dataset TO read_only_user;
+
+
+--
+-- TOC entry 2947 (class 0 OID 0)
+-- Dependencies: 199
+-- Name: vw_eml_datasetmethod; Type: ACL; Schema: mb2eml_r; Owner: likui
+--
+
+REVOKE ALL ON TABLE vw_eml_datasetmethod FROM PUBLIC;
+REVOKE ALL ON TABLE vw_eml_datasetmethod FROM likui;
+GRANT ALL ON TABLE vw_eml_datasetmethod TO likui;
+GRANT SELECT ON TABLE vw_eml_datasetmethod TO read_only_user;
+GRANT ALL ON TABLE vw_eml_datasetmethod TO mob;
+
+
+--
+-- TOC entry 2948 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: vw_eml_entities; Type: ACL; Schema: mb2eml_r; Owner: likui
+--
+
+REVOKE ALL ON TABLE vw_eml_entities FROM PUBLIC;
+REVOKE ALL ON TABLE vw_eml_entities FROM likui;
+GRANT ALL ON TABLE vw_eml_entities TO likui;
+GRANT SELECT ON TABLE vw_eml_entities TO read_only_user;
+GRANT ALL ON TABLE vw_eml_entities TO mob;
+
+
+--
+-- TOC entry 2949 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: vw_eml_geographiccoverage; Type: ACL; Schema: mb2eml_r; Owner: likui
+--
+
+REVOKE ALL ON TABLE vw_eml_geographiccoverage FROM PUBLIC;
+REVOKE ALL ON TABLE vw_eml_geographiccoverage FROM likui;
+GRANT ALL ON TABLE vw_eml_geographiccoverage TO likui;
+GRANT ALL ON TABLE vw_eml_geographiccoverage TO mob;
+GRANT SELECT ON TABLE vw_eml_geographiccoverage TO read_only_user;
+
+
+--
+-- TOC entry 2950 (class 0 OID 0)
+-- Dependencies: 195
+-- Name: vw_eml_keyword; Type: ACL; Schema: mb2eml_r; Owner: likui
+--
+
+REVOKE ALL ON TABLE vw_eml_keyword FROM PUBLIC;
+REVOKE ALL ON TABLE vw_eml_keyword FROM likui;
+GRANT ALL ON TABLE vw_eml_keyword TO likui;
+GRANT ALL ON TABLE vw_eml_keyword TO mob;
+GRANT SELECT ON TABLE vw_eml_keyword TO read_only_user;
+
+
+--
+-- TOC entry 2951 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: vw_eml_temporalcoverage; Type: ACL; Schema: mb2eml_r; Owner: likui
+--
+
+REVOKE ALL ON TABLE vw_eml_temporalcoverage FROM PUBLIC;
+REVOKE ALL ON TABLE vw_eml_temporalcoverage FROM likui;
+GRANT ALL ON TABLE vw_eml_temporalcoverage TO likui;
+GRANT ALL ON TABLE vw_eml_temporalcoverage TO mob;
+GRANT SELECT ON TABLE vw_eml_temporalcoverage TO read_only_user;
+
+
+-- Completed on 2018-08-10 13:19:50
+
+--
+-- PostgreSQL database dump complete
+--
+
+# EMLUnitDictionary.csv
+
+Deleted '" at the end of the description for kilogramPerMeterSquaredPerDay so the CSV could be parsed correctly.
+kilogramsPerMeterSquaredPerSecond - typo sqared
+milliliterPerLiter - typo milliters
+squareMillimeters - typo millmeters
+microequivalentPerLiter - typo ultiplier
+microgramPerMeterSquared - typo measuered, typo eg,
+milligramPerMeterSquaredPerHourPerGram - typo specifc
+milligramPerGramPerHour - typo specfic
+
+# CSVs
+
+Rename to match table names.

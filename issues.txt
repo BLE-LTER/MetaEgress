@@ -1,0 +1,21 @@
+# other tasks
+
+refactor code
+add journal article citations (already in lter-pkg-mgmt)
+build spreadsheet with just PI columns with other columns hidden
+add taxa
+add changehistory? (maintenance)
+add lter core area (already in lter-pkg-mgmt)
+add lat/lon constraint to include as least six decimal places as per BP?
+R might be treating protocol description as protocol distribution (i.e., a URL)
+If no subpath or urlhead, R is using filename as download link. Ah, this may be following old protocol of posting data on server for PASTA to harvest.
+fundingSource is required according to BP but not included
+metadataProvider is not included in output when entered as that role in db
+orcid uses directory instead of system (BP), though R may be right in this case
+are individualNames sorted by alpha as per BP? NO, it's done by authorship order.
+externally defined format version doesn't make it into xml.
+
+# Answered and all good
+
+individual sampling sites returned when lats and lons are the same? Yes
+non-rectangle polygons supported? No, archive a shapefile with your project instead.
