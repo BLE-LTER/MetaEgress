@@ -56,8 +56,12 @@ posgrefun <- function(dbname,
 }
 
 postgresfun_2 <- function(dbname, host, port) {
+  
+  # set DB driver
   library(RPostgres)
   driver <- RPostgres::Postgres()
+  
+  # connect to specified DB
   con <- dbConnect(
     driver,
     dbname = "lter_arranged",
@@ -66,6 +70,8 @@ postgresfun_2 <- function(dbname, host, port) {
     user = rstudioapi::showPrompt(title = "Enter database username", message = "Username"),
     password = rstudioapi::askForPassword(prompt = "Enter database password")
   )
+  
+  # views to query from
   view_list <- list(
     "mb2eml_r.vw_eml_attributes",
     "mb2eml_r.vw_eml_attributecodedefinition",
@@ -78,19 +84,23 @@ postgresfun_2 <- function(dbname, host, port) {
     "mb2eml_r.vw_eml_geographiccoverage",
     "mb2eml_r.vw_eml_temporalcoverage"
   )
+  
+  # create queries
   queries <- paste("SELECT * FROM", view_list, "WHERE datasetid = $1")
   
-  many_param_query <- function(query){
-    query_result <- dbSendQuery(conn = con, query)
-    dbBind(query_result, list(dataset_ids))
-    query_df <- dbFetch(query_result)
-    dbClearResult(query_result)
+  # parameterize queries to prevent SQL injection
+  param_query <- function(query){
+    result <- dbSendQuery(conn = con, query)
+    dbBind(result, list(dataset_ids))
+    query_df <- dbFetch(result)
+    dbClearResult(result)
     return(query_df)
   }
-  query_dfs <- lapply(queries, many_param_query)
+  
+  # apply over list of queries and name list items
+  query_dfs <- lapply(queries, param_query)
   
   names(query_dfs) <- c("meta", "factor", "unit", "creator", "keyword", "entities", "dataset", "method", "geo", "temporal")
+  
   return(query_dfs)
 }
-
-dfs <- postgresfun_2("lter_arranged", host, port)
