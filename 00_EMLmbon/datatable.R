@@ -1,69 +1,83 @@
-## function to create either a dataTable or an otherEntity custom class object to use in the custom function dataset() 
+# create either a dataTable or an otherEntity custom class object
+# for use in the custom function dataset()
 
-datatablefun <- function(datasetid, entity) {
-  entities_s <- entities[entities$datasetid == datasetid & entities$entity_position == entity, ]
-
-  filename <- entities_s$filename
-
+create_entity <- function(meta_list, dataset_id, entity) {
+  # subset tables that are entity-specific
+  #specific <- meta_list[c("meta", "factors", "entities")]
+  #info <- lapply(specific, subset,datasetid == dataset_id & entity_position == entity)
+  
+  ent <- subset(meta_list[["entities"]], datasetid == dataset_id & entity_position == entity)
+  fact1 <- subset(meta_list[["factor"]], datasetid == dataset_id & entity_position == entity)
+  meta1 <- subset(meta_list[["meta"]], datasetid == dataset_id & entity_position == entity)
+  
+  filename <- ent$filename
   size0 <- as.character(file.size(filename))
-
   checksum <- digest::digest(filename, algo = "md5", file = TRUE)
-
-  if (entities_s$entitytype == "dataTable") {
+  
+  if (ent$entitytype == "dataTable") {
     ## set_physical() is a method from `eml` package
     physical <- set_physical(
       objectName = filename,
       size = size0,
       sizeUnit = "byte",
-      url = paste0(entities_s$urlpath, filename),
-      numHeaderLines = if (is.na(entities_s$headerlines)) (NULL) else (as.character(entities_s$headerlines)),
-      recordDelimiter = if (is.na(entities_s$recorddelimiter)) (NULL) else (entities_s$recorddelimiter),
-      fieldDelimiter = if (is.na(entities_s$fielddlimiter)) (NULL) else (entities_s$fielddlimiter),
-      quoteCharacter = if (is.na(entities_s$quotecharacter)) (NULL) else (entities_s$quotecharacter),
+      url = paste0(ent$urlpath, filename),
+      numHeaderLines = if (is.na(ent$headerlines))
+        (NULL)
+      else
+        (as.character(ent$headerlines))
+      ,
+      recordDelimiter = if (is.na(ent$recorddelimiter))
+        (NULL)
+      else
+        (ent$recorddelimiter)
+      ,
+      fieldDelimiter = if (is.na(ent$fielddlimiter))
+        (NULL)
+      else
+        (ent$fielddlimiter)
+      ,
+      quoteCharacter = if (is.na(ent$quotecharacter))
+        (NULL)
+      else
+        (ent$quotecharacter)
+      ,
       attributeOrientation = "column",
       authentication = checksum,
       authMethod = "MD5"
     )
-
+    
     row <- nrow(fread(filename, data.table = F, showProgress = F))
-
-    meta1 <- meta[meta$datasetid == datasetid & meta$entity_position == entity, ]
-
-    fact1 <- fact[fact$datasetid == datasetid & fact$entity_position == entity, c("attributeName", "code", "definition")]
-
+    
     if (dim(fact1)[1] > 0) {
       attributeList <- set_attributes(meta1, factors = fact1)
     } else {
       attributeList <- set_attributes(meta1)
     }
-
-    dataTable <- new("dataTable",
-      entityName = entities_s$entityname,
-      entityDescription = entities_s$entitydescription,
+    
+    # assemble dataTable
+    
+    dataTable <- list(
+      entityName = ent$entityname,
+      entityDescription = ent$entitydescription,
       physical = physical,
       attributeList = attributeList,
       numberOfRecords = as.character(row)
     )
   } else {
-    physical <- new("physical",
+    physical <- list(
       objectName = filename,
-      size = new("size", size0, unit = "byte"),
-      authentication = new("authentication", checksum, method = "MD5"),
-      dataFormat = new("dataFormat",
-        externallyDefinedFormat = new("externallyDefinedFormat",
-          formatName = entities_s$formatname
-        )
-      ),
-      distribution = new("distribution", online = new("online", url = new("url",
-        paste0(entities_s$urlpath, filename),
-        "function" = new("xml_attribute", "download")
-      )))
+      size = list(size0, unit = "byte"),
+      authentication = list(checksum, method = "MD5"),
+      dataFormat = list(externallyDefinedFormat = list(formatName = ent$formatname)),
+      distribution = list(online = list(url = list(paste0(ent$urlpath, filename),
+                             "function" = list("download"))
+      ))
     )
-    dataTable <- new("otherEntity",
-      entityName = entities_s$entityname,
-      entityDescription = entities_s$entitydescription,
+    dataTable <- list(
+      entityName = ent$entityname,
+      entityDescription = ent$entitydescription,
       physical = physical,
-      entityType = entities_s$entitytype
+      entityType = ent$entitytype
     )
   }
   return(dataTable)
