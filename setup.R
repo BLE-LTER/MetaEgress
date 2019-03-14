@@ -1,4 +1,5 @@
-# create a function to check for installed packages and install them if they are not installed
+# function to check installed packages against required packages and install any missing
+
 install <- function(packages) {
   new.packages <-
     packages[!(packages %in% installed.packages()[, "Package"])]
@@ -8,7 +9,7 @@ install <- function(packages) {
   sapply(packages, require, character.only = TRUE)
 }
 
-# usage
+# list of required packages
 required.packages <- c(
   "EML",
   "rmarkdown",
@@ -20,5 +21,7 @@ required.packages <- c(
   "xlsx",
   "styler"
 )
+
+# install missing packages
 install(required.packages)
 

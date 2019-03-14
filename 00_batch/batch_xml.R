@@ -16,14 +16,15 @@ source("00_EMLmbon/dataset.r")
 
 source("00_batch/user_info.r")
 
-# input postgreSQL table
+# input postgreSQL database. change dbname to your DB.
 posgre <- posgrefun(
-  dbname = "li_tim_dump",
+  dbname = "lter_arranged",
   host = host,
   user = user,
   password = password
 )
 
+# extract information from result of above function
 meta <- posgre$meta
 fact <- posgre$fact
 unit <- posgre$unit

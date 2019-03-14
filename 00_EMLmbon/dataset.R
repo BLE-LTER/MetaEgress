@@ -1,9 +1,12 @@
 
+## function to create a EML custom class object
+
 datasetfun <- function(datasetid, dataTable = NULL, otherentity = NULL) {
 
   # dataset table
   project1 <- dataset[dataset$datasetid == datasetid, ]
-
+  
+  # ------------------------------------------------------
   # creator
 
   creator_s <- creator[creator$datasetid == datasetid & creator$authorshiprole == "creator", ]
@@ -168,11 +171,13 @@ datasetfun <- function(datasetid, dataTable = NULL, otherentity = NULL) {
     methodStep = methodall
   )
 
+  # -----------------------------------------------------
   # abstract
 
   abstract <- as(set_TextType(project1$abstract), "abstract")
   #abstract <- as(set_TextType("equation.docx"), "abstract")
   
+  # ------------------------------------------------------
   # date info
 
   tempcover <- new(
@@ -191,7 +196,7 @@ datasetfun <- function(datasetid, dataTable = NULL, otherentity = NULL) {
       )
   )
 
-  #-------------
+  #------------------------------------------------------------
   # spatial extend
 
 
@@ -222,7 +227,8 @@ datasetfun <- function(datasetid, dataTable = NULL, otherentity = NULL) {
     geographicCoverage = geoall,
     temporalCoverage = tempcover
   )
-
+  
+  # ----------------------------------------------------------
   # keyword
 
   keyword1 <- droplevels(keyword[keyword$datasetid == datasetid, ])
@@ -244,7 +250,7 @@ datasetfun <- function(datasetid, dataTable = NULL, otherentity = NULL) {
   }
 
 
-
+  # --------------------------------------------------------------
   # the boilerplate information
 
   sharefile <- "../00_Shared_document/"
@@ -258,7 +264,8 @@ datasetfun <- function(datasetid, dataTable = NULL, otherentity = NULL) {
   project_xml <- eml_get(xml_in@dataset, element = "project")
 
   intellectualrights1 <- as(set_TextType(paste0(sharefile, "IntellectualRights.docx")), "intellectualRights")
-
+  
+  #---------------------------------------------------------------
   # put the dataset together
   dataset1 <- new("dataset",
     title = project1$title,
@@ -282,14 +289,12 @@ datasetfun <- function(datasetid, dataTable = NULL, otherentity = NULL) {
 
 
 
-  #-------------------------------------------------------------------
-
+  # ------------------------------------------------------------------
   # unit list
-
   unit1 <- unit[unit$datasetid == datasetid, ]
 
-
-  # EML
+  # -----------------------------------------------------------------
+  # create EML custom class object for use in writing EML later
 
   if (dim(unit1)[1] > 0) {
     eml <- new("eml",
