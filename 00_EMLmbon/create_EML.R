@@ -210,8 +210,7 @@ create_EML <-
     
     # -----------------------------------------------------------------------------
     # keywords
-    keywords <-
-      subset(meta_list[['keyword']], datasetid == dataset_id)
+    keywords <- subset(meta_list[['keyword']], datasetid == dataset_id)
     #nkey <- unique(keyword$keyword_thesaurus)
     
     key_func <- function(keyword_list) {
