@@ -1,3 +1,5 @@
+# example workflow from metabase to EML document
+
 # -----------------------
 # connect to metabase and get metadata from specified datasets
 entity_meta <- get_meta(dbname = "lter_arranged", host = "localhost", port = 5432, c(99013, 99021))

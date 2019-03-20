@@ -1,0 +1,14 @@
+Package: metabase2eml
+Type: Package
+Title: Create Ecological Metadata Language From LTER Core Metabase
+Version: 0.1.0
+Author: person(given = NULL, family = NULL, middle = NULL,
+       email = NULL, role = NULL, comment = NULL,
+       first = NULL, last = NULL)
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Imports: EML (>1.99.0), RPostgres (>1.1.1)
