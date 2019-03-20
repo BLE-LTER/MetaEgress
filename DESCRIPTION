@@ -11,5 +11,5 @@ Description: More about what it does (maybe more than one line)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
-Imports: EML (>= 1.0.3), RPostgres (>=1.1.1)
+Imports: EML (>= 1.0.3), RPostgres (>= 1.1.1)
 Remotes: 
