@@ -9,3 +9,5 @@ bak
 cv_mini_metabase
 cv_pkg_mgmt
 *.sql
+R_experiments
+*.txt
