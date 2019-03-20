@@ -1,8 +1,0 @@
-EMLDomainType,MeasurementScale,NonNumericDomain,MeasurementScaleDomainID
-numericDomain,ratio,,ratio
-numericDomain,interval,,interval
-nonNumericDomain,nominal,textDomain,nominalText
-nonNumericDomain,nominal,enumeratedDomain,nominalEnum
-nonNumericDomain,ordinal,textDomain,ordinalText
-nonNumericDomain,ordinal,enumeratedDomain,ordinalEnum
-dateTimeDomain,dateTime,,dateTime

@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+packrat
+packrat/lib*/
+project.1001
+bak
+cv_mini_metabase
+cv_pkg_mgmt
+*.sql

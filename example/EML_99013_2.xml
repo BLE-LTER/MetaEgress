@@ -1,0 +1,952 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.1" packageId="knb-lter-sbc.13.21" xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://nis.lternet.edu/schemas/EML/eml-2.1.1/eml.xsd" system="knb">
+  <access authSystem="https://pasta.lternet.edu/authentication" order="allowFirst" scope="document" system="https://pasta.lternet.edu">
+    <allow>
+      <principal>uid=BLE,o=LTER,dc=ecoinformatics,dc=org</principal>
+      <permission>all</permission>
+    </allow>
+    <allow>
+      <principal>uid=your_user_id,dc=ecoinformatics,dc=org</principal>
+      <permission>all</permission>
+    </allow>
+    <allow>
+      <principal>public</principal>
+      <permission>read</permission>
+    </allow>
+  </access>
+  <dataset>
+    <abstract>
+      <para>
+  Abstract here!!
+</para>
+    </abstract>
+    <contact>
+      <organizationName>BLE LTER</organizationName>
+      <positionName>Information Manager, Beaufort Lagoon Ecosystems LTER</positionName>
+      <address>
+        <deliveryPoint>contact address1</deliveryPoint>
+        <deliveryPoint>contact address2</deliveryPoint>
+        <city>contact  City</city>
+        <administrativeArea>contact state</administrativeArea>
+        <postalCode>78759-7741</postalCode>
+        <country>United States</country>
+      </address>
+      <electronicMailAddress>contact@ble.edu</electronicMailAddress>
+      <onlineUrl>http://ble.lternet.edu</onlineUrl>
+    </contact>
+    <coverage>
+      <geographicCoverage>
+        <geographicDescription>Arroyo Burro reef: Arroyo Burro Reef is located on the Santa Barbara Channel near the mouth of Arroyo Burro Creek and Beach. Depth ranges from 5.4 to 7 meters.</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-119.822502</westBoundingCoordinate>
+          <eastBoundingCoordinate>-119.822502</eastBoundingCoordinate>
+          <northBoundingCoordinate>34.4138298</northBoundingCoordinate>
+          <southBoundingCoordinate>34.4138298</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <geographicCoverage>
+        <geographicDescription>Arroyo Hondo Reef: Arroyo Hondo Reef is located on the Santa Barbara Channel near the east end of Gaviota State Park, CA. Depth ranges from -4.3m to -6.6 meters. </geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-120.144402</westBoundingCoordinate>
+          <eastBoundingCoordinate>-120.144402</eastBoundingCoordinate>
+          <northBoundingCoordinate>34.4724007</northBoundingCoordinate>
+          <southBoundingCoordinate>34.4724007</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <geographicCoverage>
+        <geographicDescription>Arroyo Quemado Reef: Arroyo Quemado Reef is located on the Santa Barbara Channel near the mouth of Arroyo Quemada Creek, Santa Barbara County, CA. Depth ranges from -5.4 to -10.7 meters.</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-120.121498</westBoundingCoordinate>
+          <eastBoundingCoordinate>-120.121498</eastBoundingCoordinate>
+          <northBoundingCoordinate>34.4688301</northBoundingCoordinate>
+          <southBoundingCoordinate>34.4688301</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <geographicCoverage>
+        <geographicDescription>Bulito Reef: Bulito Reef is located on the Santa Barbara Channel between Gaviota and Pt. Conception, CA. Depth ranges from -5.5 to -7.3 meters.</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-120.333603</westBoundingCoordinate>
+          <eastBoundingCoordinate>-120.333603</eastBoundingCoordinate>
+          <northBoundingCoordinate>34.4561996</northBoundingCoordinate>
+          <southBoundingCoordinate>34.4561996</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <geographicCoverage>
+        <geographicDescription>Carpinteria reef: Carpinteria Reef is located on the Santa Barbara Channel offshore of the Carpinteria Salt Marsh. Depth range is from -2.2 to -8.8 meters. </geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-119.539902</westBoundingCoordinate>
+          <eastBoundingCoordinate>-119.539902</eastBoundingCoordinate>
+          <northBoundingCoordinate>34.3902016</northBoundingCoordinate>
+          <southBoundingCoordinate>34.3902016</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <geographicCoverage>
+        <geographicDescription>Goleta Bay: Goleta Bay is located on the Santa Barbara Channel east of Goleta Pier. Depth range is -4.2 to -5 meters.</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-119.822403</westBoundingCoordinate>
+          <eastBoundingCoordinate>-119.822403</eastBoundingCoordinate>
+          <northBoundingCoordinate>34.4137993</northBoundingCoordinate>
+          <southBoundingCoordinate>34.4137993</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <geographicCoverage>
+        <geographicDescription>Isla Vista Reef: Isla Vista (IV) Reef is located on the Santa Barbara Channel near the University of California Santa Barbara, CA. Depth range is from -8.2 to -8.8 meters</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-119.857803</westBoundingCoordinate>
+          <eastBoundingCoordinate>-119.857803</eastBoundingCoordinate>
+          <northBoundingCoordinate>34.4137993</northBoundingCoordinate>
+          <southBoundingCoordinate>34.4137993</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <geographicCoverage>
+        <geographicDescription>Mohawk Reef: Mohawk Reef is located on the Santa Barbara Channel, east of Arroyo Burro Beach, Santa Barbara, CA. Depth range from 4.5m to 6.0 m</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-119.730003</westBoundingCoordinate>
+          <eastBoundingCoordinate>-119.730003</eastBoundingCoordinate>
+          <northBoundingCoordinate>34.3943291</northBoundingCoordinate>
+          <southBoundingCoordinate>34.3943291</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <geographicCoverage>
+        <geographicDescription>Naples Reef: Naples Reef is located on the Santa Barbara Channel near the community of Naples and Dos Pueblos Canyon, Santa Barbara County, CA. Depth ranges from -5.9 to -13.4 meters.</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-119.949997</westBoundingCoordinate>
+          <eastBoundingCoordinate>-119.949997</eastBoundingCoordinate>
+          <northBoundingCoordinate>34.4239006</northBoundingCoordinate>
+          <southBoundingCoordinate>34.4239006</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <geographicCoverage>
+        <geographicDescription>Santa Cruz Island, Diablo Canyon Reef: Diablo Reef is located the north shore of Santa Cruz Island, in the Santa Barbara Channel Islands, CA. Depth ranges from -3.5 to -15 meters</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-119.7575</westBoundingCoordinate>
+          <eastBoundingCoordinate>-119.7575</eastBoundingCoordinate>
+          <northBoundingCoordinate>34.0587997</northBoundingCoordinate>
+          <southBoundingCoordinate>34.0587997</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <geographicCoverage>
+        <geographicDescription>Santa Cruz Island, Twin Harbor West reef: Twin Harbor West Reef is located on the north shore of Santa Cruz Island, in the Santa Barbara Channel Islands, CA. Depth ranges from -3.0 to -15 meters. Twin Harbor West Reef is located on the north shore of Santa Cruz Island, in the Santa Barbara Channel Islands, CA. Depth ranges from -3.0 to -15 meters. </geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-119.7155</westBoundingCoordinate>
+          <eastBoundingCoordinate>-119.7155</eastBoundingCoordinate>
+          <northBoundingCoordinate>34.0444984</northBoundingCoordinate>
+          <southBoundingCoordinate>34.0444984</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <temporalCoverage>
+        <rangeOfDates/>
+      </temporalCoverage>
+    </coverage>
+    <creator>
+      <address>
+        <deliveryPoint>Marine Science Institute University of California</deliveryPoint>
+        <city>Santa Barbara</city>
+        <administrativeArea>CA</administrativeArea>
+        <postalCode>93106-6150</postalCode>
+        <country>US</country>
+      </address>
+      <electronicaMailAddress>dan.reed@lifesci.ucsb.edu</electronicaMailAddress>
+      <individualName>
+        <givenName>Daniel C</givenName>
+        <surName>Reed</surName>
+      </individualName>
+      <phone>805-893-8363</phone>
+      <userId>
+        <system>https://orcid.org/0000-0003-3015-8717</system>
+      </userId>
+    </creator>
+    <dataTable>
+      <entityName>bottom_temp_all_years_20120626.csv</entityName>
+      <entityDescription>continuous temperature at permanent reef sites</entityDescription>
+      <physical>
+        <objectName>bottom_temp_all_years_20120626.csv</objectName>
+        <size unit="byte">6171</size>
+        <authentication method="MD5">05c7fb5aa72a20c807bf7e413f4b7f5b</authentication>
+        <dataFormat>
+          <textFormat>
+            <numHeaderLines>1</numHeaderLines>
+            <recordDelimiter>\r\n</recordDelimiter>
+            <attributeOrientation>column</attributeOrientation>
+            <simpleDelimited>
+              <fieldDelimiter>,</fieldDelimiter>
+              <quoteCharacter>"</quoteCharacter>
+            </simpleDelimited>
+          </textFormat>
+        </dataFormat>
+        <distribution>
+          <online>
+            <url function="download">http://sbc.lternet.edu/external/Reef/Data/Bottom_Temperature/bottom_temp_all_years_20120626.csv</url>
+          </online>
+        </distribution>
+      </physical>
+      <attributeList>
+        <attribute>
+          <attributeName>date</attributeName>
+          <attributeLabel>Date</attributeLabel>
+          <attributeDefinition>date</attributeDefinition>
+          <storageType>date</storageType>
+          <measurementScale>
+            <dateTime>
+              <formatString>MM/DD/YYYY</formatString>
+              <dateTimeDomain>
+                <bounds>
+                  <minimum exclusive="false">1/1/2000</minimum>
+                  <maximum exclusive="false">1/1/2100</maximum>
+                </bounds>
+              </dateTimeDomain>
+            </dateTime>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>value not recorded or not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>time</attributeName>
+          <attributeLabel>time</attributeLabel>
+          <attributeDefinition>time</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <dateTime>
+              <formatString>hh:mm:ss</formatString>
+              <dateTimeDomain/>
+            </dateTime>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>value not recorded or not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>temp_c</attributeName>
+          <attributeLabel>Temperature C</attributeLabel>
+          <attributeDefinition>water temperature</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <interval>
+              <unit>
+                <standardUnit>celsius</standardUnit>
+              </unit>
+              <precision>0.01</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">5</minimum>
+                  <maximum exclusive="false">20</maximum>
+                </bounds>
+              </numericDomain>
+            </interval>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>value not recorded or not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>serial</attributeName>
+          <attributeLabel>Serial Number</attributeLabel>
+          <attributeDefinition>Serial number of instrument used for observation. Instruments: 32K StowAway TidbiT (-5 deg C to 37 deg C) manufactured by Onset Computer Corporation.</attributeDefinition>
+          <storageType>integer</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>integer as text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>value not recorded or not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>site_code</attributeName>
+          <attributeLabel>Site</attributeLabel>
+          <attributeDefinition>Name of field site. Depth of temperature logger at each site varies from 4.95 to 8.15 meters. See enumerated list for site-specific depths.</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>ABUR</code>
+                    <definition>Arroyo Burro</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>AHND</code>
+                    <definition>Arroyo Hondo</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>AQUE</code>
+                    <definition>Arroyo Quemado</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>BULL</code>
+                    <definition>Bulito</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>CARP</code>
+                    <definition>Carpinteria</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>GOLB</code>
+                    <definition>Goleta Bay</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>IVEE</code>
+                    <definition>Isla Vista</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>MOHK</code>
+                    <definition>Mohawk</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>NAPL</code>
+                    <definition>Naples</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>SCDI</code>
+                    <definition>Santa Cruz Island, Diablo </definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>SCTW</code>
+                    <definition>Santa Cruz Island, Twin Harbor West Reef</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>value not recorded or not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>fake_xsect_code</attributeName>
+          <attributeLabel>Fake transect code</attributeLabel>
+          <attributeDefinition>this is a fake col to test ordinalenum</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <ordinal>
+              <nonNumericDomain>
+                <enumeratedDomain/>
+              </nonNumericDomain>
+            </ordinal>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>value not recorded or not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>fake_ord_text</attributeName>
+          <attributeLabel>Fake ordinal text field</attributeLabel>
+          <attributeDefinition>this is a test field</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <ordinal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </ordinal>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>value not recorded or not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>fake-temp</attributeName>
+          <attributeLabel>Temperature fake</attributeLabel>
+          <attributeDefinition>this is fake</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>kelvin</standardUnit>
+              </unit>
+              <precision>0.1</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">273</minimum>
+                  <maximum exclusive="false">373</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>value not recorded or not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>fake temp</attributeName>
+          <attributeLabel>asdf</attributeLabel>
+          <attributeDefinition>asdf</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>kelvin</standardUnit>
+              </unit>
+              <precision>0.1</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>fake_col_w_taxonCov</attributeName>
+          <attributeLabel>Fake taxa</attributeLabel>
+          <attributeDefinition>this is a fake col to test this is a fake column. string field</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>value not recorded or not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Density</attributeName>
+          <attributeLabel>Density</attributeLabel>
+          <attributeDefinition>For all except MAPY: Average number of individuals present per square meter of transect. For MAPY (M. pyrifera): Average number of fronds present per square meter of transect.</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>numberPerMeterSquared</standardUnit>
+              </unit>
+              <precision>0.01</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>value not recorded or not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Cover</attributeName>
+          <attributeLabel>Percent Cover</attributeLabel>
+          <attributeDefinition>Percent cover estimated from Uniform Point Contact observations as the fraction of total points at which that species was present out of 80 points x 100.</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>percent</customUnit>
+              </unit>
+              <precision>0.01</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>value not recorded or not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>MeanDry</attributeName>
+          <attributeLabel>Average Dry Mass</attributeLabel>
+          <attributeDefinition>Average dry mass (g per individual) for taxa with abundance reported as density derived from field allometric measurements and lab-derived relationships.</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>gram</standardUnit>
+              </unit>
+              <precision>0.01</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>value not recorded or not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>OBS_CODE</attributeName>
+          <attributeLabel>Observer Code</attributeLabel>
+          <attributeDefinition>Numeric code indicating the SBCLTER data collector</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>NOTES</attributeName>
+          <attributeLabel>Notes</attributeLabel>
+          <attributeDefinition>Text annotations to data observations</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>value not recorded or not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>frondlength</attributeName>
+          <attributeLabel>Frond length</attributeLabel>
+          <attributeDefinition>Total length of sample frond sample blade is on, in meters (frond = stipe plus all blades)</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>meter</standardUnit>
+              </unit>
+              <precision>0.01</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>totalblades</attributeName>
+          <attributeLabel>Total blades</attributeLabel>
+          <attributeDefinition>Total number of blades on the frond</attributeDefinition>
+          <storageType>integer</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>number</standardUnit>
+              </unit>
+              <precision>1</precision>
+              <numericDomain>
+                <numberType>integer</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>LMA</attributeName>
+          <attributeLabel>Blade wet mass density</attributeLabel>
+          <attributeDefinition>Blade wet mass per unit area (mg/cm2)</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>milligramPerCentimeterSquared</customUnit>
+              </unit>
+              <precision>0.001</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>ChA</attributeName>
+          <attributeLabel>Blade Chla content</attributeLabel>
+          <attributeDefinition>Blade Chlorophyll a content (ug/cm2)</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>microgramPerCentimeterSquared</customUnit>
+              </unit>
+              <precision>0.01</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>ChC</attributeName>
+          <attributeLabel>Blade Chlc content</attributeLabel>
+          <attributeDefinition>Blade Chlorophyll c content (ug/cm2) </attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>microgramPerCentimeterSquared</customUnit>
+              </unit>
+              <precision>0.01</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>FX</attributeName>
+          <attributeLabel>Blade fucoxanthin content</attributeLabel>
+          <attributeDefinition>Blade Fucoxanthin content  (ug/cm2)</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>microgramPerCentimeterSquared</customUnit>
+              </unit>
+              <precision>0.01</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>frondcondition</attributeName>
+          <attributeLabel>Frond condition</attributeLabel>
+          <attributeDefinition>Growth stage of plant (TO DO FROND?) from which sample was taken, either growing or terminal</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>growing</code>
+                    <definition>Frond is still growing</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>terminal</code>
+                    <definition>Frond has reached terminal size</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>length</attributeName>
+          <attributeLabel>Blade length</attributeLabel>
+          <attributeDefinition>Total blade length TO DO: Maximum blade length? (per Dans note)</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>centimeter</standardUnit>
+              </unit>
+              <precision>0.1</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>width</attributeName>
+          <attributeLabel>Blade width</attributeLabel>
+          <attributeDefinition>Width of sample blade at widest point</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>centimeter</standardUnit>
+              </unit>
+              <precision>0.01</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>wetmass</attributeName>
+          <attributeLabel>Blade wet mass</attributeLabel>
+          <attributeDefinition>Area-specific wet mass (g/cm2)</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>gramPerCentimeterSquared</customUnit>
+              </unit>
+              <precision>0.001</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>drymass</attributeName>
+          <attributeLabel>Blade dry mass</attributeLabel>
+          <attributeDefinition>Area specific dry mass (g/cm2)</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>gramPerCentimeterSquared</customUnit>
+              </unit>
+              <precision>1e-09</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>ChlC</attributeName>
+          <attributeLabel>Blade Chlc content</attributeLabel>
+          <attributeDefinition>Blade Chlorophyll c content (ug/cm2) </attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>microgramPerCentimeterSquared</customUnit>
+              </unit>
+              <precision>0.01</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>FX_table3</attributeName>
+          <attributeLabel>Blade fucoxanthin content</attributeLabel>
+          <attributeDefinition>Blade Fucoxanthin content  (ug/cm2)</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>microgramPerCentimeterSquared</customUnit>
+              </unit>
+              <precision>0.01</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>carbon</attributeName>
+          <attributeLabel>Blade carbon content</attributeLabel>
+          <attributeDefinition>Blade carbon content  (ug/cm2)</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>microgramPerCentimeterSquared</customUnit>
+              </unit>
+              <precision>0.1</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+        <attribute>
+          <attributeName>frondlength_t3</attributeName>
+          <attributeLabel>Frond length</attributeLabel>
+          <attributeDefinition>Total length of sample frond sample blade is on (frond = stipe plus all blades)</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>meter</standardUnit>
+              </unit>
+              <precision>0.25</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+        </attribute>
+      </attributeList>
+      <numberOfRecords>0</numberOfRecords>
+    </dataTable>
+    <distribution>
+      <online>
+        <url function="information">https://ble.lternet.edu</url>
+      </online>
+    </distribution>
+    <intellectualRights>
+      <para>
+  This data package is released under the Creative Commons license
+  Attribution 4.0 International (CC BY 4.0 , see
+  </para>
+      <para>&lt;ulink url="https://creativecommons.org/licenses/by/4.0/"&gt;https://creativecommons.org/licenses/by/4.0/&lt;/ulink&gt;</para>
+      <para>).
+  This license states that consumers ("Data Users" herein) may
+  distribute, adapt, reuse, remix, and build upon this work, as long as
+  they give appropriate credit, provide a link to the license, and
+  indicate if changes were made. If redistributed, a Data User may not
+  apply additional restrictions or technological measures that prevent
+  access.
+</para>
+      <para>
+  The Data User has an ethical obligation to cite the data source
+  appropriately in any publication or product that results from its use,
+  and notify the data contact or creator. Communication, collaboration,
+  or co-authorship (as appropriate) with the creators of this data
+  package is encouraged to prevent duplicate research or publication.
+  The Data User is urged to contact the authors of these data if any
+  questions about methodology or results occur. The Data User should
+  realize that these data may be actively used by others for ongoing
+  research and that coordination may be necessary to prevent duplication
+  or inappropriate use. The Data User should realize that
+  misinterpretation may occur if data are used outside of the context of
+  the original study. The Data User should be aware that data are
+  updated periodically and it is the responsibility of the Data User to
+  check for new versions of the data.
+</para>
+      <para>
+  While substantial efforts are made to ensure the accuracy of data and
+  associated documentation, complete accuracy of data sets cannot be
+  guaranteed. This data package (with its components) is made available
+  “as is” and with no warranty of accuracy or fitness for use. The
+  creators of this data package and the repository where these data were
+  obtained shall not be liable for any damages resulting from
+  misinterpretation, use or misuse of the data package or its
+  components.
+</para>
+    </intellectualRights>
+    <keywordSet>LTER</keywordSet>
+    <language>English</language>
+    <methods>
+      <methodStep>
+        <description>
+          <para>
+  Methods here!!!
+</para>
+        </description>
+        <protocol>
+          <title>SBC LTER Methods: Measurement of continuous benthic water temperature</title>
+          <creator>
+            <individualName>
+              <surName>Reed</surName>
+            </individualName>
+          </creator>
+          <distribution>
+            <online>
+              <url function="download">http://sbc.lternet.edu/external/Reef/Protocols/Bottom_Temperature/SBC_LTER_protocol_Reed_Continuous_benthic_water_temperature_20130615.pdf</url>
+            </online>
+          </distribution>
+        </protocol>
+      </methodStep>
+    </methods>
+    <project>
+      <title>your lter spelled out</title>
+      <personnel>
+        <individualName>
+          <salutation>Dr.</salutation>
+          <givenName>PI name</givenName>
+          <surName>PI surname</surName>
+        </individualName>
+        <address>
+          <deliveryPoint>PI address1</deliveryPoint>
+          <deliveryPoint>PI address2</deliveryPoint>
+          <city>PI city</city>
+          <administrativeArea>PI state</administrativeArea>
+          <postalCode>78758</postalCode>
+          <country>United States</country>
+        </address>
+        <phone phonetype="voice">615-867-5309</phone>
+        <electronicMailAddress>PI@abc.edu</electronicMailAddress>
+        <role>Principal Investigator</role>
+      </personnel>
+      <personnel>
+        <individualName>
+          <salutation>Dr.</salutation>
+          <givenName>Co-PI name</givenName>
+          <surName>Co-PI surname</surName>
+        </individualName>
+        <address>
+          <deliveryPoint>Co-PI address1</deliveryPoint>
+          <deliveryPoint>Co-PI address2</deliveryPoint>
+          <city>Co-PI city</city>
+          <administrativeArea>Co-PI state</administrativeArea>
+          <postalCode>78758</postalCode>
+          <country>United States</country>
+        </address>
+        <phone phonetype="voice">615-867-5309</phone>
+        <electronicMailAddress>Co-PI@abc.edu</electronicMailAddress>
+        <role>Co-Principal Investigator</role>
+      </personnel>
+      <abstract>
+        <section>
+          <para>Abstract about your LTER site.</para>
+        </section>
+      </abstract>
+      <funding>
+        <section>
+          <para>BLE is funded by the National Science Foundation under award 123456.</para>
+        </section>
+      </funding>
+    </project>
+    <pubDate>2017-12-07</pubDate>
+    <publisher>
+      <organizationName>publisher org</organizationName>
+      <address>
+        <deliveryPoint>publisher address</deliveryPoint>
+        <city>publisher city</city>
+        <administrativeArea>publisher state</administrativeArea>
+        <postalCode>90210</postalCode>
+        <country>United States</country>
+      </address>
+    </publisher>
+    <shortname>Reef bottom water temperature</shortname>
+    <title>SBC LTER: TEST: Water temperature at the bottom</title>
+  </dataset>
+  <additionalMetadata>
+    <metadata>
+      <unitList>
+        <unit id="numberPerMeterSquared" multiplierToSI="1" name="numberPerMeterSquared" unitType="arealDensity">
+          <description>number per meter squared</description>
+        </unit>
+        <unit id="microgramPerCentimeterSquared" abbreviation="ug/cm2" multiplierToSI="0.0001" name="microgramPerCentimeterSquared" parentSI="kilogramPerMeterSquared" unitType="arealMassDensity"/>
+        <unit id="gram" abbreviation="g" multiplierToSI="0.001" name="gram" parentSI="kilogram" unitType="mass">
+          <description>0.001 kg</description>
+        </unit>
+        <unit id="kelvin" abbreviation="K" multiplierToSI="1" name="kelvin" unitType="temperature">
+          <description>SI unit of temperature</description>
+        </unit>
+        <unit id="milligramPerCentimeterSquared" abbreviation="mg/cm2" multiplierToSI="0.01" name="milligramPerCentimeterSquared" parentSI="kilogramPerMeterSquared" unitType="arealMassDensity"/>
+        <unit id="percent" abbreviation="%" multiplierToSI="1" name="percent" unitType="dimensionless">
+          <description>ratio of two quantities as percent composition (1:100)</description>
+        </unit>
+        <unit id="meter" abbreviation="m" multiplierToSI="1" name="meter" unitType="length">
+          <description>SI unit of length</description>
+        </unit>
+        <unit id="celsius" abbreviation="C" constantToSI="273.18" multiplierToSI="1" name="celsius" parentSI="kelvin">
+          <description>SI-derived unit of temperature</description>
+        </unit>
+        <unit id="centimeter" abbreviation="cm" multiplierToSI="0.01" name="centimeter" parentSI="meter">
+          <description>.01 meters</description>
+        </unit>
+        <unit id="gramPerCentimeterSquared" abbreviation="g/cm2" constantToSI="0" multiplierToSI="0.0000001" name="gramPerCentimeterSquared" parentSI="kilogramsPerSquareMeter" unitType="arealMassDensity">
+          <description>grams per square centimeter</description>
+        </unit>
+        <unit id="number" name="number" unitType="dimensionless">
+          <description>a number</description>
+        </unit>
+      </unitList>
+    </metadata>
+  </additionalMetadata>
+</eml:eml>

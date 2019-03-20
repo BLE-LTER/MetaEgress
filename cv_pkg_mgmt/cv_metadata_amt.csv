@@ -1,5 +1,0 @@
-metadata_amt,definition
-Aa,"entity level metadata, per practices of LTER/EDI. for de novo data"
-B,entity level + provenance. dataset is the result of integration.
-Ab,"entity level metadata, per practices of LTER/EDI, but with metadata, code, etc from outside contributor, we act as broker and curate."
-C,"cited only. external data we want to display, but do not control and will not curate. if dataset has no EML, we make minimal EML so we can display. NOT IN PASTA"
