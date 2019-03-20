@@ -3,6 +3,8 @@
 create_EML <-
   function(meta_list,
            dataset_id,
+           boilerplate,
+           license,
            data_table,
            other_entity = NULL) {
     project <- subset(meta_list[["dataset"]], datasetid == dataset_id)
@@ -227,14 +229,14 @@ create_EML <-
     # -----------------------------------------------------------------------------
     # boilerplate information
     
-    boilerplate <- read_eml("../00_Shared_document/boilerplate.xml")
+    #boilerplate <- read_eml("../00_Shared_document/boilerplate.xml")
     access <- eml_get(boilerplate, element = "access")
     contact <- eml_get(boilerplate$dataset, element = "contact")
     distribution <- eml_get(boilerplate$dataset, element = "distribution")
     publisher <- eml_get(boilerplate$dataset, element = "publisher")
     project_xml <- eml_get(boilerplate$dataset, element = "project")
     
-    license <- set_TextType("../00_Shared_document/IntellectualRights.docx")
+    #license <- set_TextType("../00_Shared_document/IntellectualRights.docx")
     
     # -----------------------------------------------------------------------------
     # put the dataset together

@@ -1,0 +1,1308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.1" packageId="knb-lter-sbc.22.11" xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://nis.lternet.edu/schemas/EML/eml-2.1.1/eml.xsd" system="knb">
+  <access authSystem="https://pasta.lternet.edu/authentication" order="allowFirst" scope="document" system="https://pasta.lternet.edu">
+    <allow>
+      <principal>uid=BLE,o=LTER,dc=ecoinformatics,dc=org</principal>
+      <permission>all</permission>
+    </allow>
+    <allow>
+      <principal>uid=your_user_id,dc=ecoinformatics,dc=org</principal>
+      <permission>all</permission>
+    </allow>
+    <allow>
+      <principal>public</principal>
+      <permission>read</permission>
+    </allow>
+  </access>
+  <dataset>
+    <abstract>
+      <para>
+  Abstract here! Datasetid 99021
+</para>
+    </abstract>
+    <contact>
+      <organizationName>BLE LTER</organizationName>
+      <positionName>Information Manager, Beaufort Lagoon Ecosystems LTER</positionName>
+      <address>
+        <deliveryPoint>contact address1</deliveryPoint>
+        <deliveryPoint>contact address2</deliveryPoint>
+        <city>contact  City</city>
+        <administrativeArea>contact state</administrativeArea>
+        <postalCode>78759-7741</postalCode>
+        <country>United States</country>
+      </address>
+      <electronicMailAddress>contact@ble.edu</electronicMailAddress>
+      <onlineUrl>http://ble.lternet.edu</onlineUrl>
+    </contact>
+    <coverage>
+      <geographicCoverage>list(eastBoundingCoordinate = "-119.730003", northBoundingCoordinate = "34.3943291", southBoundingCoordinate = "34.3943291", westBoundingCoordinate = "-119.730003")Mohawk Reef: Mohawk Reef is located on the Santa Barbara Channel, east of Arroyo Burro Beach, Santa Barbara, CA. Depth range from 4.5m to 6.0 m</geographicCoverage>
+      <temporalCoverage>
+        <rangeOfDates/>
+      </temporalCoverage>
+    </coverage>
+    <creator>list(administrativeArea = "CA", city = "Santa Barbara", country = "US", deliveryPoint = "Department of Ecology, Evolution and Marine Biology University of California", postalCode = "93106-9620")brzezins@lifesci.ucsb.edulist(givenName = "Mark Allen", surName = "Brzezinski")805-893-8605list(system = "https://orcid.org/0000-0003-3432-2297")</creator>
+    <dataTable>
+      <entityName>M_pyrifera_net_primary_production_and_growth_20120614.csv</entityName>
+      <entityDescription>Macrocystis pyrifera net primary production and growth</entityDescription>
+      <physical>
+        <objectName>M_pyrifera_net_primary_production_and_growth_20120614.csv</objectName>
+        <size unit="byte">0</size>
+        <authentication method="MD5">d41d8cd98f00b204e9800998ecf8427e</authentication>
+        <dataFormat>
+          <textFormat>
+            <numHeaderLines>1</numHeaderLines>
+            <recordDelimiter>\r\n</recordDelimiter>
+            <attributeOrientation>column</attributeOrientation>
+            <simpleDelimited>
+              <fieldDelimiter>,</fieldDelimiter>
+              <quoteCharacter>"</quoteCharacter>
+            </simpleDelimited>
+          </textFormat>
+        </dataFormat>
+        <distribution>
+          <online>
+            <url function="download">http://sbc.lternet.edu/external/Reef/Data/Kelp_NPP/M_pyrifera_net_primary_production_and_growth_20120614.csv</url>
+          </online>
+        </distribution>
+      </physical>
+      <attributeList>
+        <attribute>
+          <attributeName>Site</attributeName>
+          <attributeLabel>Site</attributeLabel>
+          <attributeDefinition>code for sampling location</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>ABUR</code>
+                    <definition>Arroyo Burro</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>AQUE</code>
+                    <definition>Arroyo Quemado.</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>MOHK</code>
+                    <definition>Mohawk</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>no information available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>year</attributeName>
+          <attributeLabel>Year</attributeLabel>
+          <attributeDefinition>Year of collection</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <dateTime>
+              <formatString>YYYY</formatString>
+              <dateTimeDomain/>
+            </dateTime>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>no information available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>season</attributeName>
+          <attributeLabel>Season</attributeLabel>
+          <attributeDefinition>Season (winter, spring, summer and autumn as defined by the winter solstice, spring equinox, summer solstice and autumnal equinox) in which the site is sampled.</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>no information available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>NPP_wet</attributeName>
+          <attributeLabel>NPP Wet</attributeLabel>
+          <attributeDefinition>The seasonal rate of M. pyrifera biomass production in units of wet mass (kg m-2 day-1). This variable is calculated by integrating the instantaneous rate of production during each period and dividing by the number of days (as described in Section I.B Equation 2). Production for all days in each season is averaged.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquaredPerDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>NPP_dry</attributeName>
+          <attributeLabel>NPP Dry</attributeLabel>
+          <attributeDefinition>The seasonal rate of M. pyrifera biomass production in units of dry mass (kg m-2 day-1). This variable is calculated by integrating the instantaneous rate of production during each period and dividing by the number of days (as described in Section I.B Equation 2). Production for all days in each season is averaged.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquaredPerDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>NPP_carbon</attributeName>
+          <attributeLabel>NPP Carbon</attributeLabel>
+          <attributeDefinition>The seasonal rate of M. pyrifera biomass production in units of carbon mass (kg m-2 day-1). This variable is calculated by integrating the instantaneous rate of production during each period and dividing by the number of days (as described in Section I.B Equation 2). Production for all days in each season is averaged.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquaredPerDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>NPP_nitrogen</attributeName>
+          <attributeLabel>NPP Nitrogen</attributeLabel>
+          <attributeDefinition>The seasonal rate of M. pyrifera biomass production in units of nitrogen mass (kg m-2 day-1). This variable is calculated by integrating the instantaneous rate of production during each period and dividing by the number of days (as described in Section I.B Equation 2). Production for all days in each season is averaged.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquaredPerDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Growth_rate_wet</attributeName>
+          <attributeLabel>Growth rate, wet</attributeLabel>
+          <attributeDefinition>The seasonal growth rate of M. pyrifera wet mass (day-1). This variable is calculated as the growth rate necessary to explain the observed change in biomass during each period, given the initial biomass and the independently measured loss rates (see Section I.B Equation 1). Growth rates for all days in each season are averaged.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>reciprocalDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Growth_rate_dry</attributeName>
+          <attributeLabel>Growth rate, dry</attributeLabel>
+          <attributeDefinition>The seasonal growth rate of M. pyrifera dry mass (day-1). This variable is calculated as the growth rate necessary to explain the observed change in biomass during each period, given the initial biomass and the independently measured loss rates (see Section I.B Equation 1). Growth rates for all days in each season are averaged.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>reciprocalDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Growth_rate_carbon</attributeName>
+          <attributeLabel>Growth rate, carbon</attributeLabel>
+          <attributeDefinition>The seasonal growth rate of M. pyrifera carbon mass (day-1). This variable is calculated as the growth rate necessary to explain the observed change in biomass during each period, given the initial biomass and the independently measured loss rates (see Section I.B Equation 1). Growth rates for all days in each season are averaged.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>reciprocalDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Growth_rate_nitrogen</attributeName>
+          <attributeLabel>Growth rate, nitrogen</attributeLabel>
+          <attributeDefinition>The seasonal growth rate of M. pyrifera nitrogen mass (day-1). This variable is calculated as the growth rate necessary to explain the observed change in biomass during each period, given the initial biomass and the independently measured loss rates (see Section I.B Equation 1). Growth rates for all days in each season are averaged.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>reciprocalDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_NPP_wet</attributeName>
+          <attributeLabel>Std error, NPP wet</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of NPP in units of wet mass (kg m-2 d-1). This error is produced using Monte Carlo methods, as described in Section I.B Quantifying Uncertainty. It incorporates errors in estimates of biomass, plant loss rates and frond loss rates.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquaredPerDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_NPP_dry</attributeName>
+          <attributeLabel>Ste error, NPP dry</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of NPP in units of dry mass (kg m-2 d-1). This error is produced using Monte Carlo methods, as described in Section I.B Quantifying Uncertainty. It incorporates errors in our estimates of biomass, plant loss rates and frond loss rates.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquaredPerDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_NPP_carbon</attributeName>
+          <attributeLabel>Std error, NPP carbon</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of NPP in units of carbon mass (kg m-2 d-1). This error is produced using Monte Carlo methods, as described in Section I.B Quantifying Uncertainty. It incorporates errors in our estimates of biomass, plant loss rates and frond loss rates.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquaredPerDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_NPP_nitrogen</attributeName>
+          <attributeLabel>St error, NPP nitrogen</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of NPP in units of nitrogen mass (kg m-2 d-1). This error is produced using Monte Carlo methods, as described in Section I.B Quantifying Uncertainty. It incorporates errors in our estimates of biomass, plant loss rates and frond loss rates.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquaredPerDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_growth_rate_wet</attributeName>
+          <attributeLabel>Std error, growth rate wet</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of the growth rate of wet mass (day-1). These data are produced using Monte Carlo methods, as described in Section I.B Quantifying Uncertainty. The error in our estimate of growth incorporates errors in our calculations of biomass, plant loss rates and frond loss rates.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>reciprocalDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_growth_rate_dry</attributeName>
+          <attributeLabel>Std error, growth rate dry</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of the growth rate of dry mass (day-1). These data are produced using Monte Carlo methods, as described in Section I.B Quantifying Uncertainty. The error in our estimate of growth incorporates errors in our calculations of biomass, plant loss rates and frond loss rates.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>reciprocalDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_growth_rate_carbon</attributeName>
+          <attributeLabel>Std error, growth rate carbon</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of the growth rate of carbon mass (day-1). These data are produced using Monte Carlo methods, as described in Section I.B Quantifying Uncertainty. The error in our estimate of growth incorporates errors in our calculations of biomass, plant loss rates and frond loss rates</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>reciprocalDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_growth_rate_nitrogen</attributeName>
+          <attributeLabel>Std error, growth rate nitrogen</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of the growth rate of nitrogen mass (day-1). These data are produced using Monte Carlo methods, as described in Section I.B Quantifying Uncertainty. The error in our estimate of growth incorporates errors in our calculations of biomass, plant loss rates and frond loss rates.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>reciprocalDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+      </attributeList>
+      <numberOfRecords>0</numberOfRecords>
+    </dataTable>
+    <dataTable>
+      <entityName>M_pyrifera_standing_crop_plant_density_and_loss_rates_20120614.csv</entityName>
+      <entityDescription>Macrocystis pyrifera standing crop, plant density and loss rates</entityDescription>
+      <physical>
+        <objectName>M_pyrifera_standing_crop_plant_density_and_loss_rates_20120614.csv</objectName>
+        <size unit="byte">6171</size>
+        <authentication method="MD5">05c7fb5aa72a20c807bf7e413f4b7f5b</authentication>
+        <dataFormat>
+          <textFormat>
+            <numHeaderLines>1</numHeaderLines>
+            <recordDelimiter>\r\n</recordDelimiter>
+            <attributeOrientation>column</attributeOrientation>
+            <simpleDelimited>
+              <fieldDelimiter>,</fieldDelimiter>
+              <quoteCharacter>"</quoteCharacter>
+            </simpleDelimited>
+          </textFormat>
+        </dataFormat>
+        <distribution>
+          <online>
+            <url function="download">http://sbc.lternet.edu/external/Reef/Data/Kelp_NPP/M_pyrifera_standing_crop_plant_density_and_loss_rates_20120614.csv</url>
+          </online>
+        </distribution>
+      </physical>
+      <attributeList>
+        <attribute>
+          <attributeName>Site</attributeName>
+          <attributeLabel>Site</attributeLabel>
+          <attributeDefinition>code for sampling location</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>ABUR</code>
+                    <definition>Arroyo Burro</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>AQUE</code>
+                    <definition>Arroyo Quemado.</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>MOHK</code>
+                    <definition>Mohawk</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>no information available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>date</attributeName>
+          <attributeLabel>date</attributeLabel>
+          <attributeDefinition>Date of collection</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <dateTime>
+              <formatString>YYYY-MM-DD</formatString>
+              <dateTimeDomain/>
+            </dateTime>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>no information available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>FSC_wet</attributeName>
+          <attributeLabel>FSC Wet</attributeLabel>
+          <attributeDefinition>The wet mass of the foliar standing crop of M. pyrifera (kg m-2, excluding sporophylls and holdfast). These data are obtained by first calculating the wet mass of each plant, using methods detailed in Section I.B Measuring standing crop, and then dividing the total wet mass of all plants in the plot by the area of the plot. Plants without at least one frond longer than 1m are excluded.</attributeDefinition>
+          <storageType>integer</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquared</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>FSC_dry</attributeName>
+          <attributeLabel>FSC Dry</attributeLabel>
+          <attributeDefinition>The dry mass of the foliar standing crop of M. pyrifera (kg m-2, excluding sporophylls and holdfast). These data are obtained by first calculating the dry mass of each plant, using methods detailed in Section I.B Measuring standing crop, and then dividing the total dry mass of all plants in the plot by the area of the plot. Plants without at least one frond longer than 1m are excluded.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquared</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>FSC_carbon</attributeName>
+          <attributeLabel>FSC Carbon</attributeLabel>
+          <attributeDefinition>The carbon mass of the foliar standing crop of M. pyrifera (kg m-2, excluding sporophylls and holdfast). These data are obtained by first calculating the carbon mass of each plant, using methods detailed in Section I.B Measuring standing crop, and then dividing the total carbon mass of all plants in the plot by the area of the plot. Plants without at least one frond longer than 1m are excluded.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquared</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>FSC_nitrogen</attributeName>
+          <attributeLabel>FSC Nitrogen</attributeLabel>
+          <attributeDefinition>The nitrogen mass of the foliar standing crop of M. pyrifera (kg m-2, excluding sporophylls and holdfast). These data are obtained by first calculating the nitrogen mass of each plant, using methods detailed in Section I.B Measuring standing crop, and then dividing the total nitrogen mass of all plants in the plot by the area of the plot. Plants without at least one frond longer than 1m are excluded.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquared</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Frond_density</attributeName>
+          <attributeLabel>Frond Density</attributeLabel>
+          <attributeDefinition>The density of M. pyrifera fronds in the plot (number m-2).</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>numberPerMeterSquared</standardUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Plant_density</attributeName>
+          <attributeLabel>Plant Density</attributeLabel>
+          <attributeDefinition>The density of M. pyrifera plants in the plot (number m-2). Only plants with at least one frond greater than 1m are counted.mv</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>numberPerMeterSquared</standardUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Plant_loss_rate</attributeName>
+          <attributeLabel>Plant Density</attributeLabel>
+          <attributeDefinition>The loss rate of M. pyrifera plants during the sampling interval (fraction of plants lost day-1). These data are based on losses of 10 to15 tagged plants, as described in Section I.B Measuring loss rate.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>reciprocalDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Frond_loss_rate</attributeName>
+          <attributeLabel>Frond loss rate</attributeLabel>
+          <attributeDefinition>The average loss rate of fronds during the sampling interval (fraction of fronds lost day-1). These data are the mean loss rate of tagged fronds from 10 to15 tagged plants, as described in Section I.B Measuring loss rate. The mean is based on frond loss from plants that survive the period; losses of whole plants are accounted for in the plant loss rate.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>reciprocalDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_FSC_wet</attributeName>
+          <attributeLabel>SE FSC Wet</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of foliar standing crop in units of wet mass (kg m-2). This estimate is produced using Monte Carlo methods, as described in Section I.B Quantifying Uncertainty. The error in wet mass includes two types of error. Observer error consists of errors made in the number of plants sampled and in the measurement of their size. Regression errors include variability in the allometric relationships used to calculate the size of the three plant sections, as well as uncertainty in the length:wet-mass conversion ratio</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquared</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_FSC_dry</attributeName>
+          <attributeLabel>SE FSC Dry</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of foliar standing crop in units of dry mass (kg m-2). This estimate is produced using Monte Carlo methods, as described in section I.B Quantifying Uncertainty. The error in dry mass includes two types of error. Observer error consists of errors made in the number of plants sampled and in the measurement of their size. Regression errors include variability in the allometric relationships used to calculate the size of the three plant sections, as well as uncertainty in the length:wet-mass and wet-mass:dry-mass conversion ratios.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquared</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_FSC_carbon</attributeName>
+          <attributeLabel>SE FSC Carbon</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of foliar standing crop in units of carbon mass (kg m-2). This estimate is produced using Monte Carlo methods, as described in Section I.B Quantifying Uncertainty. The error in carbon mass includes two types of error. Observer error consists of errors made in the number of plants sampled and in the measurement of their size. Regression errors include variability in the allometric relationships used to calculate the size of the three plant sections, as well as uncertainty in the length:wet-mass, wet-mass:dry-mass and dry-mass:carbon-mass conversion ratios.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquared</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_FSC_nitrogen</attributeName>
+          <attributeLabel>SE FSC Nitrogen</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of foliar standing crop in units of nitrogen mass (kg m-2). This estimate is produced using Monte Carlo methods, as described in Section I.B Quantifying Uncertainty. The error in nitrogen mass includes two types of error. Observer error consists of errors made in the number of plants sampled and in the measurement of their size. Regression errors include variability in the allometric relationships used to calculate the size of the three plant sections, as well as uncertainty in the length:wet-mass, wet-mass:dry-mass and dry-mass:nitrogen-mass conversion ratios.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>kilogramPerMeterSquared</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_Frond_density</attributeName>
+          <attributeLabel>SE Frond Density</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of M. pyrifera frond density (number m-2). Error in frond density reflects variation in the total number of plants sampled in a plot. This estimate is produced by comparing repeated sampling by different observers of a single plot.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>numberPerMeterSquared</standardUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_Plant_density</attributeName>
+          <attributeLabel>SE Plant Density</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of M. pyrifera plant density (number m-2). Error in plant density reflects variation in the total number of plants sampled in a plot. This estimate is produced by comparing repeated sampling by different observers of a single plot.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>numberPerMeterSquared</standardUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_Plant_loss_rate</attributeName>
+          <attributeLabel>SE Plant Loss Rate</attributeLabel>
+          <attributeDefinition>The standard error in our estimate of M. pyrifera plant loss (day-1). This error is sampling error associated with calculating a mean loss rate for the entire plot based on 10 to15 tagged plants.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>reciprocalDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SE_Frond_loss_rate</attributeName>
+          <attributeLabel>SE Frond Loss Rate</attributeLabel>
+          <attributeDefinition>The standard error in the calculated rate of frond loss (day-1). This error is sampling error associated with calculating a mean loss rate for the entire plot based on 10 to15 tagged plants.</attributeDefinition>
+          <storageType>decimal</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>reciprocalDay</customUnit>
+              </unit>
+              <precision>0</precision>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+      </attributeList>
+      <numberOfRecords>0</numberOfRecords>
+    </dataTable>
+    <dataTable>
+      <entityName>Census_of_fronds_on_marked_plants_20120613.csv</entityName>
+      <entityDescription>Census of fronds on marked plants</entityDescription>
+      <physical>
+        <objectName>Census_of_fronds_on_marked_plants_20120613.csv</objectName>
+        <size unit="byte">6171</size>
+        <authentication method="MD5">05c7fb5aa72a20c807bf7e413f4b7f5b</authentication>
+        <dataFormat>
+          <textFormat>
+            <numHeaderLines>1</numHeaderLines>
+            <recordDelimiter>\r\n</recordDelimiter>
+            <attributeOrientation>column</attributeOrientation>
+            <simpleDelimited>
+              <fieldDelimiter>,</fieldDelimiter>
+              <quoteCharacter>"</quoteCharacter>
+            </simpleDelimited>
+          </textFormat>
+        </dataFormat>
+        <distribution>
+          <online>
+            <url function="download">http://sbc.lternet.edu/external/Reef/Data/Kelp_NPP/Census_of_fronds_on_marked_plants_20120613.csv</url>
+          </online>
+        </distribution>
+      </physical>
+      <attributeList>
+        <attribute>
+          <attributeName>Site</attributeName>
+          <attributeLabel>Site</attributeLabel>
+          <attributeDefinition>code for sampling location</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>ABUR</code>
+                    <definition>Arroyo Burro</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>AQUE</code>
+                    <definition>Arroyo Quemado.</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>MOHK</code>
+                    <definition>Mohawk</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>no information available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>plant_ID</attributeName>
+          <attributeLabel>Plant ID</attributeLabel>
+          <attributeDefinition>Identifier for tagged plant</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>no information available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>date</attributeName>
+          <attributeLabel>Date</attributeLabel>
+          <attributeDefinition>Date of collection</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <dateTime>
+              <formatString>YYYY-MM-DD</formatString>
+              <dateTimeDomain/>
+            </dateTime>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>no information available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>total_fronds</attributeName>
+          <attributeLabel>Total Fronds</attributeLabel>
+          <attributeDefinition>Total number of fronds &amp;gt;1 m in length on the plant. Includes both tagged fronds remaining from previous sampling and new fronds</attributeDefinition>
+          <storageType>integer</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>number</standardUnit>
+              </unit>
+              <precision>1</precision>
+              <numericDomain>
+                <numberType>integer</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>new_fronds</attributeName>
+          <attributeLabel>New Fronds</attributeLabel>
+          <attributeDefinition>Number of untagged fronds &amp;gt; 1 m in length on the plant. Assumes that these fronds were either initiated during the previous sampling interval. A value of zero means that no new fronds were counted</attributeDefinition>
+          <storageType>integer</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>number</standardUnit>
+              </unit>
+              <precision>1</precision>
+              <numericDomain>
+                <numberType>integer</numberType>
+                <bounds>
+                  <minimum exclusive="false">100000</minimum>
+                  <maximum exclusive="false">100000</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>-99999</code>
+            <codeExplanation>not available, or not collected</codeExplanation>
+          </missingValueCode>
+        </attribute>
+      </attributeList>
+      <numberOfRecords>0</numberOfRecords>
+    </dataTable>
+    <distribution>
+      <online>
+        <url function="information">https://ble.lternet.edu</url>
+      </online>
+    </distribution>
+    <intellectualRights>
+      <para>
+  This data package is released under the Creative Commons license
+  Attribution 4.0 International (CC BY 4.0 , see
+  </para>
+      <para>&lt;ulink url="https://creativecommons.org/licenses/by/4.0/"&gt;https://creativecommons.org/licenses/by/4.0/&lt;/ulink&gt;</para>
+      <para>).
+  This license states that consumers ("Data Users" herein) may
+  distribute, adapt, reuse, remix, and build upon this work, as long as
+  they give appropriate credit, provide a link to the license, and
+  indicate if changes were made. If redistributed, a Data User may not
+  apply additional restrictions or technological measures that prevent
+  access.
+</para>
+      <para>
+  The Data User has an ethical obligation to cite the data source
+  appropriately in any publication or product that results from its use,
+  and notify the data contact or creator. Communication, collaboration,
+  or co-authorship (as appropriate) with the creators of this data
+  package is encouraged to prevent duplicate research or publication.
+  The Data User is urged to contact the authors of these data if any
+  questions about methodology or results occur. The Data User should
+  realize that these data may be actively used by others for ongoing
+  research and that coordination may be necessary to prevent duplication
+  or inappropriate use. The Data User should realize that
+  misinterpretation may occur if data are used outside of the context of
+  the original study. The Data User should be aware that data are
+  updated periodically and it is the responsibility of the Data User to
+  check for new versions of the data.
+</para>
+      <para>
+  While substantial efforts are made to ensure the accuracy of data and
+  associated documentation, complete accuracy of data sets cannot be
+  guaranteed. This data package (with its components) is made available
+  “as is” and with no warranty of accuracy or fitness for use. The
+  creators of this data package and the repository where these data were
+  obtained shall not be liable for any damages resulting from
+  misinterpretation, use or misuse of the data package or its
+  components.
+</para>
+    </intellectualRights>
+    <keywordSet>net primary production</keywordSet>
+    <language>English</language>
+    <methods>
+      <methodStep>
+        <description>
+          <para>
+  Methods here! Datasetid 99021
+</para>
+        </description>
+        <protocol>
+          <title>Net primary production, growth and standing crop of Macrocystis pyrifera in southern California</title>
+          <creator>
+            <individualName>
+              <surName>Rassweiler</surName>
+            </individualName>
+          </creator>
+          <distribution>
+            <online>
+              <url function="download">http://sbc.lternet.edu/external/Reef/Protocols/Kelp_NPP/Rassweiler_et_al_2008_NPP_Mpyrifera_E089-119.pdf</url>
+            </online>
+          </distribution>
+        </protocol>
+      </methodStep>
+    </methods>
+    <project>
+      <title>your lter spelled out</title>
+      <personnel>
+        <individualName>
+          <salutation>Dr.</salutation>
+          <givenName>PI name</givenName>
+          <surName>PI surname</surName>
+        </individualName>
+        <address>
+          <deliveryPoint>PI address1</deliveryPoint>
+          <deliveryPoint>PI address2</deliveryPoint>
+          <city>PI city</city>
+          <administrativeArea>PI state</administrativeArea>
+          <postalCode>78758</postalCode>
+          <country>United States</country>
+        </address>
+        <phone phonetype="voice">615-867-5309</phone>
+        <electronicMailAddress>PI@abc.edu</electronicMailAddress>
+        <role>Principal Investigator</role>
+      </personnel>
+      <personnel>
+        <individualName>
+          <salutation>Dr.</salutation>
+          <givenName>Co-PI name</givenName>
+          <surName>Co-PI surname</surName>
+        </individualName>
+        <address>
+          <deliveryPoint>Co-PI address1</deliveryPoint>
+          <deliveryPoint>Co-PI address2</deliveryPoint>
+          <city>Co-PI city</city>
+          <administrativeArea>Co-PI state</administrativeArea>
+          <postalCode>78758</postalCode>
+          <country>United States</country>
+        </address>
+        <phone phonetype="voice">615-867-5309</phone>
+        <electronicMailAddress>Co-PI@abc.edu</electronicMailAddress>
+        <role>Co-Principal Investigator</role>
+      </personnel>
+      <abstract>
+        <section>
+          <para>Abstract about your LTER site.</para>
+        </section>
+      </abstract>
+      <funding>
+        <section>
+          <para>BLE is funded by the National Science Foundation under award 123456.</para>
+        </section>
+      </funding>
+    </project>
+    <pubDate>2010-06-14</pubDate>
+    <publisher>
+      <organizationName>publisher org</organizationName>
+      <address>
+        <deliveryPoint>publisher address</deliveryPoint>
+        <city>publisher city</city>
+        <administrativeArea>publisher state</administrativeArea>
+        <postalCode>90210</postalCode>
+        <country>United States</country>
+      </address>
+    </publisher>
+    <shortname>Beach wrack IV 2005-06</shortname>
+    <title>SBC LTER: TEST: NPP dataset with 3 tables</title>
+  </dataset>
+  <additionalMetadata>
+    <metadata>
+      <unitList>
+        <unit id="numberPerMeterSquared" multiplierToSI="1" name="numberPerMeterSquared" unitType="arealDensity">
+          <description>number per meter squared</description>
+        </unit>
+        <unit id="number" name="number" unitType="dimensionless">
+          <description>a number</description>
+        </unit>
+        <unit id="kilogramPerMeterSquaredPerDay" abbreviation="kg m-2 d-1" constantToSI="0" name="kilogramPerMeterSquaredPerDay" parentSI="kilogramPerMeterCubed" unitType="areaMassDensityRate">
+          <description>areal primary production rate, may apply to DW, or to element content, e.g., Carbon or Nitrogen"</description>
+        </unit>
+        <unit id="reciprocalDay" abbreviation="day^-1" name="reciprocalDay" parentSI="second" unitType="timeReciprocal">
+          <description>per day, specific growth rate</description>
+        </unit>
+        <unit id="kilogramPerMeterSquared" abbreviation="kg/m2" multiplierToSI="1" name="kilogramPerMeterSquared" parentSI="kilogramPerMeterSquared" unitType="arealMassDensity">
+          <description>kilograms per square meter</description>
+        </unit>
+      </unitList>
+    </metadata>
+  </additionalMetadata>
+</eml:eml>

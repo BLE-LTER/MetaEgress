@@ -1,3 +1,0 @@
-trophic_level,definition
-primary,"incoming data, raw"
-secondary,"datasets that are products of integration, e.g., biodiv products or other integrations; created from primary data"
