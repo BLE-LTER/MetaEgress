@@ -11,3 +11,5 @@ cv_pkg_mgmt
 *.sql
 R_experiments
 *.txt
+*.Rproj
+.Rprofile
