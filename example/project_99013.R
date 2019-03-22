@@ -1,18 +1,21 @@
 # example workflow from metabase to EML document
+
+# load in libraries
 library(EML)
 library(RPostgres)
 
 # -----------------------
 # connect to metabase and get metadata from specified datasets
-entity_meta <- get_meta(dbname = "lter_arranged", host = "localhost", port = 5432, c(99013, 99021))
+entity_meta <- get_meta(dbname = "lter_arranged", host = "localhost", port = 5432, dataset_ids = c(99013, 99021))
 
-# set workding directory to path of current script
-# as it stands, data files + abstract + methods should probably be in this folder
+# set workding directory to directory of current script
+# data files + abstract (as specified in column Abstract in DataSet) + methods (as specified in column methodDocument in DataSetMethods) should be in this folder
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 # read in boilerplate information and license document
 boilerplate <- EML::read_eml("./00_Shared_document/boilerplate.xml")
 license <- EML::set_TextType("./00_Shared_document/IntellectualRights.docx")
+
 
 # -----------------------
 # single entity example, datasetid 99013
@@ -23,6 +26,7 @@ table_99013 <- create_entity(entity_meta, dataset_id = 99013, entity = 1)
 # outputs write_eml()-ready object
 EML_99013 <- create_EML(entity_meta, dataset_id = 99013, boilerplate = boilerplate, license = license, data_table = table_99013)
 write_eml(EML_99013, file = "EML_99013.xml")
+
 
 # ------------------------
 # multiple entities example, datasetid 99021

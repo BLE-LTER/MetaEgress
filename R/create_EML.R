@@ -59,6 +59,7 @@ create_EML <-
       return(p)
     }
     
+    # loop over all creators
     creators <- apply(creator_list, 1, create_creator)
     
     # list should be unnamed for write_eml() to work. named list results in
@@ -239,7 +240,6 @@ create_EML <-
     # -----------------------------------------------------------------------------
     # boilerplate information
     
-    # boilerplate <- read_eml('../00_Shared_document/boilerplate.xml')
     access <- eml_get(boilerplate, element = "access")
     contact <- eml_get(boilerplate$dataset, element = "contact")
     distribution <-
@@ -247,8 +247,7 @@ create_EML <-
     publisher <- eml_get(boilerplate$dataset, element = "publisher")
     project_xml <- eml_get(boilerplate$dataset, element = "project")
     
-    # license <- set_TextType('../00_Shared_document/IntellectualRights.docx')
-    
+
     # -----------------------------------------------------------------------------
     # put the dataset together
     
@@ -272,9 +271,6 @@ create_EML <-
         dataTable = data_table,
         otherEntity = other_entity
       )
-    
-    # order list items per EML BP, otherwise in .xml they are in alphabetical order
-    #dataset <- dataset[c("title", "alternateIdentifier", "shortname", "creator", "pubDate", "intellectualRights", "abstract", "keywordSet", "coverage", "contact", "publisher", "distribution", "project", "methods", "language", "dataTable", "otherEntity"), ]
     
     # -------------------------------------------------------------------------------------
     # units

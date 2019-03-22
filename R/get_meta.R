@@ -48,7 +48,7 @@ get_meta <- function(dbname, host, port, dataset_ids) {
   query_dfs <- lapply(queries, param_query)
   
   # rename list items according to order of views above
-  names(query_dfs) < c(
+  names(query_dfs) <- c(
     "meta",
     "factors",
     "unit",
