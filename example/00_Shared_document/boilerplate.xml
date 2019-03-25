@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packageId="edi.7.2" system="knb" xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://nis.lternet.edu/schemas/EML/eml-2.1.1/eml.xsd">
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packageId="edi.7.2" system="BLE" xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://nis.lternet.edu/schemas/EML/eml-2.1.1/eml.xsd">
   <access system="https://pasta.lternet.edu" scope="document" order="allowFirst" authSystem="https://pasta.lternet.edu/authentication">
     <allow>
       <principal>uid=BLE,o=LTER,dc=ecoinformatics,dc=org</principal>
-      <permission>all</permission>
-    </allow>
-    <allow>
-      <principal>uid=your_user_id,dc=ecoinformatics,dc=org</principal>
       <permission>all</permission>
     </allow>
     <allow>

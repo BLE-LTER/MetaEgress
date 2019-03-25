@@ -12,4 +12,5 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 Imports: EML (>= 1.0.3), RPostgres (>= 1.1.0)
-Remotes: 
+Suggest: stringr
+Remotes: github.com/rOpenSci/EML
