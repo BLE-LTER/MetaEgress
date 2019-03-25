@@ -219,24 +219,34 @@ create_EML <-
     
     # -----------------------------------------------------------------------------
     # keywords
+    
     keywords <-
-      subset(meta_list[["keyword"]], datasetid == dataset_id)
+      subset(entity_meta_mod[["keyword"]], datasetid == 99021)
     # nkey <- unique(keyword$keyword_thesaurus)
     
-    key_func <- function(keyword_list) {
-      k <-
-        list(keyword = keyword_list[["keyword"]],
-             keywordThesaurus = if (keyword_list[["keyword_thesaurus"]] ==
-                                    "none")
-               NULL
-             else
-               keyword_list[["keyword_thesaurus"]])
-      return(k)
+    key_func <- function(thesaurus) {
+      set <- subset(keywords, keyword_thesaurus == thesaurus)
+      
+      keys <- function(key) {
+        keyword <- list(key,
+                        `keywordType` = list(subset(set$keywordtype, set$keyword == key)))
+        return(keyword)
+      }
+      
+      keys <- lapply(unique(set$keyword), keys)
+      
+      keywordSet <- list(keyword = keys, keywordThesaurus =
+                           if (set[["keyword_thesaurus"]][[1]] ==
+                               "none")
+                             NULL
+                         else
+                           set[["keyword_thesaurus"]][[1]])
+      return(keywordSet)
     }
     
-    kall <- apply(keywords, 1, key_func)
+    kall <- lapply(unique(keywords$keyword_thesaurus), key_func)
     names(kall) <- NULL
-    
+
     # -----------------------------------------------------------------------------
     # boilerplate information
     
