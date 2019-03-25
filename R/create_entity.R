@@ -8,6 +8,8 @@ create_entity <- function(meta_list, dataset_id, entity) {
     subset(meta_list[["entities"]], datasetid == dataset_id &
              entity_position ==
              entity)
+  ent <- lapply(ent, stringr::str_trim)
+  ent[ent==''] <- NA
   fact1 <-
     subset(meta_list[["factors"]], datasetid == dataset_id &
              entity_position ==
@@ -28,7 +30,7 @@ create_entity <- function(meta_list, dataset_id, entity) {
         objectName = filename,
         size = size0,
         sizeUnit = "byte",
-        url = paste0(ent$urlpath, filename),
+        url = if(!is.na(ent$urlpath)) paste0(ent$urlpath, filename) else NULL,
         numHeaderLines = if (is.na(ent$headerlines))
           (NULL)
         else
@@ -75,10 +77,10 @@ create_entity <- function(meta_list, dataset_id, entity) {
         size = list(size0, unit = "byte"),
         authentication = list(checksum, method = "MD5"),
         dataFormat = list(externallyDefinedFormat = list(formatName = ent$formatname)),
-        distribution = list(online = list(url = list(
+        distribution = if(!is.na(ent$urlpath)) list(online = list(url = list(
           paste0(ent$urlpath, filename),
           `function` = list("download")
-        )))
+        ))) else NULL
       )
     
     # assemble otherEntity
