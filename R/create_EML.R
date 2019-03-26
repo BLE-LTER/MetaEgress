@@ -1,4 +1,5 @@
 
+
 # create ready-to-validate-and-write EML list object
 
 create_EML <-
@@ -8,6 +9,21 @@ create_EML <-
            license,
            data_table,
            other_entity = NULL) {
+    # ----------------------------------------------------------------------------
+    # check arguments
+    
+    if (missing(meta_list)) {
+      stop('metadata list missing. use get_meta() to extract from metase')
+    }
+    if (missing(dataset_id)) {
+      stop('please supply a dataset id')
+    }
+    if (!is.numeric(dataset_id)) {
+      stop('please supply a numeric dataset id')
+    }
+    if (length(dataset_id) > 1) {
+      stop('too many dataset ids. only one allowed for each EML document.')
+    }
     
     # -----------------------------------------------------------------------------
     # creators
@@ -15,60 +31,89 @@ create_EML <-
     
     creator_list <-
       subset(meta_list[["creator"]],
-             datasetid == dataset_id & authorshiprole ==
-               "creator")
+             datasetid == dataset_id
+             & authorshiprole == "creator") # redundant condition
+    
     # sort by authorship order, just to make sure
     creator_list <-
-      creator_list[order(creator_list$authorshiporder), ]
+      creator_list[order(creator_list$authorshiporder),]
     
     # function to create a creator object
-    create_creator <- function(creator) {
-      given_name <-
-        trimws(paste(creator[["givenname"]], replace(creator[["givenname2"]],
-                                                     is.na(creator[["givenname2"]]), ""), " "))
+    
+    creator_func <- function(creator) {
+      
+      # check for organization
+      
+      if (!is.na(creator[["givenname"]]) ||
+          !is.na(creator[["surname"]])) {
+        
+        # trim whitespace, fix for odd paste() behavior
+        individual_name <- list(givenName = trimws(paste(
+          creator[["givenname"]], replace(creator[["givenname2"]],
+                                          is.na(creator[["givenname2"]]), ""), " "
+        )),
+        surName = if (is.na(creator[["surname"]]))
+          NULL
+        else
+          creator[["surname"]])
+      } else {
+        individual_name <- NULL
+      }
+      
+      
+      address <- list(
+        deliveryPoint = trimws(
+          paste(
+            creator[["address1"]],
+            replace(creator[["address2"]], is.na(creator[["address2"]]), ""),
+            replace(creator[["address3"]], is.na(creator[["address3"]]), ""),
+            ", "
+          )),
+          city = creator[["city"]],
+          administrativeArea = creator[["state"]],
+          postalCode = creator[["zipcode"]],
+          country = creator[["country"]]
+      )
+      
+      user_id <- if (!is.na(creator[["orcid"]]))
+        list(paste0("https://orcid.org/",
+                    creator[["orcid"]]),
+             `directory` = list("https://orcid.org/"))
+      else
+        NULL
       
       p <- list(
-          individualName = list(givenName = given_name, surName = creator[["surname"]]),
-          organizationName = creator[["organization"]],
-          address = list(
-            deliveryPoint = trimws(paste(
-              creator[["address1"]],
-              replace(creator[["address2"]], is.na(creator[["address2"]]), ""),
-              replace(creator[["address3"]], is.na(creator[["address3"]]), ""),
-              " "
-            )),
-            city = creator[["city"]],
-            administrativeArea = creator[["state"]],
-            postalCode = creator[["zipcode"]],
-            country = creator[["country"]]
-          ),
-          phone = creator[["phone1"]],
-          electronicMailAddress = if (is.na(creator[["email"]]))
-            NULL
-          else
-            creator[["email"]],
-          userId = if (!is.na(creator[["orcid"]]))
-            list(
-              paste0("https://orcid.org/",
-                     creator[["orcid"]]),
-              `directory` = list("https://orcid.org/")
-            )
-          else
-            NULL
-        )
+        individualName = individual_name,
+        organizationName = if (is.na(creator[["organization"]]))
+          NULL
+        else
+          creator[["organization"]],
+        address = address,
+        phone = if (is.na(creator[["phone1"]]))
+          NULL
+        else
+          creator[["phone1"]],
+        electronicMailAddress = if (is.na(creator[["email"]]))
+          NULL
+        else
+          creator[["email"]],
+        userId = user_id
+      )
       return(p)
     }
     
     # loop over all creators
-    creators <- apply(creator_list, 1, create_creator)
+    creators <- apply(creator_list, 1, creator_func)
     
-    # list should be unnamed for write_eml() to work. named list results in
-    # invalid schema. list names were inherited from row names in meta_list
+    # for EML elements with possible multiple sub-elements
+    # list items must be unnamed for valid EML.
+    # here, list item names were inherited from row names in meta_list
+    
     names(creators) <- NULL
     
     # -------------------------------------------------------------------------------
     # methods
-    # need a rewrite? right now works well
+    # need a rewrite? right now works
     
     method <- subset(meta_list[["method"]], datasetid == dataset_id)
     methodnum <- unique(method$methodDocument)
@@ -159,7 +204,7 @@ create_EML <-
       
       methodstep <-
         list(
-          description = set_TextType(file = methodnum[ii]),
+          description = set_TextType(methodnum[[ii]]),
           instrumentation = instrument,
           software = software,
           protocol = protocolall
@@ -179,8 +224,9 @@ create_EML <-
     # ------------------------------------------------------------------------------
     # abstract
     
-    dataset <- subset(meta_list[["dataset"]], datasetid == dataset_id)
-    abstract <- set_TextType(dataset$abstract)
+    dataset_meta <-
+      subset(meta_list[["dataset"]], datasetid == dataset_id)
+    abstract <- set_TextType(dataset_meta$abstract)
     
     # ------------------------------------------------------------------------------
     # temporal coverage, assume one range
@@ -232,16 +278,16 @@ create_EML <-
     # keywords["keyword_thesaurus" %in% c("", "none")] <- NA
     
     # for each unique thesaurus, create keywordSet
-    key_func <- function(thesaurus) {
+    keyset_func <- function(thesaurus) {
       set <- subset(keywords, keyword_thesaurus == thesaurus)
       
-      keys <- function(key) {
-        keyword <- list(key,
+      key_func <- function(key) {
+        key <- list(key,
                         `keywordType` = list(subset(set$keywordtype, set$keyword == key)))
-        return(keyword)
+        return(key)
       }
       
-      keys <- lapply(unique(set$keyword), keys)
+      keys <- lapply(unique(set$keyword), key_func)
       
       keywordSet <- list(keyword = keys,
                          keywordThesaurus =
@@ -252,7 +298,7 @@ create_EML <-
       return(keywordSet)
     }
     
-    kall <- lapply(unique(keywords$keyword_thesaurus), key_func)
+    kall <- lapply(unique(keywords$keyword_thesaurus), keyset_func)
     names(kall) <- NULL
     
     # -----------------------------------------------------------------------------
@@ -260,7 +306,8 @@ create_EML <-
     
     access <- eml_get(boilerplate, element = "access")
     contact <- eml_get(boilerplate$dataset, element = "contact")
-    distribution <- eml_get(boilerplate$dataset, element = "distribution")
+    distribution <-
+      eml_get(boilerplate$dataset, element = "distribution")
     publisher <- eml_get(boilerplate$dataset, element = "publisher")
     project <- eml_get(boilerplate$dataset, element = "project")
     system <- boilerplate$system
@@ -271,11 +318,11 @@ create_EML <-
     
     dataset <-
       list(
-        title = dataset[["title"]],
-        alternateIdentifier = dataset[["alternateid"]],
-        shortName = dataset[["shortname"]],
+        title = dataset_meta[["title"]],
+        alternateIdentifier = dataset_meta[["alternateid"]],
+        shortName = dataset_meta[["shortname"]],
         creator = creators,
-        pubDate = as.character(as.Date(dataset[["pubdate"]])),
+        pubDate = as.character(as.Date(dataset_meta[["pubdate"]])),
         intellectualRights = license,
         abstract = abstract,
         keywordSet = kall,
@@ -291,7 +338,8 @@ create_EML <-
       )
     
     # -------------------------------------------------------------------------------------
-    # units
+    # units. return unit_list NULL if no units
+    
     unit <- subset(meta_list[["unit"]], datasetid == dataset_id)
     
     if (dim(unit)[1] > 0) {
@@ -305,7 +353,7 @@ create_EML <-
     
     eml <-
       list(
-        packageId = dataset[["edinum"]],
+        packageId = dataset_meta[["edinum"]],
         system = system,
         schemaLocation = "eml://ecoinformatics.org/eml-2.1.1 http://nis.lternet.edu/schemas/EML/eml-2.1.1/eml.xsd",
         access = access,

@@ -1,16 +1,18 @@
 
 # example workflow from metabase to EML document
+# recommend to put project script plus data files and other documents
+# eg. abstract, methods, boilerplate, license
+# in a folder level with the folder containing R scripts (if not installed as package)
 
 # ----------------------
 # common steps
-# load in libraries
+# load in libraries, no need if installed as package
 
 library(EML)
 library(RPostgres)
 
 
-# source functions
-# no need if installed as package
+# source functions, no need if installed as package
 
 source('../R/get_meta.R')
 source('../R/create_entity.R')
@@ -20,12 +22,12 @@ source('../R/create_EML.R')
 # connect to metabase and get metadata from specified datasets
 # once done, can reuse list
 
-entity_meta <-
+metadata <-
   get_meta(
     dbname = "lter_arranged",     # change to your DB name
     host = "localhost",
     port = 5432,
-    dataset_ids = c(99013, 99021) # change to array of datasets wanted
+    dataset_ids = c(99013, 99021) # change to vector of datasets wanted
   )
 
 # set workding directory to directory of current script
@@ -47,10 +49,23 @@ license <- EML::set_TextType("./00_Shared_document/IntellectualRights.docx")
 # single entity example, datasetid 99013
 
 # create an entity
-table_99013 <- create_entity(entity_meta, dataset_id = 99013, entity = 1)
+# this step would generate warnings, mostly of the unit sort
+# unit warnings are fine because custom units are defined later
+
+table_99013 <-
+  create_entity(meta_list = metadata,
+                dataset_id = 99013,
+                entity = 1)
 
 # create EML list object
-EML_99013 <- create_EML(entity_meta, dataset_id = 99013, boilerplate = boilerplate, license = license, data_table = table_99013)
+EML_99013 <-
+  create_EML(
+    meta_list = metadata,
+    dataset_id = 99013,
+    boilerplate = boilerplate,
+    license = license,
+    data_table = table_99013
+  )
 
 # validate
 eml_validate(EML_99013)
@@ -70,7 +85,14 @@ write_eml(EML_99013, file = "EML_99013.xml")
 tables_99021 <- lapply(c(1:3), create_entity, meta_list = entity_meta, dataset_id = 99021)
 
 # create EML list object
-EML_99021 <- create_EML(entity_meta, dataset_id = 99021, boilerplate = boilerplate, license = license, data_table = tables_99021)
+EML_99021 <-
+  create_EML(
+    meta_list = metadata,
+    dataset_id = 99021,
+    boilerplate = boilerplate,
+    license = license,
+    data_table = tables_99021
+  )
 
 # validate and serialize (write) EML document
 eml_validate(EML_99021)
@@ -82,13 +104,26 @@ write_eml(EML_99021, file = "EML_99021.xml")
 # WITH TEST MODIFICATIONS IN METABASE, DO NOT RUN
 
 # connect to metabase
-entity_meta_mod <- get_meta(dbname = "lter_tests", host = "localhost", port = 5432, dataset_ids = c(99013, 99021))
+meta_mod <-
+  get_meta(
+    dbname = "lter_tests",
+    host = "localhost",
+    port = 5432,
+    dataset_ids = c(99013, 99021)
+  )
 
 # create entities
-tables_99021_mod <- lapply(c(1:3), create_entity, meta_list = entity_meta_mod, dataset_id = 99021)
+tables_99021_mod <- lapply(c(1:3), create_entity, meta_list = meta_mod, dataset_id = 99021)
 
 # create EML list object
-EML_99021_mod <- create_EML(entity_meta_mod, dataset_id = 99021, boilerplate = boilerplate, license = license, data_table = tables_99021_mod)
+EML_99021_mod <-
+  create_EML(
+    meta_list = meta_mod,
+    dataset_id = 99021,
+    boilerplate = boilerplate,
+    license = license,
+    data_table = tables_99021_mod
+  )
 
 # validate and serialize (write) EML document
 eml_validate(EML_99021_mod)

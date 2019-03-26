@@ -51,7 +51,7 @@ get_meta <- function(dbname, host, port, dataset_ids) {
   
   # rename list items according to order of imported views
   names(query_dfs) <- c(
-    "meta",
+    "attributes",
     "factors",
     "unit",
     "creator",
