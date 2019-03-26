@@ -15,11 +15,233 @@
     </allow>
   </access>
   <dataset>
+    <shortName>Beach wrack IV 2005-06</shortName>
+    <title>SBC LTER: TEST: NPP dataset with 3 tables</title>
+    <creator>
+      <individualName>
+        <givenName>Andrew A</givenName>
+        <surName>Rassweiler</surName>
+      </individualName>
+      <address>
+        <deliveryPoint>Marine Science Institute University of California</deliveryPoint>
+        <city>Santa Barbara</city>
+        <administrativeArea>CA</administrativeArea>
+        <postalCode>93106-6150</postalCode>
+        <country>US</country>
+      </address>
+      <phone>805-893-7823</phone>
+      <electronicMailAddress>andrew.rassweiler@lifesci.ucsb.edu</electronicMailAddress>
+      <userId directory="https://orcid.org/">https://orcid.org/0000-0002-8760-3888</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Katie</givenName>
+        <surName>Arkema</surName>
+      </individualName>
+      <address>
+        <deliveryPoint>UCSB</deliveryPoint>
+      </address>
+      <electronicMailAddress>karkema@stanford.edu</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Daniel C</givenName>
+        <surName>Reed</surName>
+      </individualName>
+      <address>
+        <deliveryPoint>Marine Science Institute University of California</deliveryPoint>
+        <city>Santa Barbara</city>
+        <administrativeArea>CA</administrativeArea>
+        <postalCode>93106-6150</postalCode>
+        <country>US</country>
+      </address>
+      <phone>805-893-8363</phone>
+      <electronicMailAddress>dan.reed@lifesci.ucsb.edu</electronicMailAddress>
+      <userId directory="https://orcid.org/">https://orcid.org/0000-0003-3015-8717</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Mark Allen</givenName>
+        <surName>Brzezinski</surName>
+      </individualName>
+      <address>
+        <deliveryPoint>Department of Ecology, Evolution and Marine Biology University of California</deliveryPoint>
+        <city>Santa Barbara</city>
+        <administrativeArea>CA</administrativeArea>
+        <postalCode>93106-9620</postalCode>
+        <country>US</country>
+      </address>
+      <phone>805-893-8605</phone>
+      <electronicMailAddress>brzezins@lifesci.ucsb.edu</electronicMailAddress>
+      <userId directory="https://orcid.org/">https://orcid.org/0000-0003-3432-2297</userId>
+    </creator>
+    <pubDate>2010-06-14</pubDate>
+    <language>English</language>
     <abstract>
       <para>
   Abstract here! Datasetid 99021
 </para>
     </abstract>
+    <keywordSet>
+      <keyword keywordType="theme">populations</keyword>
+      <keyword keywordType="theme">primary production</keyword>
+      <keywordThesaurus>LTER Core Research Areas</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword keywordType="theme">algae</keyword>
+      <keyword keywordType="theme">biomass</keyword>
+      <keyword keywordType="theme">carbon</keyword>
+      <keyword keywordType="theme">growth</keyword>
+      <keyword keywordType="theme">long term ecological research</keyword>
+      <keyword keywordType="theme">LTER</keyword>
+      <keyword keywordType="theme">mass</keyword>
+      <keyword keywordType="theme">net primary production</keyword>
+      <keyword keywordType="theme">populations</keyword>
+      <keyword keywordType="theme">productivity</keyword>
+      <keyword keywordType="theme">Santa Barbara Coastal</keyword>
+      <keyword keywordType="theme">seasonality</keyword>
+      <keyword keywordType="theme">standing crop</keyword>
+      <keywordThesaurus>LTER Controlled Vocabulary v1</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword keywordType="theme">Biogeochemistry</keyword>
+      <keyword keywordType="theme">Community Structure</keyword>
+      <keyword keywordType="theme">Ecosystem Processes</keyword>
+      <keyword keywordType="theme">Kelp Forest</keyword>
+      <keyword keywordType="theme">Nearshore Ocean</keyword>
+      <keyword keywordType="theme">populations</keyword>
+      <keyword keywordType="theme">Reef</keyword>
+      <keywordThesaurus>SBC-LTER Controlled Vocabulary</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword keywordType="place">Arroyo Burro Reef</keyword>
+      <keyword keywordType="place">Arroyo Quemado Reef</keyword>
+      <keyword keywordType="place">Mohawk Reef</keyword>
+      <keywordThesaurus>Santa Barbara Coastal LTER Places</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword keywordType="theme">algae</keyword>
+      <keyword keywordType="theme">Biomass</keyword>
+      <keyword keywordType="theme">Carbon</keyword>
+      <keyword keywordType="theme">Dominant Species</keyword>
+      <keyword keywordType="theme">Marine Plants</keyword>
+      <keywordThesaurus>Global Change Master Directory (GCMD) v6.0.0.0.0</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword keywordType="theme">Biomass</keyword>
+      <keyword keywordType="theme">Carbon</keyword>
+      <keywordThesaurus>Knowledge Network for Biocomplexity</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword keywordType="theme">Biomass</keyword>
+      <keyword keywordType="theme">Carbon</keyword>
+      <keyword keywordType="theme">Fronds</keyword>
+      <keyword keywordType="theme">Mass (property)</keyword>
+      <keyword keywordType="theme">Primary production</keyword>
+      <keywordThesaurus>NBII Biocomplexity</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword keywordType="theme">giant kelp</keyword>
+      <keyword keywordType="theme">growth rate</keyword>
+      <keyword keywordType="theme">marine algae</keyword>
+      <keyword keywordType="theme">net primary production</keyword>
+      <keyword keywordType="theme">standing crop</keyword>
+      <keywordThesaurus>Ecological Archives</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword keywordType="theme">biomass</keyword>
+      <keyword keywordType="taxonomic">giant kelp</keyword>
+      <keyword keywordType="theme">growth rate</keyword>
+      <keyword keywordType="theme">LTER</keyword>
+      <keyword keywordType="taxonomic">Macrocystis pyrifera</keyword>
+      <keyword keywordType="theme">Marine Plants</keyword>
+      <keyword keywordType="theme">net primary production</keyword>
+    </keywordSet>
+    <intellectualRights>
+      <para>
+  This data package is released under the Creative Commons license
+  Attribution 4.0 International (CC BY 4.0 , see
+  </para>
+      <para>&lt;ulink url="https://creativecommons.org/licenses/by/4.0/"&gt;https://creativecommons.org/licenses/by/4.0/&lt;/ulink&gt;</para>
+      <para>).
+  This license states that consumers ("Data Users" herein) may
+  distribute, adapt, reuse, remix, and build upon this work, as long as
+  they give appropriate credit, provide a link to the license, and
+  indicate if changes were made. If redistributed, a Data User may not
+  apply additional restrictions or technological measures that prevent
+  access.
+</para>
+      <para>
+  The Data User has an ethical obligation to cite the data source
+  appropriately in any publication or product that results from its use,
+  and notify the data contact or creator. Communication, collaboration,
+  or co-authorship (as appropriate) with the creators of this data
+  package is encouraged to prevent duplicate research or publication.
+  The Data User is urged to contact the authors of these data if any
+  questions about methodology or results occur. The Data User should
+  realize that these data may be actively used by others for ongoing
+  research and that coordination may be necessary to prevent duplication
+  or inappropriate use. The Data User should realize that
+  misinterpretation may occur if data are used outside of the context of
+  the original study. The Data User should be aware that data are
+  updated periodically and it is the responsibility of the Data User to
+  check for new versions of the data.
+</para>
+      <para>
+  While substantial efforts are made to ensure the accuracy of data and
+  associated documentation, complete accuracy of data sets cannot be
+  guaranteed. This data package (with its components) is made available
+  “as is” and with no warranty of accuracy or fitness for use. The
+  creators of this data package and the repository where these data were
+  obtained shall not be liable for any damages resulting from
+  misinterpretation, use or misuse of the data package or its
+  components.
+</para>
+    </intellectualRights>
+    <distribution>
+      <online>
+        <url function="information">https://ble.lternet.edu</url>
+      </online>
+    </distribution>
+    <coverage>
+      <geographicCoverage>
+        <geographicDescription>Arroyo Burro reef: Arroyo Burro Reef is located on the Santa Barbara Channel near the mouth of Arroyo Burro Creek and Beach. Depth ranges from 5.4 to 7 meters.</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-119.822502</westBoundingCoordinate>
+          <eastBoundingCoordinate>-119.822502</eastBoundingCoordinate>
+          <northBoundingCoordinate>34.4138298</northBoundingCoordinate>
+          <southBoundingCoordinate>34.4138298</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <geographicCoverage>
+        <geographicDescription>Arroyo Quemado Reef: Arroyo Quemado Reef is located on the Santa Barbara Channel near the mouth of Arroyo Quemada Creek, Santa Barbara County, CA. Depth ranges from -5.4 to -10.7 meters.</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-120.121498</westBoundingCoordinate>
+          <eastBoundingCoordinate>-120.121498</eastBoundingCoordinate>
+          <northBoundingCoordinate>34.4688301</northBoundingCoordinate>
+          <southBoundingCoordinate>34.4688301</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <geographicCoverage>
+        <geographicDescription>Mohawk Reef: Mohawk Reef is located on the Santa Barbara Channel, east of Arroyo Burro Beach, Santa Barbara, CA. Depth range from 4.5m to 6.0 m</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-119.730003</westBoundingCoordinate>
+          <eastBoundingCoordinate>-119.730003</eastBoundingCoordinate>
+          <northBoundingCoordinate>34.3943291</northBoundingCoordinate>
+          <southBoundingCoordinate>34.3943291</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <temporalCoverage>
+        <rangeOfDates>
+          <beginDate>
+            <calendarDate>2011-11-23</calendarDate>
+          </beginDate>
+          <endDate>
+            <calendarDate>2012-12-11</calendarDate>
+          </endDate>
+        </rangeOfDates>
+      </temporalCoverage>
+    </coverage>
     <contact>
       <organizationName>BLE LTER</organizationName>
       <positionName>Information Manager, Beaufort Lagoon Ecosystems LTER</positionName>
@@ -34,15 +256,89 @@
       <electronicMailAddress>contact@ble.edu</electronicMailAddress>
       <onlineUrl>http://ble.lternet.edu</onlineUrl>
     </contact>
-    <coverage>
-      <geographicCoverage>list(eastBoundingCoordinate = "-119.730003", northBoundingCoordinate = "34.3943291", southBoundingCoordinate = "34.3943291", westBoundingCoordinate = "-119.730003")Mohawk Reef: Mohawk Reef is located on the Santa Barbara Channel, east of Arroyo Burro Beach, Santa Barbara, CA. Depth range from 4.5m to 6.0 m</geographicCoverage>
-      <temporalCoverage>
-        <rangeOfDates/>
-      </temporalCoverage>
-    </coverage>
-    <creator>list(administrativeArea = "CA", city = "Santa Barbara", country = "US", deliveryPoint = "Department of Ecology, Evolution and Marine Biology University of California", postalCode = "93106-9620")brzezins@lifesci.ucsb.edulist(givenName = "Mark Allen", surName = "Brzezinski")805-893-8605list(system = "https://orcid.org/0000-0003-3432-2297")</creator>
+    <publisher>
+      <organizationName>publisher org</organizationName>
+      <address>
+        <deliveryPoint>publisher address</deliveryPoint>
+        <city>publisher city</city>
+        <administrativeArea>publisher state</administrativeArea>
+        <postalCode>90210</postalCode>
+        <country>United States</country>
+      </address>
+    </publisher>
+    <methods>
+      <methodStep>
+        <description>
+          <para>
+  Methods here! Datasetid 99021
+</para>
+        </description>
+        <protocol>
+          <title>Net primary production, growth and standing crop of Macrocystis pyrifera in southern California</title>
+          <creator>
+            <individualName>
+              <surName>Rassweiler</surName>
+            </individualName>
+          </creator>
+          <distribution>
+            <online>
+              <url function="download">http://sbc.lternet.edu/external/Reef/Protocols/Kelp_NPP/Rassweiler_et_al_2008_NPP_Mpyrifera_E089-119.pdf</url>
+            </online>
+          </distribution>
+        </protocol>
+      </methodStep>
+    </methods>
+    <project>
+      <title>your lter spelled out</title>
+      <personnel>
+        <individualName>
+          <salutation>Dr.</salutation>
+          <givenName>PI name</givenName>
+          <surName>PI surname</surName>
+        </individualName>
+        <address>
+          <deliveryPoint>PI address1</deliveryPoint>
+          <deliveryPoint>PI address2</deliveryPoint>
+          <city>PI city</city>
+          <administrativeArea>PI state</administrativeArea>
+          <postalCode>78758</postalCode>
+          <country>United States</country>
+        </address>
+        <phone phonetype="voice">615-867-5309</phone>
+        <electronicMailAddress>PI@abc.edu</electronicMailAddress>
+        <role>Principal Investigator</role>
+      </personnel>
+      <personnel>
+        <individualName>
+          <salutation>Dr.</salutation>
+          <givenName>Co-PI name</givenName>
+          <surName>Co-PI surname</surName>
+        </individualName>
+        <address>
+          <deliveryPoint>Co-PI address1</deliveryPoint>
+          <deliveryPoint>Co-PI address2</deliveryPoint>
+          <city>Co-PI city</city>
+          <administrativeArea>Co-PI state</administrativeArea>
+          <postalCode>78758</postalCode>
+          <country>United States</country>
+        </address>
+        <phone phonetype="voice">615-867-5309</phone>
+        <electronicMailAddress>Co-PI@abc.edu</electronicMailAddress>
+        <role>Co-Principal Investigator</role>
+      </personnel>
+      <abstract>
+        <section>
+          <para>Abstract about your LTER site.</para>
+        </section>
+      </abstract>
+      <funding>
+        <section>
+          <para>BLE is funded by the National Science Foundation under award 123456.</para>
+        </section>
+      </funding>
+    </project>
     <dataTable>
-      <entityName>M_pyrifera_net_primary_production_and_growth_20120614.csv</entityName>
+      <entityName>M. pyrifera net primary production and growth</entityName>
       <entityDescription>Macrocystis pyrifera net primary production and growth</entityDescription>
       <physical>
         <objectName>M_pyrifera_net_primary_production_and_growth_20120614.csv</objectName>
@@ -59,11 +355,6 @@
             </simpleDelimited>
           </textFormat>
         </dataFormat>
-        <distribution>
-          <online>
-            <url function="download">http://sbc.lternet.edu/external/Reef/Data/Kelp_NPP/M_pyrifera_net_primary_production_and_growth_20120614.csv</url>
-          </online>
-        </distribution>
       </physical>
       <attributeList>
         <attribute>
@@ -80,12 +371,12 @@
                     <definition>Arroyo Burro</definition>
                   </codeDefinition>
                   <codeDefinition>
-                    <code>AQUE</code>
-                    <definition>Arroyo Quemado.</definition>
-                  </codeDefinition>
-                  <codeDefinition>
                     <code>MOHK</code>
                     <definition>Mohawk</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>AQUE</code>
+                    <definition>Arroyo Quemado.</definition>
                   </codeDefinition>
                 </enumeratedDomain>
               </nonNumericDomain>
@@ -573,12 +864,12 @@
                     <definition>Arroyo Burro</definition>
                   </codeDefinition>
                   <codeDefinition>
-                    <code>AQUE</code>
-                    <definition>Arroyo Quemado.</definition>
-                  </codeDefinition>
-                  <codeDefinition>
                     <code>MOHK</code>
                     <definition>Mohawk</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>AQUE</code>
+                    <definition>Arroyo Quemado.</definition>
                   </codeDefinition>
                 </enumeratedDomain>
               </nonNumericDomain>
@@ -690,7 +981,6 @@
               <unit>
                 <customUnit>kilogramPerMeterSquared</customUnit>
               </unit>
-              <precision>0</precision>
               <numericDomain>
                 <numberType>real</numberType>
                 <bounds>
@@ -744,7 +1034,6 @@
               <numericDomain>
                 <numberType>real</numberType>
                 <bounds>
-                  <minimum exclusive="false">100000</minimum>
                   <maximum exclusive="false">100000</maximum>
                 </bounds>
               </numericDomain>
@@ -768,10 +1057,6 @@
               <precision>0</precision>
               <numericDomain>
                 <numberType>real</numberType>
-                <bounds>
-                  <minimum exclusive="false">100000</minimum>
-                  <maximum exclusive="false">100000</maximum>
-                </bounds>
               </numericDomain>
             </ratio>
           </measurementScale>
@@ -1009,7 +1294,7 @@
       <numberOfRecords>0</numberOfRecords>
     </dataTable>
     <dataTable>
-      <entityName>Census_of_fronds_on_marked_plants_20120613.csv</entityName>
+      <entityName>Fronds Census</entityName>
       <entityDescription>Census of fronds on marked plants</entityDescription>
       <physical>
         <objectName>Census_of_fronds_on_marked_plants_20120613.csv</objectName>
@@ -1047,12 +1332,12 @@
                     <definition>Arroyo Burro</definition>
                   </codeDefinition>
                   <codeDefinition>
-                    <code>AQUE</code>
-                    <definition>Arroyo Quemado.</definition>
-                  </codeDefinition>
-                  <codeDefinition>
                     <code>MOHK</code>
                     <definition>Mohawk</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>AQUE</code>
+                    <definition>Arroyo Quemado.</definition>
                   </codeDefinition>
                 </enumeratedDomain>
               </nonNumericDomain>
@@ -1151,138 +1436,6 @@
       </attributeList>
       <numberOfRecords>0</numberOfRecords>
     </dataTable>
-    <distribution>
-      <online>
-        <url function="information">https://ble.lternet.edu</url>
-      </online>
-    </distribution>
-    <intellectualRights>
-      <para>
-  This data package is released under the Creative Commons license
-  Attribution 4.0 International (CC BY 4.0 , see
-  </para>
-      <para>&lt;ulink url="https://creativecommons.org/licenses/by/4.0/"&gt;https://creativecommons.org/licenses/by/4.0/&lt;/ulink&gt;</para>
-      <para>).
-  This license states that consumers ("Data Users" herein) may
-  distribute, adapt, reuse, remix, and build upon this work, as long as
-  they give appropriate credit, provide a link to the license, and
-  indicate if changes were made. If redistributed, a Data User may not
-  apply additional restrictions or technological measures that prevent
-  access.
-</para>
-      <para>
-  The Data User has an ethical obligation to cite the data source
-  appropriately in any publication or product that results from its use,
-  and notify the data contact or creator. Communication, collaboration,
-  or co-authorship (as appropriate) with the creators of this data
-  package is encouraged to prevent duplicate research or publication.
-  The Data User is urged to contact the authors of these data if any
-  questions about methodology or results occur. The Data User should
-  realize that these data may be actively used by others for ongoing
-  research and that coordination may be necessary to prevent duplication
-  or inappropriate use. The Data User should realize that
-  misinterpretation may occur if data are used outside of the context of
-  the original study. The Data User should be aware that data are
-  updated periodically and it is the responsibility of the Data User to
-  check for new versions of the data.
-</para>
-      <para>
-  While substantial efforts are made to ensure the accuracy of data and
-  associated documentation, complete accuracy of data sets cannot be
-  guaranteed. This data package (with its components) is made available
-  “as is” and with no warranty of accuracy or fitness for use. The
-  creators of this data package and the repository where these data were
-  obtained shall not be liable for any damages resulting from
-  misinterpretation, use or misuse of the data package or its
-  components.
-</para>
-    </intellectualRights>
-    <keywordSet>net primary production</keywordSet>
-    <language>English</language>
-    <methods>
-      <methodStep>
-        <description>
-          <para>
-  Methods here! Datasetid 99021
-</para>
-        </description>
-        <protocol>
-          <title>Net primary production, growth and standing crop of Macrocystis pyrifera in southern California</title>
-          <creator>
-            <individualName>
-              <surName>Rassweiler</surName>
-            </individualName>
-          </creator>
-          <distribution>
-            <online>
-              <url function="download">http://sbc.lternet.edu/external/Reef/Protocols/Kelp_NPP/Rassweiler_et_al_2008_NPP_Mpyrifera_E089-119.pdf</url>
-            </online>
-          </distribution>
-        </protocol>
-      </methodStep>
-    </methods>
-    <project>
-      <title>your lter spelled out</title>
-      <personnel>
-        <individualName>
-          <salutation>Dr.</salutation>
-          <givenName>PI name</givenName>
-          <surName>PI surname</surName>
-        </individualName>
-        <address>
-          <deliveryPoint>PI address1</deliveryPoint>
-          <deliveryPoint>PI address2</deliveryPoint>
-          <city>PI city</city>
-          <administrativeArea>PI state</administrativeArea>
-          <postalCode>78758</postalCode>
-          <country>United States</country>
-        </address>
-        <phone phonetype="voice">615-867-5309</phone>
-        <electronicMailAddress>PI@abc.edu</electronicMailAddress>
-        <role>Principal Investigator</role>
-      </personnel>
-      <personnel>
-        <individualName>
-          <salutation>Dr.</salutation>
-          <givenName>Co-PI name</givenName>
-          <surName>Co-PI surname</surName>
-        </individualName>
-        <address>
-          <deliveryPoint>Co-PI address1</deliveryPoint>
-          <deliveryPoint>Co-PI address2</deliveryPoint>
-          <city>Co-PI city</city>
-          <administrativeArea>Co-PI state</administrativeArea>
-          <postalCode>78758</postalCode>
-          <country>United States</country>
-        </address>
-        <phone phonetype="voice">615-867-5309</phone>
-        <electronicMailAddress>Co-PI@abc.edu</electronicMailAddress>
-        <role>Co-Principal Investigator</role>
-      </personnel>
-      <abstract>
-        <section>
-          <para>Abstract about your LTER site.</para>
-        </section>
-      </abstract>
-      <funding>
-        <section>
-          <para>BLE is funded by the National Science Foundation under award 123456.</para>
-        </section>
-      </funding>
-    </project>
-    <pubDate>2010-06-14</pubDate>
-    <publisher>
-      <organizationName>publisher org</organizationName>
-      <address>
-        <deliveryPoint>publisher address</deliveryPoint>
-        <city>publisher city</city>
-        <administrativeArea>publisher state</administrativeArea>
-        <postalCode>90210</postalCode>
-        <country>United States</country>
-      </address>
-    </publisher>
-    <shortname>Beach wrack IV 2005-06</shortname>
-    <title>SBC LTER: TEST: NPP dataset with 3 tables</title>
   </dataset>
   <additionalMetadata>
     <metadata>

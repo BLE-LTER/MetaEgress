@@ -1,6 +1,6 @@
 
 # example workflow from metabase to EML document
-# recommend to put project script plus data files and other documents
+# put project script plus data files and other documents
 # eg. abstract, methods, boilerplate, license
 # in a folder level with the folder containing R scripts (if not installed as package)
 
@@ -40,6 +40,7 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 # read in boilerplate XML and license document
 # edit those two as needed beforehand
+# note that .docx format only works with 'rmarkdown' package (see set_TextType help for more info)
 
 boilerplate <- EML::read_eml("./00_Shared_document/boilerplate.xml")
 license <- EML::set_TextType("./00_Shared_document/IntellectualRights.docx")
@@ -68,10 +69,10 @@ EML_99013 <-
   )
 
 # validate
-eml_validate(EML_99013)
+EML::eml_validate(EML_99013)
 
 # serialize (write)
-write_eml(EML_99013, file = "EML_99013.xml")
+EML::write_eml(EML_99013, file = "EML_99013.xml")
 
 
 # ------------------------
