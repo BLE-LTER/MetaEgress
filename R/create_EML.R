@@ -1,4 +1,5 @@
-# create a ready-to-validate-and-write EML object
+
+# create ready-to-validate-and-write EML list object
 
 create_EML <-
   function(meta_list,
@@ -7,10 +8,10 @@ create_EML <-
            license,
            data_table,
            other_entity = NULL) {
-    project <- subset(meta_list[["dataset"]], datasetid == dataset_id)
     
     # -----------------------------------------------------------------------------
-    # creator
+    # creators
+    # need associated parties once there's view for that
     
     creator_list <-
       subset(meta_list[["creator"]],
@@ -18,7 +19,7 @@ create_EML <-
                "creator")
     # sort by authorship order, just to make sure
     creator_list <-
-      creator_list[order(creator_list$authorshiporder),]
+      creator_list[order(creator_list$authorshiporder), ]
     
     # function to create a creator object
     create_creator <- function(creator) {
@@ -26,8 +27,7 @@ create_EML <-
         trimws(paste(creator[["givenname"]], replace(creator[["givenname2"]],
                                                      is.na(creator[["givenname2"]]), ""), " "))
       
-      p <-
-        list(
+      p <- list(
           individualName = list(givenName = given_name, surName = creator[["surname"]]),
           organizationName = creator[["organization"]],
           address = list(
@@ -63,11 +63,12 @@ create_EML <-
     creators <- apply(creator_list, 1, create_creator)
     
     # list should be unnamed for write_eml() to work. named list results in
-    # invalid schema list names were inherited from row names in meta_list
+    # invalid schema. list names were inherited from row names in meta_list
     names(creators) <- NULL
     
     # -------------------------------------------------------------------------------
     # methods
+    # need a rewrite? right now works well
     
     method <- subset(meta_list[["method"]], datasetid == dataset_id)
     methodnum <- unique(method$methodDocument)
@@ -174,24 +175,25 @@ create_EML <-
     
     method_xml <- list(methodStep = methodall)
     
+    
     # ------------------------------------------------------------------------------
     # abstract
     
-    abstract <- set_TextType(project$abstract)
+    dataset <- subset(meta_list[["dataset"]], datasetid == dataset_id)
+    abstract <- set_TextType(dataset$abstract)
     
     # ------------------------------------------------------------------------------
-    # temporal coverage
+    # temporal coverage, assume one range
     
     tempo <-
       subset(meta_list[["temporal"]], datasetid == dataset_id)
     tempcover <-
       list(rangeOfDates = list(
-        beginDate = list(calendarDate = as.character(tempo[,
-                                                           "begindate"])),
+        beginDate = list(calendarDate = as.character(tempo[, "begindate"])),
         endDate = list(calendarDate = as.character(tempo[, "enddate"]))
       ))
     # -----------------------------------------------------------------------------
-    # spatial coverage
+    # spatial coverage, list
     
     geo <- subset(meta_list[["geo"]], datasetid == dataset_id)
     geo_func <- function(geo_list) {
@@ -213,17 +215,23 @@ create_EML <-
     
     # -----------------------------------------------------------------------------
     # overall coverage
+    
     coverage <-
       list(geographicCoverage = geoall,
            temporalCoverage = tempcover)
     
     # -----------------------------------------------------------------------------
-    # keywords
+    # keywords grouped by keywordThesaurus and with keywordType attribute
     
     keywords <-
-      subset(entity_meta_mod[["keyword"]], datasetid == 99021)
-    # nkey <- unique(keyword$keyword_thesaurus)
+      subset(meta_list[["keyword"]], datasetid == dataset_id)
     
+    # trim whitespace, convert empty string or "none" to NA
+    # doesn't work
+    # keywords <- lapply(keywords, stringr::str_trim)
+    # keywords["keyword_thesaurus" %in% c("", "none")] <- NA
+    
+    # for each unique thesaurus, create keywordSet
     key_func <- function(thesaurus) {
       set <- subset(keywords, keyword_thesaurus == thesaurus)
       
@@ -235,9 +243,9 @@ create_EML <-
       
       keys <- lapply(unique(set$keyword), keys)
       
-      keywordSet <- list(keyword = keys, keywordThesaurus =
-                           if (set[["keyword_thesaurus"]][[1]] ==
-                               "none")
+      keywordSet <- list(keyword = keys,
+                         keywordThesaurus =
+                           if (is.na(set[["keyword_thesaurus"]][[1]]))
                              NULL
                          else
                            set[["keyword_thesaurus"]][[1]])
@@ -246,28 +254,28 @@ create_EML <-
     
     kall <- lapply(unique(keywords$keyword_thesaurus), key_func)
     names(kall) <- NULL
-
+    
     # -----------------------------------------------------------------------------
     # boilerplate information
     
     access <- eml_get(boilerplate, element = "access")
     contact <- eml_get(boilerplate$dataset, element = "contact")
-    distribution <-
-      eml_get(boilerplate$dataset, element = "distribution")
+    distribution <- eml_get(boilerplate$dataset, element = "distribution")
     publisher <- eml_get(boilerplate$dataset, element = "publisher")
-    project_xml <- eml_get(boilerplate$dataset, element = "project")
+    project <- eml_get(boilerplate$dataset, element = "project")
+    system <- boilerplate$system
     
-
+    
     # -----------------------------------------------------------------------------
     # put the dataset together
     
     dataset <-
       list(
-        title = project[["title"]],
-        alternateIdentifier = project[["alternateid"]],
-        shortName = project[["shortname"]],
+        title = dataset[["title"]],
+        alternateIdentifier = dataset[["alternateid"]],
+        shortName = dataset[["shortname"]],
         creator = creators,
-        pubDate = as.character(as.Date(project[["pubdate"]])),
+        pubDate = as.character(as.Date(dataset[["pubdate"]])),
         intellectualRights = license,
         abstract = abstract,
         keywordSet = kall,
@@ -275,7 +283,7 @@ create_EML <-
         contact = contact,
         publisher = publisher,
         distribution = distribution,
-        project = project_xml,
+        project = project,
         methods = method_xml,
         language = "English",
         dataTable = data_table,
@@ -297,8 +305,8 @@ create_EML <-
     
     eml <-
       list(
-        packageId = project[["edinum"]],
-        system = "knb",
+        packageId = dataset[["edinum"]],
+        system = system,
         schemaLocation = "eml://ecoinformatics.org/eml-2.1.1 http://nis.lternet.edu/schemas/EML/eml-2.1.1/eml.xsd",
         access = access,
         dataset = dataset,

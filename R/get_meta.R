@@ -1,13 +1,14 @@
-# connect to metabase and query for metadata return a list of data frames
+
+# connect to metabase and query for metadata 
+# return a list of data frames
 # to pass to create_entity() and create_EML()
 
 get_meta <- function(dbname, host, port, dataset_ids) {
   
   # set DB driver
-  #library(RPostgres)
   driver <- RPostgres::Postgres()
   
-  # connect to specified DB
+  # connect to specified DBs
   con <- dbConnect(
       drv = driver,
       dbname = dbname,
@@ -33,6 +34,7 @@ get_meta <- function(dbname, host, port, dataset_ids) {
   view_list <- paste0("mb2eml_r.", views)
   
   # create queries
+  # $1 is code for parameterization in postgres
   queries <- paste("SELECT * FROM", view_list, "WHERE datasetid = $1")
   
   # parameterize queries to prevent SQL injection
@@ -44,10 +46,10 @@ get_meta <- function(dbname, host, port, dataset_ids) {
     return(query_df)
   }
   
-  # apply over list of queries and name list items
+  # apply over list of queries
   query_dfs <- lapply(queries, param_query)
   
-  # rename list items according to order of views above
+  # rename list items according to order of imported views
   names(query_dfs) <- c(
     "meta",
     "factors",
