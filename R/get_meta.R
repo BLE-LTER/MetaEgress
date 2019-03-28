@@ -29,7 +29,8 @@ get_meta <- function(dbname, host, port, dataset_ids) {
     "vw_eml_dataset",
     "vw_eml_datasetmethod",
     "vw_eml_geographiccoverage",
-    "vw_eml_temporalcoverage"
+    "vw_eml_temporalcoverage",
+    "vw_eml_associatedparty"
   )
   view_list <- paste0("mb2eml_r.", views)
   
@@ -60,7 +61,8 @@ get_meta <- function(dbname, host, port, dataset_ids) {
     "dataset",
     "method",
     "geo",
-    "temporal"
+    "temporal",
+    "parties"
   )
   
   return(query_dfs)

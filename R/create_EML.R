@@ -75,12 +75,18 @@ create_EML <-
           country = creator[["country"]]
       )
       
-      user_id <- if (!is.na(creator[["orcid"]]))
-        list(paste0("https://orcid.org/",
-                    creator[["orcid"]]),
-             `directory` = list("https://orcid.org/"))
-      else
+      user_id <- if (("orcid" %in% colnames(creator))) {
+        if (!is.na(creator[["orcid"]])) {
+          list(paste0("https://orcid.org/",
+                      creator[["orcid"]]),
+               `directory` = list("https://orcid.org/"))
+        }
+        else
+          NULL
+      } else
         NULL
+      
+        
       
       p <- list(
         individualName = individual_name,
@@ -110,6 +116,20 @@ create_EML <-
     # here, list item names were inherited from row names in meta_list
     
     names(creators) <- NULL
+    
+    # -------------------------------------------------------------------------------
+    # associated parties
+    
+    parties <- subset(meta_list[["parties"]], datasetid == dataset_id)
+    
+    party_func <- function(party){
+      p <- creator_func(party)
+      p[["role"]] <- party[["role"]]
+      return(p)
+    }
+    
+    parties <- apply(parties, 1, party_func)
+    names(parties) <- NULL
     
     # -------------------------------------------------------------------------------
     # methods
@@ -283,7 +303,7 @@ create_EML <-
       
       key_func <- function(key) {
         key <- list(key,
-                        `keywordType` = list(subset(set$keywordtype, set$keyword == key)))
+                    `keywordType` = list(subset(set$keywordtype, set$keyword == key)))
         return(key)
       }
       
@@ -308,6 +328,7 @@ create_EML <-
     contact <- eml_get(boilerplate$dataset, element = "contact")
     distribution <-
       eml_get(boilerplate$dataset, element = "distribution")
+    metadata_provider <- eml_get(boilerplate$dataset, element = "metadataProvider")
     publisher <- eml_get(boilerplate$dataset, element = "publisher")
     project <- eml_get(boilerplate$dataset, element = "project")
     system <- boilerplate$system
@@ -322,6 +343,8 @@ create_EML <-
         alternateIdentifier = dataset_meta[["alternateid"]],
         shortName = dataset_meta[["shortname"]],
         creator = creators,
+        associatedParty  = parties,
+        metadataProvider = metadata_provider,
         pubDate = as.character(as.Date(dataset_meta[["pubdate"]])),
         intellectualRights = license,
         abstract = abstract,
