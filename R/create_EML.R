@@ -1,5 +1,6 @@
 
 
+
 # create ready-to-validate-and-write EML list object
 
 create_EML <-
@@ -36,17 +37,15 @@ create_EML <-
     
     # sort by authorship order, just to make sure
     creator_list <-
-      creator_list[order(creator_list$authorshiporder),]
+      creator_list[order(creator_list$authorshiporder), ]
     
     # function to create a creator object
     
     creator_func <- function(creator) {
-      
       # check for organization
       
       if (!is.na(creator[["givenname"]]) ||
           !is.na(creator[["surname"]])) {
-        
         # trim whitespace, fix for odd paste() behavior
         individual_name <- list(givenName = trimws(paste(
           creator[["givenname"]], replace(creator[["givenname2"]],
@@ -62,31 +61,26 @@ create_EML <-
       
       
       address <- list(
-        deliveryPoint = trimws(
-          paste(
-            creator[["address1"]],
-            replace(creator[["address2"]], is.na(creator[["address2"]]), ""),
-            replace(creator[["address3"]], is.na(creator[["address3"]]), ""),
-            ", "
-          )),
-          city = creator[["city"]],
-          administrativeArea = creator[["state"]],
-          postalCode = creator[["zipcode"]],
-          country = creator[["country"]]
+        deliveryPoint = trimws(paste(
+          creator[["address1"]],
+          replace(creator[["address2"]], is.na(creator[["address2"]]), ""),
+          replace(creator[["address3"]], is.na(creator[["address3"]]), ""),
+          " "
+        )),
+        city = creator[["city"]],
+        administrativeArea = creator[["state"]],
+        postalCode = creator[["zipcode"]],
+        country = creator[["country"]]
       )
       
-      user_id <- if (("orcid" %in% colnames(creator))) {
+      user_id <-
         if (!is.na(creator[["orcid"]])) {
           list(paste0("https://orcid.org/",
                       creator[["orcid"]]),
                `directory` = list("https://orcid.org/"))
         }
-        else
-          NULL
-      } else
+      else
         NULL
-      
-        
       
       p <- list(
         individualName = individual_name,
@@ -120,11 +114,12 @@ create_EML <-
     # -------------------------------------------------------------------------------
     # associated parties
     
-    parties <- subset(meta_list[["parties"]], datasetid == dataset_id)
+    parties <-
+      subset(meta_list[["parties"]], datasetid == dataset_id)
     
-    party_func <- function(party){
+    party_func <- function(party) {
       p <- creator_func(party)
-      p[["role"]] <- party[["role"]]
+      p[["role"]] <- party[["authorshiprole"]]
       return(p)
     }
     
@@ -328,7 +323,8 @@ create_EML <-
     contact <- eml_get(boilerplate$dataset, element = "contact")
     distribution <-
       eml_get(boilerplate$dataset, element = "distribution")
-    metadata_provider <- eml_get(boilerplate$dataset, element = "metadataProvider")
+    metadata_provider <-
+      eml_get(boilerplate$dataset, element = "metadataProvider")
     publisher <- eml_get(boilerplate$dataset, element = "publisher")
     project <- eml_get(boilerplate$dataset, element = "project")
     system <- boilerplate$system
