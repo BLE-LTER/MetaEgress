@@ -1,4 +1,4 @@
-Package: metabase2eml
+Package: rMetabase2eml
 Type: Package
 Title: Create Ecological Metadata Language From LTER Core Metabase
 Version: 0.1.0
@@ -8,9 +8,9 @@ Author: person(given = NULL, family = NULL, middle = NULL,
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: Creative Commons license CC0 1.0 Universal
 Encoding: UTF-8
 LazyData: true
-Imports: EML (>= 1.0.3), RPostgres (>= 1.1.0)
+Imports: EML, RPostgres (>= 1.1.0)
 Suggest: stringr
-Remotes: github.com/rOpenSci/EML
+Remotes: ropensci/EML
