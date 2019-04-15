@@ -78,6 +78,10 @@ create_entity <- function(meta_list, dataset_id, entity) {
     row <-
       nrow(data.table::fread(filename, data.table = F, showProgress = F))
     
+    # coalesce precision and dateTimePrecision
+    attributes[["precision"]] <- ifelse(is.na(attributes[["precision"]]), attributes[["dateTimePrecision"]], attributes[["precision"]])
+    
+    # set attributes
     if (dim(fact1)[1] > 0) {
       attributeList <- set_attributes(attributes, factors = fact1)
     } else {

@@ -39,6 +39,13 @@ create_EML <-
     creator_list <-
       creator_list[order(creator_list$authorshiporder), ]
     
+    # trim whitespace and convert blank strings to NAs
+    creator_list[["givenname"]] <- trimws(creator_list[["givenname"]])
+    creator_list[["givenname"]][creator_list[["givenname"]] == ""] <- NA 
+    
+    creator_list[["surname"]] <- trimws(creator_list[["surname"]])
+    creator_list[["surname"]][creator_list[["surname"]] == ""] <- NA 
+    
     # function to create a creator object
     
     creator_func <- function(creator) {
@@ -59,14 +66,20 @@ create_EML <-
         individual_name <- NULL
       }
       
+      # check for empty address
       
-      address <- list(
-        deliveryPoint = trimws(paste(
+      if(is.na(creator[["address1"]]) & is.na(creator[["address2"]]) & is.na(creator[["address3"]])) 
+        delivery_point <- NULL
+      else
+        delivery_point <- trimws(paste(
           creator[["address1"]],
           replace(creator[["address2"]], is.na(creator[["address2"]]), ""),
           replace(creator[["address3"]], is.na(creator[["address3"]]), ""),
           " "
-        )),
+        ))
+      
+      address <- list(
+        deliveryPoint = delivery_point,
         city = creator[["city"]],
         administrativeArea = creator[["state"]],
         postalCode = creator[["zipcode"]],
@@ -123,8 +136,12 @@ create_EML <-
       return(p)
     }
     
-    parties <- apply(parties, 1, party_func)
-    names(parties) <- NULL
+    if(length(parties[[1]] > 0))
+      associated_party <- apply(parties, 1, party_func)
+    else 
+      associated_party <- NULL
+    
+    names(associated_party) <- NULL
     
     # -------------------------------------------------------------------------------
     # methods
@@ -339,9 +356,9 @@ create_EML <-
         alternateIdentifier = dataset_meta[["alternateid"]],
         shortName = dataset_meta[["shortname"]],
         creator = creators,
-        associatedParty  = parties,
+        associatedParty  = associated_party,
         metadataProvider = metadata_provider,
-        pubDate = as.character(as.Date(dataset_meta[["pubdate"]])),
+        pubDate = as.character(format(as.Date(dataset_meta[["pubdate"]]), '%Y')),
         intellectualRights = license,
         abstract = abstract,
         keywordSet = kall,
