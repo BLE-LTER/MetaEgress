@@ -81,6 +81,9 @@ create_entity <- function(meta_list, dataset_id, entity) {
     # coalesce precision and dateTimePrecision
     attributes[["precision"]] <- ifelse(is.na(attributes[["precision"]]), attributes[["dateTimePrecision"]], attributes[["precision"]])
     
+    # trimming extra columns due to new column check in rEML 2.0.0
+    attributes[["datasetid"]] <- attributes[["entity_position"]] <- attributes[["dateTimePrecision"]] <- NULL
+    
     # set attributes
     if (dim(fact1)[1] > 0) {
       attributeList <- set_attributes(attributes, factors = fact1)
