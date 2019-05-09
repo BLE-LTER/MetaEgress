@@ -9,7 +9,7 @@ create_EML <-
            data_table,
            other_entity = NULL) {
     # ----------------------------------------------------------------------------
-    # check arguments
+    # initial check for missing arguments
     
     if (missing(meta_list)) {
       stop('metadata list missing. use get_meta() to extract from metase')
@@ -23,6 +23,23 @@ create_EML <-
     if (length(dataset_id) > 1) {
       stop('too many dataset ids. only one allowed for each EML document.')
     }
+    
+    # ----------------------------------------------------------------------------
+    # 
+    check_empty_and_insert <- function(df){
+      if (nrow(df) == 0){
+        
+        df[1, "datasetid"] <- dataset_id
+      } else {
+        df <- df
+      }
+      
+      return(df)
+    }
+    
+    meta_list[c("attributes", "factors", "entities")] <- NULL
+    
+    meta_list <- lapply(meta_list, check_empty_and_insert)
     
     # -----------------------------------------------------------------------------
     # creators
@@ -262,11 +279,16 @@ create_EML <-
     
     tempo <-
       subset(meta_list[["temporal"]], datasetid == dataset_id)
+    
+    if (is.na(tempo[["begindate"]]) & is.na(tempo[["enddate"]])){
+      tempcover <- NULL
+    } else{
     tempcover <-
       list(rangeOfDates = list(
         beginDate = list(calendarDate = as.character(tempo[, "begindate"])),
         endDate = list(calendarDate = as.character(tempo[, "enddate"]))
       ))
+    }
     # -----------------------------------------------------------------------------
     # spatial coverage, list
     
