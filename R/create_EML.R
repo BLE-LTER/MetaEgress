@@ -68,14 +68,20 @@ create_EML <-
       if (!is.na(creator[["givenname"]]) ||
           !is.na(creator[["surname"]])) {
         # trim whitespace, fix for odd paste() behavior
-        individual_name <- list(givenName = trimws(paste(
-          creator[["givenname"]], replace(creator[["givenname2"]],
-                                          is.na(creator[["givenname2"]]), ""), " "
-        )),
-        surName = if (is.na(creator[["surname"]]))
-          NULL
-        else
-          creator[["surname"]])
+        if (!is.na(creator[["givenname"]]) || !is.na(creator[["givenname2"]])){
+          given_name <- trimws(paste(
+            replace(creator[["givenname"]],
+                    is.na(creator[["givenname"]]), ""), replace(creator[["givenname2"]],
+                                                                is.na(creator[["givenname2"]]), ""), sep = " "
+          ))
+        } else {
+          given_name <- NULL
+        }
+        individual_name <- list(givenName = given_name,
+                                surName = if (is.na(creator[["surname"]]))
+                                  NULL
+                                else
+                                  creator[["surname"]])
       } else {
         individual_name <- NULL
       }
