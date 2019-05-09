@@ -1,13 +1,11 @@
 
-
-
 # create ready-to-validate-and-write EML list object
 
 create_EML <-
   function(meta_list,
            dataset_id,
-           boilerplate,
-           license,
+           boilerplate_path,
+           license_path,
            data_table,
            other_entity = NULL) {
     # ----------------------------------------------------------------------------
@@ -28,7 +26,6 @@ create_EML <-
     
     # -----------------------------------------------------------------------------
     # creators
-    # need associated parties once there's view for that
     
     creator_list <-
       subset(meta_list[["creator"]],
@@ -335,6 +332,7 @@ create_EML <-
     
     # -----------------------------------------------------------------------------
     # boilerplate information
+    boilerplate <- EML::read_eml(boilerplate_path)
     
     access <- eml_get(boilerplate, element = "access")
     contact <- eml_get(boilerplate$dataset, element = "contact")
@@ -359,7 +357,7 @@ create_EML <-
         associatedParty  = associated_party,
         metadataProvider = metadata_provider,
         pubDate = as.character(format(as.Date(dataset_meta[["pubdate"]]), '%Y')),
-        intellectualRights = license,
+        intellectualRights = EML::set_TextType(license_path),
         abstract = abstract,
         keywordSet = kall,
         coverage = coverage,

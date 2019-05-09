@@ -38,13 +38,12 @@ metadata <-
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 
-# read in boilerplate XML and license document
+# specify paths to boilerplate XML and license document
 # edit those two as needed beforehand
 # note that .docx format only works with 'rmarkdown' package (see set_TextType help for more info)
 
-boilerplate <- EML::read_eml("./00_Shared_document/boilerplate.xml")
-license <- EML::set_TextType("./00_Shared_document/IntellectualRights.docx")
-
+boilerplate_path <- EML::read_eml("./00_Shared_document/boilerplate.xml")
+license_path <- normalizePath("./00_Shared_document/IntellectualRights.docx")
 
 # -----------------------
 # single entity example, datasetid 99013
@@ -63,14 +62,14 @@ EML_99013 <-
   create_EML(
     meta_list = metadata,
     dataset_id = 99013,
-    boilerplate = boilerplate,
-    license = license,
+    boilerplate_path =  boilerplate_path,
+    license_path = license_path,
     data_table = table_99013
   )
 
 # validate
 EML::eml_validate(EML_99013)
-
+s
 # serialize (write)
 EML::write_eml(EML_99013, file = "EML_99013.xml")
 
