@@ -3,6 +3,7 @@
 
 create_entity <- function(meta_list, dataset_id, entity) {
   
+  # ----------------------------------------------------------------------------------
   # check arguments
   
   if(missing(meta_list)){
@@ -15,6 +16,8 @@ create_entity <- function(meta_list, dataset_id, entity) {
     stop('please supply numeric dataset id(s)')
   }
   
+  # -----------------------------------------------------------------------------------
+  
   # subset to specified dataset_id and entity number
   ent <-
     subset(meta_list[["entities"]], datasetid == dataset_id &
@@ -23,6 +26,7 @@ create_entity <- function(meta_list, dataset_id, entity) {
   # convert whitespace strings to NA for easy checking
   ent <- lapply(ent, stringr::str_trim)
   ent[ent == ''] <- NA
+  ent <- as.data.frame(ent)
   
   fact1 <-
     subset(meta_list[["factors"]], datasetid == dataset_id &
@@ -31,11 +35,32 @@ create_entity <- function(meta_list, dataset_id, entity) {
     subset(meta_list[["attributes"]], datasetid == dataset_id &
              entity_position ==  entity)
   
+  # ------------------------------------------------------------------------------------
+  # insert placeholder row if queries returned empty
+
+  # check for df with no rows, then insert placeholder row. other than datasetid and entity_position, all other columns will be NAs
+  check_empty_and_insert <- function(df){
+    if (nrow(df) == 0){
+
+      df[1, "datasetid"] <- dataset_id
+      df[1, "entity_position"] <- entity
+    } else {
+      df <- df
+    }
+    
+    return(df)
+  }
+  
+  df_list <- list(ent, fact1, attributes)
+  df_list <- lapply(df_list, check_empty_and_insert)
+
+  # ------------------------------------------------------------------------------------
   # extract information from file
-  filename <- ent$filename
+  filename <- as.character(ent$filename)
   size0 <- as.character(file.size(filename))
   checksum <- digest::digest(filename, algo = "md5", file = TRUE)
   
+  # ------------------------------------------------------------------------------------
   # check for either "dataTable" or "otherEntity"
   # need support for other entity types
   if (ent$entitytype == "dataTable") {
