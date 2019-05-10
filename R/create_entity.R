@@ -62,7 +62,7 @@ create_entity <- function(meta_list, dataset_id, entity) {
   
   # ------------------------------------------------------------------------------------
   # check for either "dataTable" or "otherEntity"
-  # need support for other entity types
+  
   if (ent$entitytype == "dataTable") {
     physical <-
       set_physical(
@@ -99,9 +99,8 @@ create_entity <- function(meta_list, dataset_id, entity) {
         authentication = checksum,
         authMethod = "MD5"
       )
-    
-    row <-
-      nrow(data.table::fread(filename, data.table = F, showProgress = F))
+    # getting record count, skipping header rows as specified
+    row_count <- length(readr::count_fields(filename, tokenizer = readr::tokenizer_csv(), skip = ent[["headerlines"]]))
     
     # coalesce precision and dateTimePrecision
     attributes[["precision"]] <- ifelse(is.na(attributes[["precision"]]), attributes[["dateTimePrecision"]], attributes[["precision"]])
@@ -123,9 +122,13 @@ create_entity <- function(meta_list, dataset_id, entity) {
         entityDescription = ent$entitydescription,
         physical = physical,
         attributeList = attributeList,
-        numberOfRecords = as.character(row)
+        numberOfRecords = as.character(row_count)
       )
-  } else {
+  } 
+  
+  # all other entity types
+  
+  else {
     physical <-
       list(
         objectName = filename,
