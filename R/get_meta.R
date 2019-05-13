@@ -3,8 +3,9 @@
 # return a list of data frames
 # to pass to create_entity() and create_EML()
 
-get_meta <- function(dbname, schema = 'mb2eml_r', host, port, user = NULL, password = NULL, dataset_ids) {
+get_meta <- function(dbname, schema = 'mb2eml_r', dataset_ids, host = 'localhost', port = 5432, user = NULL, password = NULL) {
   
+  # -----------------------------------------------------------------------------------
   # set DB driver
   driver <- RPostgres::Postgres()
   
@@ -18,6 +19,7 @@ get_meta <- function(dbname, schema = 'mb2eml_r', host, port, user = NULL, passw
       password = if (is.null(password)) rstudioapi::askForPassword(prompt = "Enter database password") else password
     )
   
+  # -------------------------------------------------------------------------------------
   # get names of all views in schema 
   views_actual <- dbGetQuery(con, paste0("SELECT table_name from information_schema.views WHERE table_schema = '", schema, "'"))
   views_actual <- as.vector(views_actual[[1]])
@@ -38,8 +40,8 @@ get_meta <- function(dbname, schema = 'mb2eml_r', host, port, user = NULL, passw
     "vw_eml_missingcodes"
   )
   
+  # difference between expected and actual views
   views_diff <- setdiff(views_expected, views_actual)
-  
   if(length(views_diff) != 0){
     warning(paste0("Views found in schema '", schema, "' not matching expected views. Missing following view(s): ", views_diff, "."))
   }
@@ -47,8 +49,8 @@ get_meta <- function(dbname, schema = 'mb2eml_r', host, port, user = NULL, passw
   views_to_query <- paste0(schema, ".", views_actual)
   names(views_to_query) <- views_actual
 
-  
-  # function parameterize queries to prevent SQL injection
+  # ---------------------------------------------------------------------------------
+  # function to parameterize queries to prevent SQL injection
   param_query <- function(view) {
     
     # create queries
@@ -62,11 +64,13 @@ get_meta <- function(dbname, schema = 'mb2eml_r', host, port, user = NULL, passw
     return(query_df)
   }
   
-  # apply over list of queries
+  # apply over list of views to query
   query_dfs <- lapply(views_to_query, param_query)
   
-  # rename list items according to order of imported views
+  # ----------------------------------------------------------------------------------
+  # rename list items
   
+  # short names order has to match order of expected views
   names_short <- c(
     "attributes",
     "factors",
@@ -81,7 +85,11 @@ get_meta <- function(dbname, schema = 'mb2eml_r', host, port, user = NULL, passw
     "parties",
     "missing"
   )
+  
+  # match expected views with names of data frames in list 
   existing <- match(views_expected, names(query_dfs))
+  
+  # rename according to matched indices
   names(query_dfs)[na.omit(existing)] <- names_short[which(!is.na(existing))]
    
   return(query_dfs)
