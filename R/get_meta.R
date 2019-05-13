@@ -19,7 +19,7 @@ get_meta <- function(dbname, schema = 'mb2eml_r', host, port, user = NULL, passw
     )
   
   # get names of all views in schema 
-  views_actual <- dbGetQuery(con, paste0("select table_name from information_schema.views where table_schema = '", schema, "'"))
+  views_actual <- dbGetQuery(con, paste0("SELECT table_name from information_schema.views WHERE table_schema = '", schema, "'"))
   views_actual <- as.vector(views_actual[[1]])
   
   # expected views
@@ -41,17 +41,20 @@ get_meta <- function(dbname, schema = 'mb2eml_r', host, port, user = NULL, passw
   views_diff <- setdiff(views_expected, views_actual)
   
   if(length(views_diff) != 0){
-    warning(paste0("Views found in schema '", schema, "' not matching expected views. Missing following views: ", views_diff))
+    warning(paste0("Views found in schema '", schema, "' not matching expected views. Missing following view(s): ", views_diff, "."))
   }
   
-  view_list <- paste0("mb2eml_r.", views)
+  views_to_query <- paste0(schema, ".", views_actual)
+  names(views_to_query) <- views_actual
+
   
-  # create queries
-  # $1 is code for parameterization in postgres
-  queries <- paste("SELECT * FROM", view_list, "WHERE datasetid = $1")
-  
-  # parameterize queries to prevent SQL injection
-  param_query <- function(query) {
+  # function parameterize queries to prevent SQL injection
+  param_query <- function(view) {
+    
+    # create queries
+    # $1 is code for parameterization in postgres
+    query <- paste("SELECT * FROM", view, "WHERE datasetid = $1")
+    
     result <- RPostgres::dbSendQuery(conn = con, query)
     RPostgres::dbBind(result, list(dataset_ids))
     query_df <- RPostgres::dbFetch(result)
@@ -60,10 +63,11 @@ get_meta <- function(dbname, schema = 'mb2eml_r', host, port, user = NULL, passw
   }
   
   # apply over list of queries
-  query_dfs <- lapply(queries, param_query)
+  query_dfs <- lapply(views_to_query, param_query)
   
   # rename list items according to order of imported views
-  names(query_dfs) <- c(
+  
+  names_short <- c(
     "attributes",
     "factors",
     "unit",
@@ -74,8 +78,11 @@ get_meta <- function(dbname, schema = 'mb2eml_r', host, port, user = NULL, passw
     "method",
     "geo",
     "temporal",
-    "parties"
+    "parties",
+    "missing"
   )
-  
+  existing <- match(views_expected, names(query_dfs))
+  names(query_dfs)[na.omit(existing)] <- names_short[which(!is.na(existing))]
+   
   return(query_dfs)
 }
