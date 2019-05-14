@@ -40,21 +40,26 @@ get_meta <- function(dbname, schema = 'mb2eml_r', dataset_ids, host = 'localhost
     "vw_eml_missingcodes"
   )
   
-  # difference between expected and actual views
-  views_diff <- setdiff(views_expected, views_actual)
-  if(length(views_diff) != 0){
-    warning(paste0("Views found in schema '", schema, "' not matching expected views. Missing following view(s): ", views_diff, "."))
+  # missing views: difference between expected and actual views
+  views_missing <- setdiff(views_expected, views_actual)
+  if(length(views_missing) != 0){
+    warning(paste0("Views found in schema '", schema, "' not matching expected views. Missing following view(s): ", views_missing, ". Please check your installation of core-metabase."))
   }
   
-  views_to_query <- paste0(schema, ".", views_actual)
-  names(views_to_query) <- views_actual
+  # unexpected views: difference between actual and expected views
+  views_unexpected <- setdiff(views_actual, views_expected)
+  if(length(views_unexpected) != 0){
+    warning(paste0("Views found in schema '", schema, "' not matching expected views. Unexpected view(s): ", views_unexpected, ". Please read in and process these view(s) manually."))
+  }
+  
+  views_to_query <- paste0(schema, ".", intersect(views_actual, views_expected))
+  names(views_to_query) <- intersect(views_actual, views_expected)
 
   # ---------------------------------------------------------------------------------
   # function to parameterize queries to prevent SQL injection
   param_query <- function(view) {
     
-    # create queries
-    # $1 is code for parameterization in postgres
+    # create queries. $1 is code for parameterization in postgres
     query <- paste("SELECT * FROM", view, "WHERE datasetid = $1")
     
     result <- RPostgres::dbSendQuery(conn = con, query)
