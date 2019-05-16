@@ -2,37 +2,32 @@
 % Please edit documentation in R/get_meta.R
 \name{get_meta}
 \alias{get_meta}
-\title{Function to connect to metabase and query for metadata
- 
-Return a list of data frames corresponding to metabase Postgres views
-to pass to create_entity() and create_EML()}
+\title{get_meta}
 \usage{
 get_meta(dbname, schema = "mb2eml_r", dataset_ids, host = "localhost",
   port = 5432, user = NULL, password = NULL)
 }
 \arguments{
-\item{dbname}{name of database.}
+\item{dbname}{(character) name of database.}
 
-\item{schema}{name of schema containing views, defaults to 'mb2eml_r'.}
+\item{schema}{(character) name of schema containing views, defaults to 'mb2eml_r'.}
 
-\item{dataset_ids}{Number or numeric vector of dataset ids to query.}
+\item{dataset_ids}{(numeric) Number or numeric vector of dataset ids to query.}
 
-\item{host}{host name, defaults to 'localhost'.}
+\item{host}{(numeric) host name, defaults to 'localhost'.}
 
-\item{port}{port number, defaults to 5432.}
+\item{port}{(character) port number, defaults to 5432.}
 
-\item{user}{username, optional. If NULL, RStudio will create a pop-up asking for username.}
+\item{user}{(character) username, optional. If NULL, RStudio will create a pop-up asking for username.}
 
-\item{password}{password to user, optional. If NULL, RStudio will create a pop-up asking for username.}
+\item{password}{(character) password to user, optional. If NULL, RStudio will create a pop-up asking for username.}
 }
 \value{
-A list of dataframes.
+(list) A list of data frames corresponding to views from specified schema in metabase
+to pass to [create_entity()] and [create_EML()]
 }
 \description{
-Function to connect to metabase and query for metadata
- 
-Return a list of data frames corresponding to metabase Postgres views
-to pass to create_entity() and create_EML()
+Function to connect to Postgres metabase and query for metadata
 }
 \examples{
 Query multiple dataset at once

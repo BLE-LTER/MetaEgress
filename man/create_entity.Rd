@@ -2,28 +2,32 @@
 % Please edit documentation in R/create_entity.R
 \name{create_entity}
 \alias{create_entity}
-\title{Function to create entity-level objects}
+\title{create_entity}
 \usage{
 create_entity(meta_list, dataset_id, entity)
 }
 \arguments{
-\item{meta_list}{A list of dataframes containing metadata returned by get_meta().}
+\item{meta_list}{A list of dataframes containing metadata returned by [get_meta()].}
 
 \item{dataset_id}{A number for dataset ID.}
 
 \item{entity}{An entity number.}
 }
+\value{
+Either a dataTable or an otherEntity class object
+for use in [create_EML()]
+}
 \description{
-Create either a dataTable or an otherEntity class object
-for use in create_EML()
+Function to create entity-level objects
 }
 \examples{
-continued from get_meta
+\dontrun{continued from get_meta
 metadata <- get_meta(dbname = "ble_metabase", dataset_ids = c(1, 2))
 entity_1 <- create_entity(meta_list = metadata, dataset_id = 1, entity = 1)
 
 use lapply to loop through many entities
 entities = c(1:4)
 entity_list <- lapply(entities, create_entity, meta_list = metadata, dataset_id = 1)
+}
 
 }

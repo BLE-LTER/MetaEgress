@@ -1,18 +1,17 @@
-
-#' Function to connect to metabase and query for metadata
-#'  
-#' Return a list of data frames corresponding to metabase Postgres views
-#' to pass to create_entity() and create_EML()
+#' get_meta
+#'
+#' Function to connect to Postgres metabase and query for metadata
+#'
+#' @param dbname (character) name of database.
+#' @param schema (character) name of schema containing views, defaults to 'mb2eml_r'.
+#' @param dataset_ids (numeric) Number or numeric vector of dataset ids to query.
+#' @param host (numeric) host name, defaults to 'localhost'.
+#' @param port (character) port number, defaults to 5432.
+#' @param user (character) username, optional. If NULL, RStudio will create a pop-up asking for username.
+#' @param password (character) password to user, optional. If NULL, RStudio will create a pop-up asking for username.
 #' 
-#' @param dbname name of database.
-#' @param schema name of schema containing views, defaults to 'mb2eml_r'.
-#' @param dataset_ids Number or numeric vector of dataset ids to query.
-#' @param host host name, defaults to 'localhost'.
-#' @param port port number, defaults to 5432.
-#' @param user username, optional. If NULL, RStudio will create a pop-up asking for username.
-#' @param password password to user, optional. If NULL, RStudio will create a pop-up asking for username.
-#' 
-#' @return A list of dataframes.
+#' @return (list) A list of data frames corresponding to views from specified schema in metabase
+#' to pass to [create_entity()] and [create_EML()]
 #' 
 #' @examples
 #' Query multiple dataset at once
