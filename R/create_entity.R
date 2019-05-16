@@ -1,5 +1,22 @@
-# create either a dataTable or an otherEntity class object
-# for use in create_EML()
+#' Function to create entity-level objects
+#'
+#' Create either a dataTable or an otherEntity class object
+#' for use in create_EML()
+#' 
+#' @param meta_list A list of dataframes containing metadata returned by get_meta().
+#' @param dataset_id A number for dataset ID.
+#' @param entity An entity number.
+#' 
+#' @examples
+#' continued from get_meta
+#' metadata <- get_meta(dbname = "ble_metabase", dataset_ids = c(1, 2))
+#' entity_1 <- create_entity(meta_list = metadata, dataset_id = 1, entity = 1)
+#' 
+#' use lapply to loop through many entities
+#' entities = c(1:4)
+#' entity_list <- lapply(entities, create_entity, meta_list = metadata, dataset_id = 1)
+#' 
+#' @export
 
 create_entity <- function(meta_list, dataset_id, entity) {
   

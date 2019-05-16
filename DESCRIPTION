@@ -14,3 +14,4 @@ LazyData: true
 Imports: EML, RPostgres (>= 1.1.0)
 Suggest: stringr
 Remotes: ropensci/EML
+RoxygenNote: 6.1.1
