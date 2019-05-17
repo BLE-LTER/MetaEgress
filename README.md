@@ -13,7 +13,7 @@ This package depends on the `EML` R package >= 1.99.0 from https://github.com/ro
 NOTE: In-console installation as below does not work as of this document date. Please download R scripts and source them before use. 
 
 ```
-devtools::install_github("atn38/rMetabase2eml")
+devtools::install_github("atn38/MetaEgress")
 ```
 
 ### Usage
