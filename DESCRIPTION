@@ -1,4 +1,4 @@
-Package: rMetabase2eml
+Package: MetaEgress
 Type: Package
 Title: Create Ecological Metadata Language From LTER Core Metabase
 Version: 0.1.0

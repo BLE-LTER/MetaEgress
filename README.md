@@ -1,5 +1,5 @@
-# rMetabase2eml
-March 28th 2019
+# MetaEgress
+May 17th 2019
 
 ### Orientation
 This is a collection of wrapper R functions and example workflow to create EML (Ecological Metadata Language) standard metadata documents from an installed and populated LTER-core-metabase. For information on installing core-metabase see https://github.com/lter/LTER-core-metabase. This is based on previous work by Li Kui at https://github.com/lkuiucsb/EML_R.
