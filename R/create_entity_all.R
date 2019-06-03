@@ -2,16 +2,17 @@
 #' @title Quickly create all EML entity list objects.
 #' 
 #' @description. Use to quickly create EML entity list objects from all entities listed in dataset. 
-#' @param meta_list (character) A list of dataframes containing metadata returned by \code{\link[get_meta]}.
+#' @param meta_list (character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
 #' @param dataset_id (numeric) A dataset ID.
 #' 
-#' @return A list containing all data entities from dataset. Use this in the `entity_list` argument for \code{\link[create_EML]}.
+#' @return (list) A list containing all data entities from dataset. Use this in the `entity_list` argument for \code{\link{create_EML}}.
 #' First level list elements are grouped by entity types present in dataset and named accordingly. 
 #' Each first level element is a list of unnamed lists; the number of elements correspond to how many entities of each type are present in dataset. 
-#' Second level elements are analogous to output from \code{\link[create_entity]}.
+#' Second level elements are analogous to output from \code{\link{create_entity}}.
 #' 
 #' @examples
-#' \dontrun{continued from \code{\link[get_meta]}
+#' \dontrun{
+#' # continued from \code{\link{get_meta}}
 #' entities <- create_entity_all(meta_list = metadata, dataset_id = 1)
 #' }
 #' 

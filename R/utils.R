@@ -1,7 +1,7 @@
 
 
-#' utilities for MetaEgress
-#' not exported
+# utilities for MetaEgress
+# not exported
 
 # ---------------------------
 # check for empty queries and insert placeholder row with dataset_id in question and optional entity number too

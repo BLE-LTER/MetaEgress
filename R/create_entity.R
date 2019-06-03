@@ -1,15 +1,16 @@
 #' @title Create EML entity list object. 
 #'
-#' @description Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use \code{\link[create_entity_all]} for common EML generation usage, which calls this function under the hood. 
+#' @description Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use \code{\link{create_entity_all}} for common EML generation usage, which calls this function under the hood. 
 #'
-#' @param meta_list (character) A list of dataframes containing metadata returned by \code{\link[get_meta]}.
+#' @param meta_list (character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
 #' @param dataset_id (numeric) A dataset ID.
 #' @param entity (numeric) An entity number.
 #' 
-#' @return A list object containing one data entity.
+#' @return (list) A list object containing one data entity.
 #'
 #' @examples
-#' \dontrun{continued from \code{\link[get_meta]}
+#' \dontrun{
+#' # continued from \code{\link{get_meta}}
 #' # A single entity. Useful to examine EML list structure and troubleshoot.
 #' entity_1 <- create_entity(meta_list = metadata, dataset_id = 1, entity = 1)
 #' 

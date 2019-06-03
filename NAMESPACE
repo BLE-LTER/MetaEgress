@@ -2,4 +2,5 @@
 
 export(create_EML)
 export(create_entity)
+export(create_entity_all)
 export(get_meta)

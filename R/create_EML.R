@@ -1,18 +1,21 @@
 
-#' create_eml
+#' @title Create EML list object.
 #' 
-#' Function to create ready-to-validate-and-write EML list object
-#' 
-#' @param meta_list A list of dataframes containing metadata returned by \code{\link[get_meta]}.
-#' @param entity_list (character) A list of entities returned by \code{\link[create_entity_all]}.
+#' @description Create ready-to-validate-and-write EML list object.
+#'
+#' @param meta_list A list of dataframes containing metadata returned by \code{\link{get_meta}}.
+#' @param entity_list (character) A list of entities returned by \code{\link{create_entity_all}}.
 #' @param dataset_id (numeric) A dataset ID.
 #' @param boilerplate_path (character) System path to XML file containing boilerplate items.
 #' @param license_path (character) System path to pandoc compatible file containing intellectual rights statement.
 #' 
-#' @examples
-#' \dontrun{continued from \code{\link[get_meta]} and \code{\link[create_entity_all]}
-#' EML <- create_EML(meta_list = metadata, entity_list = entities, dataset_id = 1, boilerplate_path = here::here("documents", "boilerplate.xml"), license_path = here::here("documents", "license.docx"))
+#' @return (list) A list containing all EML elements. Supply this list object to \code{\link[EML]{eml_validate}} and \code{\link[EML]{write_eml}} to validate and write to .xml file.
 #' 
+#' @examples
+#' \dontrun{
+#' # continued from \code{\link{get_meta}} and \code{\link{create_entity_all}}
+#' EML <- create_EML(meta_list = metadata, entity_list = entities, dataset_id = 1, boilerplate_path = here::here("documents", "boilerplate.xml"), license_path = here::here("documents", "license.docx"))
+#' }
 #' @export
 
 create_EML <-
