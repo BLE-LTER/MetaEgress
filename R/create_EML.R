@@ -3,24 +3,15 @@
 #' 
 #' Function to create ready-to-validate-and-write EML list object
 #' 
-#' @param meta_list A list of dataframes containing metadata returned by [get_meta()].
-#' @param dataset_id A number for dataset ID.
-#' @param boilerplate_path A system path to XML file containing boilerplate items.
-#' @param license_path A system path to pandoc compatible file containing intellectual rights statement.
-#' @param data_table A list of one or many dataTable objects returned by [create_entity()].
-#' @param other_entity A list of one or many otherEntity objects returned by [create_entity()].
+#' @param meta_list A list of dataframes containing metadata returned by \code{\link[get_meta]}.
+#' @param entity_list (character) A list of entities returned by \code{\link[create_entity_all]}.
+#' @param dataset_id (numeric) A dataset ID.
+#' @param boilerplate_path (character) System path to XML file containing boilerplate items.
+#' @param license_path (character) System path to pandoc compatible file containing intellectual rights statement.
 #' 
 #' @examples
-#' \dontrun{continued from [get_meta()] and [create_entity()]
-#' metadata <- get_meta(dbname = "ble_metabase", dataset_ids = c(1, 2))
-#' entity_1 <- create_entity(meta_list = metadata, dataset_id = 1, entity = 1)
-#' 
-#' use lapply to loop through many entities. Separate data tables from other entities.
-#' dt <- c(1:4)
-#' other <- c(5:7)
-#' data_tables <- lapply(dt, create_entity, meta_list = metadata, dataset_id = 1)
-#' other_entities <- lapply(other, create_entity, meta_list = metadata, dataset_id = 1)
-#' }
+#' \dontrun{continued from \code{\link[get_meta]} and \code{\link[create_entity_all]}
+#' EML <- create_EML(meta_list = metadata, entity_list = entities, dataset_id = 1, boilerplate_path = here::here("documents", "boilerplate.xml"), license_path = here::here("documents", "license.docx"))
 #' 
 #' @export
 
