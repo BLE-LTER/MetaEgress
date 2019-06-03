@@ -26,11 +26,10 @@
 
 create_EML <-
   function(meta_list,
+           entity_list,
            dataset_id,
            boilerplate_path,
-           license_path,
-           data_table,
-           other_entity = NULL) {
+           license_path) {
     # ----------------------------------------------------------------------------
     # initial check for missing arguments
     
@@ -312,11 +311,11 @@ create_EML <-
     if (is.na(tempo[["begindate"]]) & is.na(tempo[["enddate"]])){
       tempcover <- NULL
     } else{
-    tempcover <-
-      list(rangeOfDates = list(
-        beginDate = list(calendarDate = as.character(tempo[, "begindate"])),
-        endDate = list(calendarDate = as.character(tempo[, "enddate"]))
-      ))
+      tempcover <-
+        list(rangeOfDates = list(
+          beginDate = list(calendarDate = as.character(tempo[, "begindate"])),
+          endDate = list(calendarDate = as.character(tempo[, "enddate"]))
+        ))
     }
     # -----------------------------------------------------------------------------
     # spatial coverage, list
@@ -385,14 +384,14 @@ create_EML <-
     # boilerplate information
     boilerplate <- EML::read_eml(boilerplate_path)
     
-    access <- eml_get(boilerplate, element = "access")
-    contact <- eml_get(boilerplate$dataset, element = "contact")
+    access <- EML::eml_get(boilerplate, element = "access")
+    contact <- EML::eml_get(boilerplate$dataset, element = "contact")
     distribution <-
-      eml_get(boilerplate$dataset, element = "distribution")
+      EML::eml_get(boilerplate$dataset, element = "distribution")
     metadata_provider <-
-      eml_get(boilerplate$dataset, element = "metadataProvider")
-    publisher <- eml_get(boilerplate$dataset, element = "publisher")
-    project <- eml_get(boilerplate$dataset, element = "project")
+      EML::eml_get(boilerplate$dataset, element = "metadataProvider")
+    publisher <- EML::eml_get(boilerplate$dataset, element = "publisher")
+    project <- EML::eml_get(boilerplate$dataset, element = "project")
     system <- boilerplate$system
     
     
@@ -418,8 +417,8 @@ create_EML <-
         project = project,
         methods = method_xml,
         language = "English",
-        dataTable = data_table,
-        otherEntity = other_entity
+        dataTable = entity_list[["data_tables"]],
+        otherEntity = entity_list[["other_entities"]]
       )
     
     # -------------------------------------------------------------------------------------
@@ -428,7 +427,7 @@ create_EML <-
     unit <- subset(meta_list[["unit"]], datasetid == dataset_id)
     
     if (dim(unit)[1] > 0) {
-      unit_list <- set_unitList(unit)
+      unit_list <- EML::set_unitList(unit)
     } else {
       unit_list <- NULL
     }
