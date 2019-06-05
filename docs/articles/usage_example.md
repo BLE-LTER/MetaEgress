@@ -1,7 +1,7 @@
 How to use `MetaEgress` to generate EML document from LTER-core-metabase
 ========================================================================
 
-05 June, 2019
+Last updated: 05 June, 2019
 
 This is an example workflow from metabase to EML document. This guide
 assumes you have an installed and populated instance of
@@ -10,7 +10,7 @@ read or SELECT access to this database. See the [LTER-core-metabase
 Github repository](https://github.com/lter/LTER-core-metabase) for
 information on installation and population. If you would like to test
 drive `MetaEgress`, use the database dump specifically made for this
-purpose.
+purpose; see [this document](use_dump.md).
 
 Outline
 -------
