@@ -16,7 +16,7 @@ owner; use these credentials for `MetaEgress` later on.
 Download database backup script
 -------------------------------
 
-[Download here.](sample_metabase_dump.sql)
+[Download here.](../sample_metabase/sample_metabase_dump.sql)
 
 The backup is in plain text .sql format. You might wish to inspect it in
 a text editor.
