@@ -2,32 +2,37 @@
 % Please edit documentation in R/create_entity.R
 \name{create_entity}
 \alias{create_entity}
-\title{create_entity}
+\title{Create EML entity list object.}
 \usage{
 create_entity(meta_list, dataset_id, entity)
 }
 \arguments{
-\item{meta_list}{A list of dataframes containing metadata returned by [get_meta()].}
+\item{meta_list}{(character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.}
 
-\item{dataset_id}{A number for dataset ID.}
+\item{dataset_id}{(numeric) A dataset ID.}
 
-\item{entity}{An entity number.}
+\item{entity}{(numeric) An entity number.}
 }
 \value{
-Either a dataTable or an otherEntity class object
-for use in [create_EML()]
+(list) A list object containing one data entity.
 }
 \description{
-Function to create entity-level objects
+Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use \code{\link{create_entity_all}} for common EML generation usage, which calls this function under the hood.
 }
 \examples{
-\dontrun{continued from get_meta
-metadata <- get_meta(dbname = "ble_metabase", dataset_ids = c(1, 2))
+\dontrun{
+# continued from \\code{\\link{get_meta}}
+# A single entity. Useful to examine EML list structure and troubleshoot.
 entity_1 <- create_entity(meta_list = metadata, dataset_id = 1, entity = 1)
 
-use lapply to loop through many entities
-entities = c(1:4)
-entity_list <- lapply(entities, create_entity, meta_list = metadata, dataset_id = 1)
+# Many entities. Loop separately for each entity type and name accordingly.
+data_tables <- c(1:4)
+other_entities <- c(5:7)
+entity_list <- list(
+ dataTable = lapply(data_tables, create_entity, meta_list = metadata, dataset_id = 1),
+ otherEntity = lapply(other_entities, create_entity, meta_list = metadata, dataset_id = 1)
+)
+
 }
 
 }

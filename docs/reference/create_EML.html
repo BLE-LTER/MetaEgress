@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>create_eml — create_EML • MetaEgress</title>
+<title>Create EML list object. — create_EML • MetaEgress</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="create_eml — create_EML" />
+<meta property="og:title" content="Create EML list object. — create_EML" />
 
-<meta property="og:description" content="Function to create ready-to-validate-and-write EML list object" />
+<meta property="og:description" content="Create ready-to-validate-and-write EML list object." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,70 +94,63 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>create_eml</h1>
+    <h1>Create EML list object.</h1>
     
     <div class="hidden name"><code>create_EML.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Function to create ready-to-validate-and-write EML list object</p>
+    <p>Create ready-to-validate-and-write EML list object.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>create_EML</span>(<span class='no'>meta_list</span>, <span class='no'>dataset_id</span>, <span class='no'>boilerplate_path</span>, <span class='no'>license_path</span>,
-  <span class='no'>data_table</span>, <span class='kw'>other_entity</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>create_EML</span>(<span class='no'>meta_list</span>, <span class='no'>entity_list</span>, <span class='no'>dataset_id</span>, <span class='no'>boilerplate_path</span>,
+  <span class='no'>license_path</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>meta_list</th>
-      <td><p>A list of dataframes containing metadata returned by [get_meta()].</p></td>
+      <td><p>A list of dataframes containing metadata returned by <code><a href='get_meta.html'>get_meta</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>entity_list</th>
+      <td><p>(character) A list of entities returned by <code><a href='create_entity_all.html'>create_entity_all</a></code>.</p></td>
     </tr>
     <tr>
       <th>dataset_id</th>
-      <td><p>A number for dataset ID.</p></td>
+      <td><p>(numeric) A dataset ID.</p></td>
     </tr>
     <tr>
       <th>boilerplate_path</th>
-      <td><p>A system path to XML file containing boilerplate items.</p></td>
+      <td><p>(character) System path to XML file containing boilerplate items.</p></td>
     </tr>
     <tr>
       <th>license_path</th>
-      <td><p>A system path to pandoc compatible file containing intellectual rights statement.</p></td>
-    </tr>
-    <tr>
-      <th>data_table</th>
-      <td><p>A list of one or many dataTable objects returned by [create_entity()].</p></td>
-    </tr>
-    <tr>
-      <th>other_entity</th>
-      <td><p>A list of one or many otherEntity objects returned by [create_entity()].</p></td>
+      <td><p>(character) System path to pandoc compatible file containing intellectual rights statement.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>(list) A list containing all EML elements. Supply this list object to <code><a href='https://www.rdocumentation.org/packages/EML/topics/eml_validate'>eml_validate</a></code> and <code><a href='https://www.rdocumentation.org/packages/EML/topics/write_eml'>write_eml</a></code> to validate and write to .xml file.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"># NOT RUN {
-continued from [get_meta()] and [create_entity()]
-metadata <- get_meta(dbname = "ble_metabase", dataset_ids = c(1, 2))
-entity_1 <- create_entity(meta_list = metadata, dataset_id = 1, entity = 1)
-
-use lapply to loop through many entities. Separate data tables from other entities.
-dt <- c(1:4)
-other <- c(5:7)
-data_tables <- lapply(dt, create_entity, meta_list = metadata, dataset_id = 1)
-other_entities <- lapply(other, create_entity, meta_list = metadata, dataset_id = 1)
-# }
-<div class='input'>
-</div></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># continued from \code{\link{get_meta}} and \code{\link{create_entity_all}}</span>
+<span class='no'>EML</span> <span class='kw'>&lt;-</span> <span class='fu'>create_EML</span>(<span class='kw'>meta_list</span> <span class='kw'>=</span> <span class='no'>metadata</span>, <span class='kw'>entity_list</span> <span class='kw'>=</span> <span class='no'>entities</span>, <span class='kw'>dataset_id</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>boilerplate_path</span> <span class='kw'>=</span> <span class='kw pkg'>here</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/here/topics/here'>here</a></span>(<span class='st'>"documents"</span>, <span class='st'>"boilerplate.xml"</span>), <span class='kw'>license_path</span> <span class='kw'>=</span> <span class='kw pkg'>here</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/here/topics/here'>here</a></span>(<span class='st'>"documents"</span>, <span class='st'>"license.docx"</span>))
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      
+      <li><a href="#value">Value</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

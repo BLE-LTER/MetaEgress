@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>create_entity — create_entity • MetaEgress</title>
+<title>Create EML entity list object. — create_entity • MetaEgress</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="create_entity — create_entity" />
+<meta property="og:title" content="Create EML entity list object. — create_entity" />
 
-<meta property="og:description" content="Function to create entity-level objects" />
+<meta property="og:description" content="Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use create_entity_all for common EML generation usage, which calls this function under the hood." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,14 +94,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>create_entity</h1>
+    <h1>Create EML entity list object.</h1>
     
     <div class="hidden name"><code>create_entity.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Function to create entity-level objects</p>
+    <p>Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use <code><a href='create_entity_all.html'>create_entity_all</a></code> for common EML generation usage, which calls this function under the hood.</p>
     
     </div>
 
@@ -112,35 +112,38 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>meta_list</th>
-      <td><p>A list of dataframes containing metadata returned by [get_meta()].</p></td>
+      <td><p>(character) A list of dataframes containing metadata returned by <code><a href='get_meta.html'>get_meta</a></code>.</p></td>
     </tr>
     <tr>
       <th>dataset_id</th>
-      <td><p>A number for dataset ID.</p></td>
+      <td><p>(numeric) A dataset ID.</p></td>
     </tr>
     <tr>
       <th>entity</th>
-      <td><p>An entity number.</p></td>
+      <td><p>(numeric) An entity number.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Either a dataTable or an otherEntity class object
-for use in [create_EML()]</p>
+    <p>(list) A list object containing one data entity.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"># NOT RUN {
-continued from get_meta
-metadata <- get_meta(dbname = "ble_metabase", dataset_ids = c(1, 2))
-entity_1 <- create_entity(meta_list = metadata, dataset_id = 1, entity = 1)
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'># continued from \code{\link{get_meta}}</span>
+<span class='co'># A single entity. Useful to examine EML list structure and troubleshoot.</span>
+<span class='no'>entity_1</span> <span class='kw'>&lt;-</span> <span class='fu'>create_entity</span>(<span class='kw'>meta_list</span> <span class='kw'>=</span> <span class='no'>metadata</span>, <span class='kw'>dataset_id</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>entity</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
-use lapply to loop through many entities
-entities = c(1:4)
-entity_list <- lapply(entities, create_entity, meta_list = metadata, dataset_id = 1)
-# }
-<div class='input'>
+<span class='co'># Many entities. Loop separately for each entity type and name accordingly.</span>
+<span class='no'>data_tables</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>)
+<span class='no'>other_entities</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>:<span class='fl'>7</span>)
+<span class='no'>entity_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
+ <span class='kw'>dataTable</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>data_tables</span>, <span class='no'>create_entity</span>, <span class='kw'>meta_list</span> <span class='kw'>=</span> <span class='no'>metadata</span>, <span class='kw'>dataset_id</span> <span class='kw'>=</span> <span class='fl'>1</span>),
+ <span class='kw'>otherEntity</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>other_entities</span>, <span class='no'>create_entity</span>, <span class='kw'>meta_list</span> <span class='kw'>=</span> <span class='no'>metadata</span>, <span class='kw'>dataset_id</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+)
+
+<span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

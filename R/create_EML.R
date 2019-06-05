@@ -1,36 +1,29 @@
 
-#' create_eml
+#' @title Create EML list object.
 #' 
-#' Function to create ready-to-validate-and-write EML list object
+#' @description Create ready-to-validate-and-write EML list object.
+#'
+#' @param meta_list A list of dataframes containing metadata returned by \code{\link{get_meta}}.
+#' @param entity_list (character) A list of entities returned by \code{\link{create_entity_all}}.
+#' @param dataset_id (numeric) A dataset ID.
+#' @param boilerplate_path (character) System path to XML file containing boilerplate items.
+#' @param license_path (character) System path to pandoc compatible file containing intellectual rights statement.
 #' 
-#' @param meta_list A list of dataframes containing metadata returned by [get_meta()].
-#' @param dataset_id A number for dataset ID.
-#' @param boilerplate_path A system path to XML file containing boilerplate items.
-#' @param license_path A system path to pandoc compatible file containing intellectual rights statement.
-#' @param data_table A list of one or many dataTable objects returned by [create_entity()].
-#' @param other_entity A list of one or many otherEntity objects returned by [create_entity()].
+#' @return (list) A list containing all EML elements. Supply this list object to \code{\link[EML]{eml_validate}} and \code{\link[EML]{write_eml}} to validate and write to .xml file.
 #' 
 #' @examples
-#' \dontrun{continued from [get_meta()] and [create_entity()]
-#' metadata <- get_meta(dbname = "ble_metabase", dataset_ids = c(1, 2))
-#' entity_1 <- create_entity(meta_list = metadata, dataset_id = 1, entity = 1)
-#' 
-#' use lapply to loop through many entities. Separate data tables from other entities.
-#' dt <- c(1:4)
-#' other <- c(5:7)
-#' data_tables <- lapply(dt, create_entity, meta_list = metadata, dataset_id = 1)
-#' other_entities <- lapply(other, create_entity, meta_list = metadata, dataset_id = 1)
+#' \dontrun{
+#' # continued from \code{\link{get_meta}} and \code{\link{create_entity_all}}
+#' EML <- create_EML(meta_list = metadata, entity_list = entities, dataset_id = 1, boilerplate_path = here::here("documents", "boilerplate.xml"), license_path = here::here("documents", "license.docx"))
 #' }
-#' 
 #' @export
 
 create_EML <-
   function(meta_list,
+           entity_list,
            dataset_id,
            boilerplate_path,
-           license_path,
-           data_table,
-           other_entity = NULL) {
+           license_path) {
     # ----------------------------------------------------------------------------
     # initial check for missing arguments
     
@@ -312,11 +305,11 @@ create_EML <-
     if (is.na(tempo[["begindate"]]) & is.na(tempo[["enddate"]])){
       tempcover <- NULL
     } else{
-    tempcover <-
-      list(rangeOfDates = list(
-        beginDate = list(calendarDate = as.character(tempo[, "begindate"])),
-        endDate = list(calendarDate = as.character(tempo[, "enddate"]))
-      ))
+      tempcover <-
+        list(rangeOfDates = list(
+          beginDate = list(calendarDate = as.character(tempo[, "begindate"])),
+          endDate = list(calendarDate = as.character(tempo[, "enddate"]))
+        ))
     }
     # -----------------------------------------------------------------------------
     # spatial coverage, list
@@ -385,14 +378,14 @@ create_EML <-
     # boilerplate information
     boilerplate <- EML::read_eml(boilerplate_path)
     
-    access <- eml_get(boilerplate, element = "access")
-    contact <- eml_get(boilerplate$dataset, element = "contact")
+    access <- EML::eml_get(boilerplate, element = "access")
+    contact <- EML::eml_get(boilerplate$dataset, element = "contact")
     distribution <-
-      eml_get(boilerplate$dataset, element = "distribution")
+      EML::eml_get(boilerplate$dataset, element = "distribution")
     metadata_provider <-
-      eml_get(boilerplate$dataset, element = "metadataProvider")
-    publisher <- eml_get(boilerplate$dataset, element = "publisher")
-    project <- eml_get(boilerplate$dataset, element = "project")
+      EML::eml_get(boilerplate$dataset, element = "metadataProvider")
+    publisher <- EML::eml_get(boilerplate$dataset, element = "publisher")
+    project <- EML::eml_get(boilerplate$dataset, element = "project")
     system <- boilerplate$system
     
     
@@ -418,8 +411,8 @@ create_EML <-
         project = project,
         methods = method_xml,
         language = "English",
-        dataTable = data_table,
-        otherEntity = other_entity
+        dataTable = entity_list[["data_tables"]],
+        otherEntity = entity_list[["other_entities"]]
       )
     
     # -------------------------------------------------------------------------------------
@@ -428,7 +421,7 @@ create_EML <-
     unit <- subset(meta_list[["unit"]], datasetid == dataset_id)
     
     if (dim(unit)[1] > 0) {
-      unit_list <- set_unitList(unit)
+      unit_list <- EML::set_unitList(unit)
     } else {
       unit_list <- NULL
     }

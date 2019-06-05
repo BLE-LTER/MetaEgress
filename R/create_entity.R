@@ -1,68 +1,66 @@
-#' create_entity
-#' 
-#' Function to create entity-level objects
+#' @title Create EML entity list object. 
 #'
+#' @description Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use \code{\link{create_entity_all}} for common EML generation usage, which calls this function under the hood. 
+#'
+#' @param meta_list (character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
+#' @param dataset_id (numeric) A dataset ID.
+#' @param entity (numeric) An entity number.
 #' 
-#' @param meta_list A list of dataframes containing metadata returned by [get_meta()].
-#' @param dataset_id A number for dataset ID.
-#' @param entity An entity number.
-#' 
-#' @return Either a dataTable or an otherEntity class object
-#' for use in [create_EML()]
-#' 
+#' @return (list) A list object containing one data entity.
+#'
 #' @examples
-#' \dontrun{continued from get_meta
-#' metadata <- get_meta(dbname = "ble_metabase", dataset_ids = c(1, 2))
+#' \dontrun{
+#' # continued from \code{\link{get_meta}}
+#' # A single entity. Useful to examine EML list structure and troubleshoot.
 #' entity_1 <- create_entity(meta_list = metadata, dataset_id = 1, entity = 1)
 #' 
-#' use lapply to loop through many entities
-#' entities = c(1:4)
-#' entity_list <- lapply(entities, create_entity, meta_list = metadata, dataset_id = 1)
+#' # Many entities. Loop separately for each entity type and name accordingly.
+#' data_tables <- c(1:4)
+#' other_entities <- c(5:7)
+#' entity_list <- list(
+#'  dataTable = lapply(data_tables, create_entity, meta_list = metadata, dataset_id = 1),
+#'  otherEntity = lapply(other_entities, create_entity, meta_list = metadata, dataset_id = 1)
+#' )
+#' 
 #' }
 #' 
 #' @export
+#' 
+
 
 create_entity <- function(meta_list, dataset_id, entity) {
-  
-  # ----------------------------------------------------------------------------------
-  # check arguments
-  
-  if(missing(meta_list)){
-    stop('metadata list missing. use get_meta() to extract from metase')
-  }
-  if(missing(dataset_id)){
-    stop('please supply dataset id(s)')
-  }
-  if(!is.numeric(dataset_id)){
-    stop('please supply numeric dataset id(s)')
-  }
   
   # -----------------------------------------------------------------------------------
   
   # subset to specified dataset_id and entity number
-  ent <-
+  entity_e <-
     subset(meta_list[["entities"]], datasetid == dataset_id &
              entity_position == entity)
   
   # convert whitespace strings to NA for easy checking
-  ent <- lapply(ent, stringr::str_trim)
-  ent[ent == ''] <- NA
-  ent <- as.data.frame(ent)
+  entity_e <- lapply(entity_e, stringr::str_trim)
+  entity_e[entity_e == ''] <- NA
+  entity_e <- as.data.frame(entity_e)
   
-  fact1 <-
+  factors_e <-
     subset(meta_list[["factors"]], datasetid == dataset_id &
              entity_position == entity)
   attributes <-
     subset(meta_list[["attributes"]], datasetid == dataset_id &
              entity_position ==  entity)
   
+  # missing <- subset(meta_list[["missing"]], datasetid == dataset_id &
+  #                    entity_position ==  entity)
+  missing <- subset(meta_list[["missing"]], datasetid == dataset_id &
+                      entity_position ==  entity)
+  
   # ------------------------------------------------------------------------------------
   # insert placeholder row if queries returned empty
-
+  
   # check for df with no rows, then insert placeholder row. other than datasetid and entity_position, all other columns will be NAs
   check_empty_and_insert <- function(df){
     if (nrow(df) == 0){
-
+      
       df[1, "datasetid"] <- dataset_id
       df[1, "entity_position"] <- entity
     } else {
@@ -72,19 +70,19 @@ create_entity <- function(meta_list, dataset_id, entity) {
     return(df)
   }
   
-  df_list <- list(ent, fact1, attributes)
+  df_list <- list(entity_e, factors_e, attributes)
   df_list <- lapply(df_list, check_empty_and_insert)
-
+  
   # ------------------------------------------------------------------------------------
   # extract information from file
-  filename <- as.character(ent$filename)
-  size0 <- as.character(file.size(filename))
-  checksum <- digest::digest(filename, algo = "md5", file = TRUE)
+  filename <- as.character(entity_e$filename)
+   size0 <- as.character(file.size(filename))
+   checksum <- digest::digest(filename, algo = "md5", file = TRUE)
   
   # ------------------------------------------------------------------------------------
   # check for either "dataTable" or "otherEntity"
   
-  if (ent$entitytype == "dataTable") {
+  if (entity_e$entitytype == "dataTable") {
     physical <-
       set_physical(
         objectName = filename,
@@ -92,36 +90,36 @@ create_entity <- function(meta_list, dataset_id, entity) {
         sizeUnit = "byte",
         
         # check for missing urlhead, return NULL if NA
-        url = if (!is.na(ent$urlpath))
-          paste0(ent$urlpath, filename)
+        url = if (!is.na(entity_e$urlpath))
+          paste0(entity_e$urlpath, filename)
         else
           NULL,
-        numHeaderLines = if (is.na(ent$headerlines))
+        numHeaderLines = if (is.na(entity_e$headerlines))
           NULL
         else
-          (as.character(ent$headerlines))
+          (as.character(entity_e$headerlines))
         ,
-        recordDelimiter = if (is.na(ent$recorddelimiter))
+        recordDelimiter = if (is.na(entity_e$recorddelimiter))
           NULL
         else
-          (ent$recorddelimiter)
+          (entity_e$recorddelimiter)
         ,
-        fieldDelimiter = if (is.na(ent$fielddlimiter))
+        fieldDelimiter = if (is.na(entity_e$fielddlimiter))
           NULL
         else
-          (ent$fielddlimiter)
+          (entity_e$fielddlimiter)
         ,
-        quoteCharacter = if (is.na(ent$quotecharacter))
+        quoteCharacter = if (is.na(entity_e$quotecharacter))
           NULL
         else
-          (ent$quotecharacter)
+          (entity_e$quotecharacter)
         ,
         attributeOrientation = "column",
         authentication = checksum,
         authMethod = "MD5"
       )
     # getting record count, skipping header rows as specified
-    row_count <- length(readr::count_fields(filename, tokenizer = readr::tokenizer_csv(), skip = ent[["headerlines"]]))
+    row_count <- length(readr::count_fields(filename, tokenizer = readr::tokenizer_csv(), skip = entity_e[["headerlines"]]))
     
     # coalesce precision and dateTimePrecision
     attributes[["precision"]] <- ifelse(is.na(attributes[["precision"]]), attributes[["dateTimePrecision"]], attributes[["precision"]])
@@ -130,17 +128,26 @@ create_entity <- function(meta_list, dataset_id, entity) {
     attributes[["datasetid"]] <- attributes[["entity_position"]] <- attributes[["dateTimePrecision"]] <- NULL
     
     # set attributes
-    if (dim(fact1)[1] > 0) {
-      attributeList <- set_attributes(attributes, factors = fact1)
-    } else {
+    # check for NULL factors and missing codes dfs first
+    
+    if (dim(factors_e)[1] > 0 & dim(missing)[1] > 0) {
+      attributeList <-
+        set_attributes(attributes, factors = factors_e, missingValues = missing)
+    } else if (dim(factors_e)[1] == 0) {
+      attributeList <- set_attributes(attributes, missingValues = missing)
+    }
+    else if (dim(missing)[1] == 0) {
+      attributeList <- set_attributes(attributes, factors = factors_e)
+    }
+    else {
       attributeList <- set_attributes(attributes)
     }
     
     # assemble dataTable
     entity <-
       list(
-        entityName = ent$entityname,
-        entityDescription = ent$entitydescription,
+        entityName = entity_e$entityname,
+        entityDescription = entity_e$entitydescription,
         physical = physical,
         attributeList = attributeList,
         numberOfRecords = as.character(row_count)
@@ -155,12 +162,12 @@ create_entity <- function(meta_list, dataset_id, entity) {
         objectName = filename,
         size = list(size0, unit = "byte"),
         authentication = list(checksum, method = "MD5"),
-        dataFormat = list(externallyDefinedFormat = list(formatName = ent$formatname)),
+        dataFormat = list(externallyDefinedFormat = list(formatName = entity_e$formatname)),
         
         # check for missing urlhead, return NULL if NA
-        distribution = if (!is.na(ent$urlpath))
+        distribution = if (!is.na(entity_e$urlpath))
           list(online = list(url = list(
-            paste0(ent$urlpath, filename),
+            paste0(entity_e$urlpath, filename),
             `function` = list("download")
           )))
         else
@@ -170,10 +177,10 @@ create_entity <- function(meta_list, dataset_id, entity) {
     # assemble otherEntity
     entity <-
       list(
-        entityName = ent$entityname,
-        entityDescription = ent$entitydescription,
+        entityName = entity_e$entityname,
+        entityDescription = entity_e$entitydescription,
         physical = physical,
-        entityType = ent$entitytype
+        entityType = entity_e$entitytype
       )
   }
   return(entity)

@@ -1,22 +1,23 @@
-#' get_meta
-#'
-#' Function to connect to Postgres metabase and query for metadata
+#' @title Connect to metabase and query metadata.
+#' 
+#' @description Connect to instance of LTER-core-metabase and query for metadata. 
 #'
 #' @param dbname (character) name of database.
-#' @param schema (character) name of schema containing views, defaults to 'mb2eml_r'.
-#' @param dataset_ids (numeric) Number or numeric vector of dataset ids to query.
-#' @param host (numeric) host name, defaults to 'localhost'.
-#' @param port (character) port number, defaults to 5432.
-#' @param user (character) username, optional. If NULL, RStudio will create a pop-up asking for username.
-#' @param password (character) password to user, optional. If NULL, RStudio will create a pop-up asking for username.
+#' @param schema (character) name of schema containing views. Defaults to 'mb2eml_r'.
+#' @param dataset_ids (numeric) Number or numeric vector of dataset IDs to query.
+#' @param host (numeric) host name or IP address. Defaults to 'localhost'.
+#' @param port (character) port number. Defaults to 5432.
+#' @param user (character) (optional) username to use in connecting to database. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.
+#' @param password (character) (optional) password to user. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.
 #' 
 #' @return (list) A list of data frames corresponding to views from specified schema in metabase
-#' to pass to [create_entity()] and [create_EML()]
+#' to pass to \code{\link{create_entity}}, \code{\link{create_entity_all}} and \code{\link{create_EML}}
 #' 
 #' @examples
-#' Query multiple dataset at once
+#' \dontrun{
+#' # Can query multiple datasets at once
 #' metadata <- get_meta(dbname = "ble_metabase", dataset_ids = c(1, 2))
-#' 
+#' }
 #' @export
 
 

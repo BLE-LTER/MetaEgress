@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_meta.R
 \name{get_meta}
 \alias{get_meta}
-\title{get_meta}
+\title{Connect to metabase and query metadata.}
 \usage{
 get_meta(dbname, schema = "mb2eml_r", dataset_ids, host = "localhost",
   port = 5432, user = NULL, password = NULL)
@@ -10,27 +10,28 @@ get_meta(dbname, schema = "mb2eml_r", dataset_ids, host = "localhost",
 \arguments{
 \item{dbname}{(character) name of database.}
 
-\item{schema}{(character) name of schema containing views, defaults to 'mb2eml_r'.}
+\item{schema}{(character) name of schema containing views. Defaults to 'mb2eml_r'.}
 
-\item{dataset_ids}{(numeric) Number or numeric vector of dataset ids to query.}
+\item{dataset_ids}{(numeric) Number or numeric vector of dataset IDs to query.}
 
-\item{host}{(numeric) host name, defaults to 'localhost'.}
+\item{host}{(numeric) host name or IP address. Defaults to 'localhost'.}
 
-\item{port}{(character) port number, defaults to 5432.}
+\item{port}{(character) port number. Defaults to 5432.}
 
-\item{user}{(character) username, optional. If NULL, RStudio will create a pop-up asking for username.}
+\item{user}{(character) (optional) username to use in connecting to database. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.}
 
-\item{password}{(character) password to user, optional. If NULL, RStudio will create a pop-up asking for username.}
+\item{password}{(character) (optional) password to user. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.}
 }
 \value{
 (list) A list of data frames corresponding to views from specified schema in metabase
-to pass to [create_entity()] and [create_EML()]
+to pass to \code{\link{create_entity}}, \code{\link{create_entity_all}} and \code{\link{create_EML}}
 }
 \description{
-Function to connect to Postgres metabase and query for metadata
+Connect to instance of LTER-core-metabase and query for metadata.
 }
 \examples{
-Query multiple dataset at once
+\dontrun{
+# Can query multiple datasets at once
 metadata <- get_meta(dbname = "ble_metabase", dataset_ids = c(1, 2))
-
+}
 }
