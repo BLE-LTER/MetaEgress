@@ -13,3 +13,5 @@ R_experiments
 *.txt
 *.Rproj
 .Rprofile
+.html
+.Rmd
