@@ -45,6 +45,21 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/usage_example.html">How to use `MetaEgress` to generate EML document from LTER-core-metabase</a>
+    </li>
+    <li>
+      <a href="articles/use_dump.html">Use sample database dump to test drive `MetaEgress`</a>
+    </li>
+  </ul>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
 </div>
@@ -64,8 +79,9 @@
 <div id="orientation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#orientation" class="anchor"></a>Orientation</h3>
-<p><code>MetaEgress</code> is a R package to create Ecological Metadata Language (EML) standard metadata documents from an installed and populated LTER-core-metabase. LTER-core-metabase is a metadata database design for management of ecological research metadata, created by the Long Term Ecological Research (LTER) Network and oriented towards production of EML documents at LTER sites. For information on LTER-core-metabase see <a href="https://github.com/lter/LTER-core-metabase" class="uri">https://github.com/lter/LTER-core-metabase</a>. The two projects are tightly coupled: make sure to keep both up to date. <code>MetaEgress</code> is a play on “Postgres”, or “post-Ingres”, where Ingres is PostgreSQL’s predecessor.</p>
-<p><code>MetaEgress</code> contains three main functions to first query metadata LTER-core-metabase, then insert information into appropriate EML slots, then finally ouput a R list structured according to the EML standard. To validate and serialize or write to .xml file, use the functions <code>eml_validate and</code>write_eml<code>available from the</code>EML<code>R package on</code>MetaEgress` output.</p>
+<p><code>MetaEgress</code> is a R package to create Ecological Metadata Language (EML) standard metadata documents from an installed and populated LTER-core-metabase. LTER-core-metabase is a metadata database design for management of ecological research metadata, created by the Long Term Ecological Research (LTER) Network and oriented towards production of EML documents at LTER sites. For information on LTER-core-metabase see <a href="https://github.com/lter/LTER-core-metabase" class="uri">https://github.com/lter/LTER-core-metabase</a>. The two projects are tightly coupled: make sure to keep both up to date.</p>
+<p><code>MetaEgress</code> is a play on “Postgres”, or “post-Ingres”, where Ingres is PostgreSQL’s predecessor.</p>
+<p><code>MetaEgress</code> contains three main functions to first query metadata LTER-core-metabase, then insert information into appropriate EML slots, then finally ouput a R list structured according to the EML standard. To validate and serialize or write to .xml file, pass <code>MetaEgress</code> output objects into the functions <code>eml_validate and</code>write_eml<code>available from the</code>EML` R package.</p>
 </div>
 <div id="features" class="section level3">
 <h3 class="hasAnchor">
@@ -80,7 +96,7 @@
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
 <p>Execute this line in R console to install <code>MetaEgress</code>. Note that <code>MetaEgress</code> depends on the <code>EML</code> R package &gt;= 1.99.0 from <a href="https://github.com/ropensci/EML" class="uri">https://github.com/ropensci/EML</a> or 2.0.0 CRAN, and <code>RPostgres</code> &gt;= 1.1.1.</p>
-<pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("atn38/MetaEgress")</a></code></pre>
+<pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("BLE-LTER/MetaEgress")</a></code></pre>
 </div>
 <div id="usage" class="section level3">
 <h3 class="hasAnchor">
