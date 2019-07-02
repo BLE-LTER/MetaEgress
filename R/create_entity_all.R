@@ -31,7 +31,7 @@ create_entity_all <- function(meta_list, dataset_id) {
   all <-
     lapply(e_nos,
            create_entity,
-           meta_list = metadata,
+           meta_list = meta_list,
            dataset_id = dataset_id)
   
   all2 <- list(
