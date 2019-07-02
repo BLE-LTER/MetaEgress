@@ -123,10 +123,12 @@ create_EML <-
       )
       
       user_id <-
-        if (!is.na(creator[["orcid"]])) {
-          list(paste0("https://orcid.org/",
-                      creator[["orcid"]]),
-               `directory` = list("https://orcid.org/"))
+        if (!is.na(creator[["userid"]])) {
+          list(creator[["userid"]],
+               `directory` = if (!is.na(creator[["userid_type"]]))
+                 creator[["userid_type"]]
+               else
+                 NULL)
         }
       else
         NULL
