@@ -3,6 +3,7 @@
 #' @description Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use \code{\link{create_entity_all}} for common EML generation usage, which calls this function under the hood. 
 #'
 #' @param meta_list (character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
+#' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory if NULL.
 #' @param dataset_id (numeric) A dataset ID.
 #' @param entity (numeric) An entity number.
 #' 
@@ -28,7 +29,7 @@
 #' 
 
 
-create_entity <- function(meta_list, dataset_id, entity) {
+create_entity <- function(meta_list, file_dir = NULL, dataset_id, entity) {
   
   # -----------------------------------------------------------------------------------
   
@@ -119,8 +120,11 @@ create_entity <- function(meta_list, dataset_id, entity) {
         authMethod = "MD5"
       )
     # getting record count, skipping header rows as specified
+    if (is.null(file_dir)) {
     row_count <- length(readr::count_fields(filename, tokenizer = readr::tokenizer_csv(), skip = entity_e[["headerlines"]]))
-    
+    } else {
+      row_count <- length(readr::count_fields(file.path(file_dir, filename), tokenizer = readr::tokenizer_csv(), skip = entity_e[["headerlines"]]))
+    }
     # coalesce precision and dateTimePrecision
     attributes[["precision"]] <- ifelse(is.na(attributes[["precision"]]), attributes[["dateTimePrecision"]], attributes[["precision"]])
     
