@@ -88,6 +88,10 @@ get_meta <- function(dbname, schema = 'mb2eml_r', dataset_ids, host = 'localhost
     return(query_df)
   }
   
+  # disconnect
+  
+  dbDisconnect(con)
+  
   # apply over list of views to query
   query_dfs <- lapply(views_to_query, param_query)
   
