@@ -6,6 +6,7 @@
 #' @param meta_list A list of dataframes containing metadata returned by \code{\link{get_meta}}.
 #' @param entity_list (character) A list of entities returned by \code{\link{create_entity_all}}.
 #' @param dataset_id (numeric) A dataset ID.
+#' @param file_dir (character) Path to abstract and method documents. Default to current R working directory.
 #' @param boilerplate_path (character) System path to XML file containing boilerplate items.
 #' @param license_path (character) System path to pandoc compatible file containing intellectual rights statement.
 #' 
@@ -22,6 +23,7 @@ create_EML <-
   function(meta_list,
            entity_list,
            dataset_id,
+           file_dir = NULL,
            boilerplate_path,
            license_path) {
     # ----------------------------------------------------------------------------
@@ -274,7 +276,7 @@ create_EML <-
       
       methodstep <-
         list(
-          description = set_TextType(methodnum[[ii]]),
+          description = if (is.null(file_dir)) set_TextType(methodnum[[ii]]) else set_TextType(file.path(file_dir, methodnum[[ii]])),
           instrumentation = instrument,
           software = software,
           protocol = protocolall
@@ -296,8 +298,12 @@ create_EML <-
     
     dataset_meta <-
       subset(meta_list[["dataset"]], datasetid == dataset_id)
-    abstract <- set_TextType(dataset_meta$abstract)
     
+    if (is.null(file_dir)) {
+    abstract <- set_TextType(dataset_meta$abstract)
+    } else {
+      abstract <- set_TextType(file.path(file_dir, dataset_meta$abstract))
+    }
     # ------------------------------------------------------------------------------
     # temporal coverage, assume one range
     
