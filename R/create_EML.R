@@ -6,7 +6,7 @@
 #' @param meta_list A list of dataframes containing metadata returned by \code{\link{get_meta}}.
 #' @param entity_list (character) A list of entities returned by \code{\link{create_entity_all}}.
 #' @param dataset_id (numeric) A dataset ID.
-#' @param file_dir (character) Path to abstract and method documents. Default to current R working directory.
+#' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.
 #' @param boilerplate_path (character) System path to XML file containing boilerplate items.
 #' @param license_path (character) System path to pandoc compatible file containing intellectual rights statement.
 #' 
