@@ -56,7 +56,8 @@ get_meta <- function(dbname, schema = 'mb2eml_r', dataset_ids, host = 'localhost
     "vw_eml_geographiccoverage",
     "vw_eml_temporalcoverage",
     "vw_eml_associatedparty",
-    "vw_eml_missingcodes"
+    "vw_eml_missingcodes",
+    "vw_eml_taxonomy"
   )
   
   # missing views: difference between expected and actual views
@@ -87,14 +88,14 @@ get_meta <- function(dbname, schema = 'mb2eml_r', dataset_ids, host = 'localhost
     RPostgres::dbClearResult(result)
     return(query_df)
   }
-  
-  # disconnect
-  
-  dbDisconnect(con)
+
   
   # apply over list of views to query
   query_dfs <- lapply(views_to_query, param_query)
+
+  # disconnect
   
+  dbDisconnect(con)  
   # ----------------------------------------------------------------------------------
   # rename list items
   
@@ -111,7 +112,8 @@ get_meta <- function(dbname, schema = 'mb2eml_r', dataset_ids, host = 'localhost
     "geo",
     "temporal",
     "parties",
-    "missing"
+    "missing",
+    "taxonomy"
   )
   
   # match expected views with names of data frames in list 
