@@ -57,7 +57,8 @@ get_meta <- function(dbname, schema = 'mb2eml_r', dataset_ids, host = 'localhost
     "vw_eml_temporalcoverage",
     "vw_eml_associatedparty",
     "vw_eml_missingcodes",
-    "vw_eml_taxonomy"
+    "vw_eml_taxonomy",
+    "vw_eml_changehistory"
   )
   
   # missing views: difference between expected and actual views
@@ -113,7 +114,8 @@ get_meta <- function(dbname, schema = 'mb2eml_r', dataset_ids, host = 'localhost
     "temporal",
     "parties",
     "missing",
-    "taxonomy"
+    "taxonomy",
+    "changehistory"
   )
   
   # match expected views with names of data frames in list 

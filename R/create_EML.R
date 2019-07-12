@@ -345,12 +345,8 @@ create_EML <-
     
     taxa <- subset(meta_list[["taxonomy"]], datasetid == dataset_id)
     
-    if (nrow(taxa) != 0) {
-      message("Using taxize to expand taxonomic trees...")
-      
-      taxcov <-
-        set_taxonomicCoverage(taxa[["taxonrankvalue"]], expand = T)
-      
+    if (nrow(taxa) > 0) {
+      taxcov <- set_taxonomicCoverage(taxa[["taxonrankvalue"]], expand = T)
       names(taxcov[[1]]) <- NULL
     } else
       taxcov <- NULL
@@ -411,6 +407,51 @@ create_EML <-
     project <- EML::eml_get(boilerplate$dataset, element = "project")
     system <- boilerplate$system
     
+    # ----------------------------------------------------------------------------
+    # maintenance
+    
+    maint_desc <-
+      if (!is.na(dataset_meta$maintenance_desc))
+        dataset_meta$maintenance_desc
+    else
+      "No maintenance description provided."
+    update_freq <-
+      if (!is.na(dataset_meta$update_frequency))
+        dataset_meta$update_frequency
+    else
+      NULL
+    
+    change_hist <- subset(meta_list[["changehistory"]], datasetid == dataset_id)
+    
+    make_history <- function(row) {
+      one_change <- list(
+        changeScope = if (!is.na(row[["change_scope"]]))
+          row[["change_scope"]]
+        else
+          NULL,
+        oldValue = if (row[["revision_number"]] == 1)
+          "No previous revision"
+        else
+          paste("See previous revision", as.numeric(row[["revision_number"]]) - 1),
+        changeDate = row[["change_date"]],
+        comment = if (!is.na(row[["revision_notes"]]))
+          paste(row[["givenname"]], row[["surname"]], ":", row[["revision_notes"]])
+        else
+          NULL
+      )
+    }
+    if (nrow(change_hist) > 0) {
+      change_history <- apply(change_hist, 1, make_history)
+      names(change_history) <- NULL
+    } else change_history <- NULL
+    
+    maintenance <- list(
+      description = maint_desc,
+      maintenanceUpdateFrequency = update_freq,
+      changeHistory = change_history
+    )
+
+    
     
     # -----------------------------------------------------------------------------
     # put the dataset together
@@ -435,7 +476,8 @@ create_EML <-
         methods = method_xml,
         language = "English",
         dataTable = entity_list[["data_tables"]],
-        otherEntity = entity_list[["other_entities"]]
+        otherEntity = entity_list[["other_entities"]],
+        maintenance = maintenance
       )
     
     # -------------------------------------------------------------------------------------

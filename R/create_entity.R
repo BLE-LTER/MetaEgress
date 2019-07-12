@@ -78,8 +78,11 @@ create_entity <- function(meta_list, file_dir = NULL, dataset_id, entity) {
   # extract information from file
   filename <- as.character(entity_e$filename)
    size0 <- as.character(file.size(filename))
+   if(is.null(file_dir)){
    checksum <- digest::digest(filename, algo = "md5", file = TRUE)
-  
+   } else if (!is.null(file_dir)){
+     checksum <- digest::digest(file.path(file_dir, filename), algo = "md5", file = TRUE)
+   }
   # ------------------------------------------------------------------------------------
   # check for either "dataTable" or "otherEntity"
   
