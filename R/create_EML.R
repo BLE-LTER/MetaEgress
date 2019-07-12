@@ -345,12 +345,8 @@ create_EML <-
     
     taxa <- subset(meta_list[["taxonomy"]], datasetid == dataset_id)
     
-    if (nrow(taxa) != 0) {
-      message("Using taxize to expand taxonomic trees...")
-      
-      taxcov <-
-        set_taxonomicCoverage(taxa[["taxonrankvalue"]], expand = T)
-      
+    if (nrow(taxa) > 0) {
+      taxcov <- set_taxonomicCoverage(taxa[["taxonrankvalue"]], expand = T)
       names(taxcov[[1]]) <- NULL
     } else
       taxcov <- NULL
