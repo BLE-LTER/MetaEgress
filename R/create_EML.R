@@ -411,6 +411,53 @@ create_EML <-
     project <- EML::eml_get(boilerplate$dataset, element = "project")
     system <- boilerplate$system
     
+    # ----------------------------------------------------------------------------
+    # maintenance
+    
+    maint_desc <-
+      if (!is.na(dataset_meta$maintenance_desc))
+        dataset_meta$maintenance_desc
+    else
+      NULL
+    update_freq <-
+      if (!is.na(dataset_meta$update_frequency))
+        dataset_meta$update_frequency
+    else
+      NULL
+    
+    change_hist <-
+      unit <-
+      subset(meta_list[["changehistory"]], datasetid == dataset_id)
+    
+    make_history <- function(row) {
+      one_change <- list(
+        changeScope = if (!is.na(row[["change_scope"]]))
+          row[["change_scope"]]
+        else
+          NULL,
+        oldValue = if (row[["revision"]] == 1)
+          "No previous revision"
+        else
+          paste("See previous revision", row[["revision"]] - 1),
+        changeDate = row[["change_date"]],
+        comment = if (!is.na(row[["revision_notes"]]))
+          paste(row[["givenname"]], row[["surname"]], ":", row[["revision_notes"]])
+        else
+          NULL
+      )
+    }
+    change_history <- if (nrow(change_hist) > 0) {
+      apply(make_history, 1, change_hist)
+      names(change_history) <- NULL
+    } else NULL
+    
+    maintenance <- list(
+      description = maint_desc,
+      maintenanceUpdateFrequency = update_freq,
+      changeHistory = change_history
+    )
+
+    
     
     # -----------------------------------------------------------------------------
     # put the dataset together
@@ -435,7 +482,8 @@ create_EML <-
         methods = method_xml,
         language = "English",
         dataTable = entity_list[["data_tables"]],
-        otherEntity = entity_list[["other_entities"]]
+        otherEntity = entity_list[["other_entities"]],
+        maintenance = maintenance
       )
     
     # -------------------------------------------------------------------------------------
