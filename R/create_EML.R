@@ -331,9 +331,14 @@ create_EML <-
             westBoundingCoordinate = as.character(geo_list[["westboundingcoordinate"]]),
             eastBoundingCoordinate = as.character(geo_list[["eastboundingcoordinate"]]),
             northBoundingCoordinate = as.character(geo_list[["northboundingcoordinate"]]),
-            southBoundingCoordinate = as.character(geo_list[["southboundingcoordinate"]])
+            southBoundingCoordinate = as.character(geo_list[["southboundingcoordinate"]]),
+            boundingAltitudes = list(
+              altitudeMinimum = if(!is.na(geo_list[["altitudeminimum"]])) geo_list[["altitudeminimum"]] else NULL,
+              altitudeMaximum = if(!is.na(geo_list[["altitudemaximum"]])) geo_list[["altitudemaximum"]] else NULL,
+              altitudeUnits = if(!is.na(geo_list[["altitudeunits"]])) geo_list[["altitudeunits"]] else NULL
+            )
+            )
           )
-        )
       return(geo)
     }
     
