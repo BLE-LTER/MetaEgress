@@ -414,7 +414,7 @@ create_EML <-
       if (!is.na(dataset_meta$maintenance_desc))
         dataset_meta$maintenance_desc
     else
-      NULL
+      "No maintenance description provided."
     update_freq <-
       if (!is.na(dataset_meta$update_frequency))
         dataset_meta$update_frequency
