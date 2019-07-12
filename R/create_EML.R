@@ -425,9 +425,7 @@ create_EML <-
     else
       NULL
     
-    change_hist <-
-      unit <-
-      subset(meta_list[["changehistory"]], datasetid == dataset_id)
+    change_hist <- subset(meta_list[["changehistory"]], datasetid == dataset_id)
     
     make_history <- function(row) {
       one_change <- list(
@@ -435,10 +433,10 @@ create_EML <-
           row[["change_scope"]]
         else
           NULL,
-        oldValue = if (row[["revision"]] == 1)
+        oldValue = if (row[["revision_number"]] == 1)
           "No previous revision"
         else
-          paste("See previous revision", row[["revision"]] - 1),
+          paste("See previous revision", as.numeric(row[["revision_number"]]) - 1),
         changeDate = row[["change_date"]],
         comment = if (!is.na(row[["revision_notes"]]))
           paste(row[["givenname"]], row[["surname"]], ":", row[["revision_notes"]])
@@ -446,10 +444,10 @@ create_EML <-
           NULL
       )
     }
-    change_history <- if (nrow(change_hist) > 0) {
-      apply(make_history, 1, change_hist)
+    if (nrow(change_hist) > 0) {
+      change_history <- apply(change_hist, 1, make_history)
       names(change_history) <- NULL
-    } else NULL
+    } else change_history <- NULL
     
     maintenance <- list(
       description = maint_desc,
