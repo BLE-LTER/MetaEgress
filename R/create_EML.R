@@ -487,8 +487,9 @@ create_EML <-
     
     if (dim(unit)[1] > 0) {
       unit_list <- EML::set_unitList(unit)
+      additional_metadata <- list(metadata = list(unitList = unit_list))
     } else {
-      unit_list <- NULL
+      additional_metadata <- NULL
     }
     
     # ------------------------------------------------------------------------------------
@@ -501,7 +502,7 @@ create_EML <-
         schemaLocation = "eml://ecoinformatics.org/eml-2.1.1 http://nis.lternet.edu/schemas/EML/eml-2.1.1/eml.xsd",
         access = access,
         dataset = dataset,
-        additionalMetadata = list(metadata = list(unitList = unit_list))
+        additionalMetadata = additional_metadata
       )
     
     
