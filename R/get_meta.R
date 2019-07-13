@@ -52,7 +52,7 @@ get_meta <- function(dbname, schema = 'mb2eml_r', dataset_ids, host = 'localhost
     "vw_eml_keyword",
     "vw_eml_entities",
     "vw_eml_dataset",
-    "vw_eml_datasetmethod",
+    "vw_eml_method_document",
     "vw_eml_geographiccoverage",
     "vw_eml_temporalcoverage",
     "vw_eml_associatedparty",
