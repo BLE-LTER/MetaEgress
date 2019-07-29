@@ -52,7 +52,7 @@ get_meta <- function(dbname, schema = 'mb2eml_r', dataset_ids, host = 'localhost
     "vw_eml_keyword",
     "vw_eml_entities",
     "vw_eml_dataset",
-    "vw_eml_datasetmethod",
+    "vw_eml_method_document",
     "vw_eml_geographiccoverage",
     "vw_eml_temporalcoverage",
     "vw_eml_associatedparty",
@@ -64,13 +64,13 @@ get_meta <- function(dbname, schema = 'mb2eml_r', dataset_ids, host = 'localhost
   # missing views: difference between expected and actual views
   views_missing <- setdiff(views_expected, views_actual)
   if(length(views_missing) != 0){
-    warning(paste0("Views found in schema '", schema, "' not matching expected views. Missing following view(s): ", views_missing, ". Please check your installation of core-metabase."))
+    warning(paste0("Views found in schema '", schema, "' not matching expected views. Missing following view(s): ", paste(views_missing, collapse = ", "), ". Please check your installation of core-metabase."))
   }
   
   # unexpected views: difference between actual and expected views
   views_unexpected <- setdiff(views_actual, views_expected)
   if(length(views_unexpected) != 0){
-    warning(paste0("Views found in schema '", schema, "' not matching expected views. Unexpected view(s): ", views_unexpected, ". Please read in and process these view(s) manually."))
+    warning(paste0("Views found in schema '", schema, "' not matching expected views. Unexpected view(s): ", paste(views_unexpected, collapse = ", "), ". Please read in and process these view(s) manually."))
   }
   
   views_to_query <- paste0(schema, ".", intersect(views_actual, views_expected))

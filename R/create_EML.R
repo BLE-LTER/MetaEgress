@@ -185,112 +185,14 @@ create_EML <-
     
     # -------------------------------------------------------------------------------
     # methods
-    # need a rewrite? right now works
-    
+
     method <- subset(meta_list[["method"]], datasetid == dataset_id)
-    methodnum <- unique(method$methodDocument)
+    method_step <-
+      list(
+        description = if (is.null(file_dir)) set_TextType(method[["methodDocument"]]) else set_TextType(file.path(file_dir, method[["methodDocument"]]))
+      )
     
-    for (ii in 1:length(methodnum)) {
-      method_s <- subset(method, method$methodDocument == methodnum[ii])
-      
-      software <- if (is.na(method_s$softwareDescription[1])) {
-        NULL
-      } else {
-        list(
-          title = if (is.na(method_s$softwareTitle)[1]) {
-            NULL
-          } else {
-            method_s$softwareTitle[1]
-          },
-          creator = if (is.na(method_s$softwareOwner[1])) {
-            NULL
-          } else {
-            list(individualName = list(surName = method_s$softwareOwner[1]))
-          },
-          implementation = list(distribution = list(online = list(
-            url = list(
-              method_s$softwareDescription[1],
-              `function` = list("download")
-            )
-          ))),
-          version = method_s$softwareVersion[1]
-        )
-      }
-      
-      instrument <-
-        if (is.na(method_s$instrumentDescription[1])) {
-          NULL
-        } else {
-          list(
-            title = if (is.na(method_s$instrumentTitle[1])) {
-              NULL
-            } else {
-              method_s$instrumentTitle[1]
-            },
-            creator = if (is.na(method_s$instrumentOwner[1])) {
-              NULL
-            } else {
-              list(individualName = list(surName = method_s$instrumentOwner[1]))
-            },
-            distribution = list(online = list(
-              url = list(
-                method_s$instrumentDescription[1],
-                `function` = list("download")
-              )
-            ))
-          )
-        }
-      if (!is.na(method_s$protocolDescription)) {
-        for (kk in 1:nrow(method_s)) {
-          protocol <- if (is.na(method_s$protocolDescription[kk])) {
-            NULL
-          } else {
-            list(
-              title = if (is.na(method_s$protocolTitle[kk])) {
-                NULL
-              } else {
-                method_s$protocolTitle[kk]
-              },
-              creator = if (is.na(method_s$protocolOwner[kk])) {
-                NULL
-              } else {
-                list(individualName = list(surName = method_s$protocolOwner[kk]))
-              },
-              distribution = list(online = list(
-                url = list(
-                  method_s$protocolDescription[kk],
-                  `function` = list("download")
-                )
-              ))
-            )
-          }
-          if (kk == 1) {
-            protocolall <- list(protocol)
-          } else {
-            protocolall <- c(protocolall, list(protocol))
-          }
-        }
-      } else {
-        protocolall <- NULL
-      }
-      
-      methodstep <-
-        list(
-          description = if (is.null(file_dir)) set_TextType(methodnum[[ii]]) else set_TextType(file.path(file_dir, methodnum[[ii]])),
-          instrumentation = instrument,
-          software = software,
-          protocol = protocolall
-        )
-      
-      if (ii == 1) {
-        methodall <- list(methodstep)
-      } else {
-        methodall <- c(methodall, list(methodstep))
-      }
-    }
-    
-    
-    method_xml <- list(methodStep = methodall)
+    method_xml <- list(methodStep = method_step)
     
     
     # ------------------------------------------------------------------------------
