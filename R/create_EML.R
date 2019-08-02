@@ -186,15 +186,7 @@ create_EML <-
     # -------------------------------------------------------------------------------
     # methods
 
-    method <- subset(meta_list[["method"]], datasetid == dataset_id)
-    method_step <-
-      list(
-        description = if (is.null(file_dir)) set_TextType(method[["methodDocument"]]) else set_TextType(file.path(file_dir, method[["methodDocument"]]))
-      )
-    
-    method_xml <- list(methodStep = method_step)
-    
-    
+
     # ------------------------------------------------------------------------------
     # abstract
     
