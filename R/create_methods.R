@@ -101,10 +101,6 @@ create_method_step <-
                              creator = list(
                                individualName = list(
                                  givenName = protocols[i,][["givenname"]],
-                                 middleName = if (!is.na(protocols[i,][["givenname"]]))
-                                   protocols[i,][["givenname"]]
-                                 else
-                                   NULL,
                                  surName = protocols[i,][["surname"]]
                                )
                              ),
@@ -114,7 +110,7 @@ create_method_step <-
                              ))
                            ))
       }
-    }
+    } else protocols_xml <- NULL
     
     return(list(description = description,
                 dataSource = data_source,
@@ -122,6 +118,20 @@ create_method_step <-
     # ---
     # get instruments
     
+    if (nrow(instruments) > 0) {
+      instruments_xml <- list()
+      
+      for (i in nrow(instruments)) {
+        instruments_xml <- c(instruments_xml, 
+                             instruments[["instrument"]])
+      }
+      
+    } else instruments_xml <- NULL
+    
+    return(list(description = description,
+                dataSource = data_source,
+                protocol = protocols_xml,
+                instrumentation = instruments_xml))
     
     # ---
     # get software
