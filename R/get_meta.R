@@ -81,7 +81,8 @@ get_meta <-
       "vw_eml_changehistory",
       "vw_eml_provenance",
       "vw_eml_protocols",
-      "vw_eml_instruments"
+      "vw_eml_instruments",
+      "vw_eml_software"
     )
     
     # missing views: difference between expected and actual views
@@ -156,7 +157,8 @@ get_meta <-
       "changehistory",
       "provenance",
       "protocols",
-      "instruments"
+      "instruments",
+      "software"
     )
     
     # match expected views with names of data frames in list
