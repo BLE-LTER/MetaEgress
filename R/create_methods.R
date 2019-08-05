@@ -7,17 +7,14 @@
 
 create_method_section <-
   function(meta_list, dataset_id, file_dir = NULL) {
-    
     steps <- meta_list[["methodstep"]][["methodstep_id"]]
     
     methodStep <-
-      lapply(
-        steps,
-        create_method_step,
-        meta_list,
-        dataset_id = dataset_id,
-        file_dir = file_dir
-      )
+      lapply(steps,
+             create_method_step,
+             meta_list,
+             dataset_id = dataset_id,
+             file_dir = file_dir)
     
     names(methodStep) <- NULL
     
@@ -40,13 +37,21 @@ create_method_step <-
     # subset
     
     method_desc <-
-      subset(meta_list[["methodstep"]], datasetid == dataset_id & methodstep_id == step_id)
+      subset(meta_list[["methodstep"]], datasetid == dataset_id &
+               methodstep_id == step_id)
     provenance <-
-      subset(meta_list[["provenance"]], datasetid == dataset_id & methodstep_id == step_id)
+      subset(meta_list[["provenance"]], datasetid == dataset_id &
+               methodstep_id == step_id)
     protocols <-
-      subset(meta_list[["protocols"]], datasetid == dataset_id & methodstep_id == step_id)
+      subset(meta_list[["protocols"]], datasetid == dataset_id &
+               methodstep_id == step_id)
+    instruments <-
+      subset(meta_list[["instruments"]], datasetid == dataset_id &
+               methodstep_id == step_id)
+    software <-
+      subset(meta_list[["software"]], datasetid == dataset_id &
+               methodstep_id == step_id)
     
-
     # ---
     # get method step description
     description <-
@@ -85,7 +90,7 @@ create_method_step <-
     }
     
     
-
+    
     
     # ---
     # get protocols
@@ -97,24 +102,20 @@ create_method_step <-
       for (i in 1:nrow(protocols)) {
         protocols_xml <- c(protocols_xml,
                            list(
-                             title = protocols[i,][["title"]],
+                             title = protocols[i, "title"],
                              creator = list(
-                               individualName = list(
-                                 givenName = protocols[i,][["givenname"]],
-                                 surName = protocols[i,][["surname"]]
-                               )
+                               individualName = list(givenName = protocols[i, "givenname"],
+                                                     surName = protocols[i, "surname"])
                              ),
                              distribution = list(online = list(
-                               url = list(protocols[i,][["url"]],
+                               url = list(protocols[i, "url"],
                                           `function` = "download")
                              ))
                            ))
       }
-    } else protocols_xml <- NULL
+    } else
+      protocols_xml <- NULL
     
-    return(list(description = description,
-                dataSource = data_source,
-                protocol = protocols_xml))
     # ---
     # get instruments
     
@@ -122,19 +123,51 @@ create_method_step <-
       instruments_xml <- list()
       
       for (i in nrow(instruments)) {
-        instruments_xml <- c(instruments_xml, 
+        instruments_xml <- c(instruments_xml,
                              instruments[["instrument"]])
       }
       
-    } else instruments_xml <- NULL
+    } else
+      instruments_xml <- NULL
     
-    return(list(description = description,
-                dataSource = data_source,
-                protocol = protocols_xml,
-                instrumentation = instruments_xml))
     
     # ---
     # get software
+    
+    if (nrow(software) > 0) {
+      software_xml <- list()
+      
+      for (i in nrow(software)) {
+        software_xml <- c(
+          software_xml,
+          list(
+            title = software[i, "title"],
+            creator = list(individualName = list(surName = software[i, "surName"])),
+            abstract = software[i, "abstract"],
+            implementation = list(
+              distribution = list(online = list(
+                url = list(software[i, "url"],
+                           `function` = "information")
+              )),
+              version = software[i, "version"]
+            )
+          )
+        )
+      }
+      
+    } else
+      software_xml <- NULL
+    
+    return(
+      list(
+        description = description,
+        dataSource = data_source,
+        protocol = protocols_xml,
+        instrumentation = instruments_xml,
+        software = software_xml
+      )
+    )
+    
     
     # ---
     # construct methodStep
