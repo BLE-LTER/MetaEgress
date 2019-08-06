@@ -185,7 +185,9 @@ create_EML <-
     
     # -------------------------------------------------------------------------------
     # methods
-
+    
+    method_section <- create_method_section(meta_list, dataset_id = dataset_id, file_dir = file_dir)
+    
 
     # ------------------------------------------------------------------------------
     # abstract
@@ -310,13 +312,13 @@ create_EML <-
     # maintenance
     
     maint_desc <-
-      if (!is.na(dataset_meta$maintenance_desc))
-        dataset_meta$maintenance_desc
+      if (!is.na(dataset_meta[["maintenance_description"]]))
+        dataset_meta[["maintenance_description"]]
     else
       "No maintenance description provided."
     update_freq <-
-      if (!is.na(dataset_meta$update_frequency))
-        dataset_meta$update_frequency
+      if (!is.na(dataset_meta[["maintenanceupdatefrequency"]]))
+        dataset_meta[["maintenanceupdatefrequency"]]
     else
       NULL
     
@@ -349,8 +351,6 @@ create_EML <-
       maintenanceUpdateFrequency = update_freq,
       changeHistory = change_history
     )
-
-    
     
     # -----------------------------------------------------------------------------
     # put the dataset together
@@ -372,7 +372,7 @@ create_EML <-
         publisher = publisher,
         distribution = distribution,
         project = project,
-        methods = method_xml,
+        methods = method_section,
         language = "English",
         dataTable = entity_list[["data_tables"]],
         otherEntity = entity_list[["other_entities"]],
