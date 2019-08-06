@@ -44,20 +44,22 @@ create_EML <-
     
     # ----------------------------------------------------------------------------
     # 
-    check_empty_and_insert <- function(df){
-      if (nrow(df) == 0){
-        
-        df[1, "datasetid"] <- dataset_id
-      } else {
-        df <- df
-      }
-      
-      return(df)
-    }
+    # check_empty_and_insert <- function(df){
+    #   if (nrow(df) == 0){
+    #     
+    #     df[1, "datasetid"] <- dataset_id
+    #   } else {
+    #     df <- df
+    #   }
+    #   
+    #   return(df)
+    # }
     
     meta_list[c("attributes", "factors", "entities")] <- NULL
     
-    meta_list <- lapply(meta_list, check_empty_and_insert)
+    # ---
+    # adding empty rows might be a bad idea after all
+    # meta_list <- lapply(meta_list, check_empty_and_insert)
     
     # -----------------------------------------------------------------------------
     # creators
@@ -186,7 +188,7 @@ create_EML <-
     # -------------------------------------------------------------------------------
     # methods
     
-    method_section <- create_method_section(meta_list, dataset_id = dataset_id, file_dir = file_dir)
+    method_section <- list(methodStep = create_method_section(meta_list, dataset_id = dataset_id, file_dir = file_dir))
     
 
     # ------------------------------------------------------------------------------
@@ -206,15 +208,13 @@ create_EML <-
     tempo <-
       subset(meta_list[["temporal"]], datasetid == dataset_id)
     
-    if (is.na(tempo[["begindate"]]) & is.na(tempo[["enddate"]])){
-      tempcover <- NULL
-    } else{
+    if (nrow(tempo) > 0) {
       tempcover <-
         list(rangeOfDates = list(
           beginDate = list(calendarDate = as.character(tempo[, "begindate"])),
           endDate = list(calendarDate = as.character(tempo[, "enddate"]))
         ))
-    }
+    } else tempcover <- NULL
     # -----------------------------------------------------------------------------
     # spatial coverage, list
     
@@ -237,10 +237,10 @@ create_EML <-
           )
       return(geo)
     }
-    
+    if (nrow(geo) > 0) {
     geoall <- apply(geo, 1, geo_func)
     names(geoall) <- NULL
-    
+    } else geoall <- NULL
     # -----------------------------------------------------------------------------
     # taxonomic coverage
     
