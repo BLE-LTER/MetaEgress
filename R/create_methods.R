@@ -76,6 +76,7 @@ create_method_step <-
       data_source <- lapply(prov, `[[`, "dataSource")
       
       # what a roundabout way to do this
+      # note: we are selecting the "description" from each data source, unlisting the list, then collapse them together, then set texttype on the collapsed string. mmm convoluted yea?
       prov_desc <-
         set_TextType(text = paste0(unlist(
           lapply(prov, `[[`, "description"), use.names = F
@@ -100,7 +101,7 @@ create_method_step <-
       protocols_xml <- list()
       
       for (i in 1:nrow(protocols)) {
-        protocols_xml <- c(protocols_xml,
+        protocols_xml[[i]] <- 
                            list(
                              title = protocols[i, "title"],
                              creator = list(
@@ -111,7 +112,7 @@ create_method_step <-
                                url = list(protocols[i, "url"],
                                           `function` = "download")
                              ))
-                           ))
+                           )
       }
     } else
       protocols_xml <- NULL
@@ -122,9 +123,8 @@ create_method_step <-
     if (nrow(instruments) > 0) {
       instruments_xml <- list()
       
-      for (i in nrow(instruments)) {
-        instruments_xml <- c(instruments_xml,
-                             instruments[["instrument"]])
+      for (i in 1:nrow(instruments)) {
+        instruments_xml[[i]] <- instruments[i, "instrument"]
       }
       
     } else
@@ -137,9 +137,8 @@ create_method_step <-
     if (nrow(software) > 0) {
       software_xml <- list()
       
-      for (i in nrow(software)) {
-        software_xml <- c(
-          software_xml,
+      for (i in 1:nrow(software)) {
+        software_xml[[i]] <-
           list(
             title = software[i, "title"],
             creator = list(individualName = list(surName = software[i, "surName"])),
@@ -148,11 +147,10 @@ create_method_step <-
               distribution = list(online = list(
                 url = list(software[i, "url"],
                            `function` = "information")
-              )),
-              version = software[i, "version"]
-            )
+              ))
+            ),
+            version = software[i, "version"]
           )
-        )
       }
       
     } else
