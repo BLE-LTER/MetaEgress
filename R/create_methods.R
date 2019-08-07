@@ -1,0 +1,186 @@
+#' @title Create dataset method section.
+#' 
+#' @description Create an EML package-compatible XML list tree for a dataset method section.
+#' 
+#' @param meta_list (list) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
+#' @param dataset_id (numeric) A dataset ID.
+#' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.
+#' 
+#' 
+#' @return (list) An EML package-compatible XML list tree containing information on methods in LTER-core-metabase for the specified dataset ID.
+#' 
+#' @export
+
+create_method_section <-
+  function(meta_list, dataset_id, file_dir = NULL) {
+    steps <- meta_list[["methodstep"]][["methodstep_id"]]
+    
+    methodStep <-
+      lapply(steps,
+             create_method_step,
+             meta_list,
+             dataset_id = dataset_id,
+             file_dir = file_dir)
+    
+    names(methodStep) <- NULL
+    
+    return(methodStep)
+  }
+
+# ------------------------------------------------------------------------------
+
+#' @title Create method step.
+#' 
+#' @description Create an EML package-compatible XML list tree for a dataset methodStep.
+#'
+#' @param step_id (numeric) A methodStep ID. Distinct IDs constitute distinct methodSteps.
+#' @param meta_list (list) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
+#' @param dataset_id (numeric) A dataset ID.
+#' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.
+#' 
+#' @return (list) An EML package-compatible XML list tree containing a methodStep for the specified dataset ID and methodStep ID.
+#' 
+#' @export
+
+create_method_step <-
+  function(step_id,
+           meta_list,
+           dataset_id,
+           file_dir = NULL) {
+    # ---
+    # subset
+    
+    method_desc <-
+      subset(meta_list[["methodstep"]], datasetid == dataset_id &
+               methodstep_id == step_id)
+    provenance <-
+      subset(meta_list[["provenance"]], datasetid == dataset_id &
+               methodstep_id == step_id)
+    protocols <-
+      subset(meta_list[["protocols"]], datasetid == dataset_id &
+               methodstep_id == step_id)
+    instruments <-
+      subset(meta_list[["instruments"]], datasetid == dataset_id &
+               methodstep_id == step_id)
+    software <-
+      subset(meta_list[["software"]], datasetid == dataset_id &
+               methodstep_id == step_id)
+    
+    # ---
+    # get method step description
+    description <-
+      if (is.null(file_dir))
+        set_TextType(file = method_desc[["description"]])
+    else
+      set_TextType(file.path(file_dir, method_desc[["description"]]))
+    
+    # ---
+    # get and expand provenance
+    
+    
+    
+    if (nrow(provenance) > 0) {
+      ids <-
+        provenance[["data_source_packageId"]]
+      
+      prov <-
+        lapply(lapply(ids, EDIutils::api_get_provenance_metadata),
+               emld::as_emld)
+      
+      data_source <- lapply(prov, `[[`, "dataSource")
+      
+      # what a roundabout way to do this
+      # note: we are selecting the "description" from each data source, unlisting the list, then collapse them together, then set texttype on the collapsed string. mmm convoluted yea?
+      prov_desc <-
+        set_TextType(text = paste0(unlist(
+          lapply(prov, `[[`, "description"), use.names = F
+        ), collapse = " \n "))
+      
+      # ---
+      # stitch descriptions together
+      description$para <- c(description$para, prov_desc)
+      
+    } else {
+      data_source <- NULL
+    }
+    
+    
+    
+    
+    # ---
+    # get protocols
+    
+    
+    if (nrow(protocols) > 0) {
+      protocols_xml <- list()
+      
+      for (i in 1:nrow(protocols)) {
+        protocols_xml[[i]] <- 
+                           list(
+                             title = protocols[i, "title"],
+                             creator = list(
+                               individualName = list(givenName = protocols[i, "givenname"],
+                                                     surName = protocols[i, "surname"])
+                             ),
+                             distribution = list(online = list(
+                               url = list(protocols[i, "url"],
+                                          `function` = "download")
+                             ))
+                           )
+      }
+    } else
+      protocols_xml <- NULL
+    
+    # ---
+    # get instruments
+    
+    if (nrow(instruments) > 0) {
+      instruments_xml <- list()
+      
+      for (i in 1:nrow(instruments)) {
+        instruments_xml[[i]] <- instruments[i, "instrument"]
+      }
+      
+    } else
+      instruments_xml <- NULL
+    
+    
+    # ---
+    # get software
+    
+    if (nrow(software) > 0) {
+      software_xml <- list()
+      
+      for (i in 1:nrow(software)) {
+        software_xml[[i]] <-
+          list(
+            title = software[i, "title"],
+            creator = list(individualName = list(surName = software[i, "surName"])),
+            abstract = software[i, "abstract"],
+            implementation = list(
+              distribution = list(online = list(
+                url = list(software[i, "url"],
+                           `function` = "information")
+              ))
+            ),
+            version = software[i, "version"]
+          )
+      }
+      
+    } else
+      software_xml <- NULL
+    
+    # ---
+    # construct and return methodStep
+    
+    return(
+      list(
+        description = description,
+        dataSource = data_source,
+        protocol = protocols_xml,
+        instrumentation = instruments_xml,
+        software = software_xml
+      )
+    )
+    
+  }

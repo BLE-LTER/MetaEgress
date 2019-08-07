@@ -2,10 +2,10 @@
 % Please edit documentation in R/create_EML.R
 \name{create_EML}
 \alias{create_EML}
-\title{Create EML list object.}
+\title{Create EML.}
 \usage{
-create_EML(meta_list, entity_list, dataset_id, boilerplate_path,
-  license_path)
+create_EML(meta_list, entity_list, dataset_id, file_dir = NULL,
+  boilerplate_path, license_path)
 }
 \arguments{
 \item{meta_list}{A list of dataframes containing metadata returned by \code{\link{get_meta}}.}
@@ -14,15 +14,17 @@ create_EML(meta_list, entity_list, dataset_id, boilerplate_path,
 
 \item{dataset_id}{(numeric) A dataset ID.}
 
+\item{file_dir}{(character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.}
+
 \item{boilerplate_path}{(character) System path to XML file containing boilerplate items.}
 
 \item{license_path}{(character) System path to pandoc compatible file containing intellectual rights statement.}
 }
 \value{
-(list) A list containing all EML elements. Supply this list object to \code{\link[EML]{eml_validate}} and \code{\link[EML]{write_eml}} to validate and write to .xml file.
+(list) An EML package-compatible XML list tree. Supply this list object to \code{\link[EML]{eml_validate}} and \code{\link[EML]{write_eml}} to, in order, validate and write to .xml file.
 }
 \description{
-Create ready-to-validate-and-write EML list object.
+Create an EML package-compatible XML list tree for an EML document, ready to validate and write to .xml file.
 }
 \examples{
 \dontrun{
