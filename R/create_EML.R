@@ -1,7 +1,7 @@
 
-#' @title Create EML list object.
+#' @title Create EML.
 #' 
-#' @description Create ready-to-validate-and-write EML list object.
+#' @description Create an EML package-compatible XML list tree for an EML document, ready to validate and write to .xml file.
 #'
 #' @param meta_list A list of dataframes containing metadata returned by \code{\link{get_meta}}.
 #' @param entity_list (character) A list of entities returned by \code{\link{create_entity_all}}.
@@ -10,7 +10,7 @@
 #' @param boilerplate_path (character) System path to XML file containing boilerplate items.
 #' @param license_path (character) System path to pandoc compatible file containing intellectual rights statement.
 #' 
-#' @return (list) A list containing all EML elements. Supply this list object to \code{\link[EML]{eml_validate}} and \code{\link[EML]{write_eml}} to validate and write to .xml file.
+#' @return (list) An EML package-compatible XML list tree. Supply this list object to \code{\link[EML]{eml_validate}} and \code{\link[EML]{write_eml}} to, in order, validate and write to .xml file.
 #' 
 #' @examples
 #' \dontrun{
@@ -237,10 +237,13 @@ create_EML <-
           )
       return(geo)
     }
+    
     if (nrow(geo) > 0) {
     geoall <- apply(geo, 1, geo_func)
     names(geoall) <- NULL
     } else geoall <- NULL
+    
+    
     # -----------------------------------------------------------------------------
     # taxonomic coverage
     
@@ -251,6 +254,7 @@ create_EML <-
       names(taxcov[[1]]) <- NULL
     } else
       taxcov <- NULL
+    
     # -----------------------------------------------------------------------------
     # overall coverage
     

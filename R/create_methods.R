@@ -1,9 +1,15 @@
-#'
-#'
-#'
-#'
-#'
-#'
+#' @title Create dataset method section.
+#' 
+#' @description Create an EML package-compatible XML list tree for a dataset method section.
+#' 
+#' @param meta_list (list) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
+#' @param dataset_id (numeric) A dataset ID.
+#' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.
+#' 
+#' 
+#' @return (list) An EML package-compatible XML list tree containing information on methods in LTER-core-metabase for the specified dataset ID.
+#' 
+#' @export
 
 create_method_section <-
   function(meta_list, dataset_id, file_dir = NULL) {
@@ -21,12 +27,20 @@ create_method_section <-
     return(methodStep)
   }
 
+# ------------------------------------------------------------------------------
+
+#' @title Create method step.
+#' 
+#' @description Create an EML package-compatible XML list tree for a dataset methodStep.
 #'
-#'
-#'
-#'
-#'
-#'
+#' @param step_id (numeric) A methodStep ID. Distinct IDs constitute distinct methodSteps.
+#' @param meta_list (list) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
+#' @param dataset_id (numeric) A dataset ID.
+#' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.
+#' 
+#' @return (list) An EML package-compatible XML list tree containing a methodStep for the specified dataset ID and methodStep ID.
+#' 
+#' @export
 
 create_method_step <-
   function(step_id,
@@ -156,6 +170,9 @@ create_method_step <-
     } else
       software_xml <- NULL
     
+    # ---
+    # construct and return methodStep
+    
     return(
       list(
         description = description,
@@ -165,14 +182,5 @@ create_method_step <-
         software = software_xml
       )
     )
-    
-    
-    # ---
-    # construct methodStep
-    
-    
-    # ---
-    # return methodStep
-    
     
   }
