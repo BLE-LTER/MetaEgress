@@ -34,4 +34,5 @@ Connect to instance of LTER-core-metabase and query for metadata.
 # Can query multiple datasets at once
 metadata <- get_meta(dbname = "ble_metabase", dataset_ids = c(1, 2))
 }
+
 }
