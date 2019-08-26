@@ -166,43 +166,12 @@ create_EML <-
       )
 
     # -----------------------------------------------------------------------------
-    # keywords grouped by keywordThesaurus and with keywordType attribute
+    # keywords
 
     keywords <-
       subset(meta_list[["keyword"]], datasetid == dataset_id)
 
-    # trim whitespace, convert empty string or "none" to NA
-    # doesn't work
-    # keywords <- lapply(keywords, stringr::str_trim)
-    # keywords["keyword_thesaurus" %in% c("", "none")] <- NA
-
-    # for each unique thesaurus, create keywordSet
-    keyset_func <- function(thesaurus) {
-      set <- subset(keywords, keyword_thesaurus == thesaurus)
-
-      key_func <- function(key) {
-        key <- list(key,
-          `keywordType` = list(subset(set$keywordtype, set$keyword == key))
-        )
-        return(key)
-      }
-
-      keys <- lapply(unique(set$keyword), key_func)
-
-      keywordSet <- list(
-        keyword = keys,
-        keywordThesaurus =
-          if (is.na(set[["keyword_thesaurus"]][[1]])) {
-            NULL
-          } else {
-            set[["keyword_thesaurus"]][[1]]
-          }
-      )
-      return(keywordSet)
-    }
-
-    kall <- lapply(unique(keywords$keyword_thesaurus), keyset_func)
-    names(kall) <- NULL
+    kall <- assemble_keywordset(keywords)
 
     # -----------------------------------------------------------------------------
     # boilerplate information
