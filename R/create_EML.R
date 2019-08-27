@@ -190,53 +190,12 @@ create_EML <-
     # ----------------------------------------------------------------------------
     # maintenance
 
-    maint_desc <-
-      if (!is.na(dataset_meta[["maintenance_description"]])) {
-        dataset_meta[["maintenance_description"]]
-      } else {
-        "No maintenance description provided."
-      }
-    update_freq <-
-      if (!is.na(dataset_meta[["maintenanceupdatefrequency"]])) {
-        dataset_meta[["maintenanceupdatefrequency"]]
-      } else {
-        NULL
-      }
 
-    change_hist <- subset(meta_list[["changehistory"]], datasetid == dataset_id)
 
-    make_history <- function(row) {
-      one_change <- list(
-        changeScope = if (!is.na(row[["change_scope"]])) {
-          row[["change_scope"]]
-        } else {
-          NULL
-        },
-        oldValue = if (row[["revision_number"]] == 1) {
-          "No previous revision"
-        } else {
-          paste("See previous revision", as.numeric(row[["revision_number"]]) - 1)
-        },
-        changeDate = row[["change_date"]],
-        comment = if (!is.na(row[["revision_notes"]])) {
-          paste(row[["givenname"]], row[["surname"]], ":", row[["revision_notes"]])
-        } else {
-          NULL
-        }
-      )
-    }
-    if (nrow(change_hist) > 0) {
-      change_history <- apply(change_hist, 1, make_history)
-      names(change_history) <- NULL
-    } else {
-      change_history <- NULL
-    }
-
-    maintenance <- list(
-      description = maint_desc,
-      maintenanceUpdateFrequency = update_freq,
-      changeHistory = change_history
-    )
+    change <- subset(meta_list[["changehistory"]], datasetid == dataset_id)
+    
+    maintenance <- assemble_maintenance(dataset_df = dataset_meta, changehistory_df = change)
+    
 
     # -----------------------------------------------------------------------------
     # put the dataset together
