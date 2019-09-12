@@ -5,8 +5,8 @@
 #' @param dbname (character) name of database.
 #' @param schema (character) name of schema containing views. Defaults to 'mb2eml_r'.
 #' @param dataset_ids (numeric) Number or numeric vector of dataset IDs to query.
-#' @param host (numeric) host name or IP address. Defaults to 'localhost'.
-#' @param port (character) port number. Defaults to 5432.
+#' @param host (character) host name or IP address. Defaults to 'localhost'.
+#' @param port (numeric) port number. Defaults to 5432.
 #' @param user (character) (optional) username to use in connecting to database. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.
 #' @param password (character) (optional) password to user. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.
 #'
@@ -36,22 +36,18 @@ get_meta <-
     # set DB driver
     driver <- RPostgres::Postgres()
 
-    # connect to specified DBs
+    # connect to specified DB
     con <- dbConnect(
       drv = driver,
       dbname = dbname,
       host = host,
       port = port,
-      user = if (is.null(user)) {
+      user = if (is.null(user))
         rstudioapi::showPrompt(title = "Enter database username", message = "Username to use in connecting to metabase")
-      } else {
-        user
-      },
-      password = if (is.null(password)) {
+       else user,
+      password = if (is.null(password))
         rstudioapi::askForPassword(prompt = "Enter database password")
-      } else {
-        password
-      }
+      else password
     )
 
     # -------------------------------------------------------------------------------------
@@ -86,9 +82,11 @@ get_meta <-
       "vw_eml_provenance",
       "vw_eml_protocols",
       "vw_eml_instruments",
-      "vw_eml_software"
+      "vw_eml_software",
+      "vw_eml_boilerplate",
+      "vw_eml_bp_people"
     )
-
+    
     # missing views: difference between expected and actual views
     views_missing <- setdiff(views_expected, views_actual)
     if (length(views_missing) != 0) {
@@ -98,7 +96,7 @@ get_meta <-
           schema,
           "' not matching expected views. Missing following view(s): ",
           paste(views_missing, collapse = ", "),
-          ". Please check your installation of core-metabase."
+          ". Please check your installation of LTER-core-metabase."
         )
       )
     }
@@ -116,11 +114,13 @@ get_meta <-
         )
       )
     }
-
+    
+    # remove boilerplate views
+    views_expected <- views_expected[!views_expected %in% c("vw_eml_boilerplate", "vw_eml_bp_people")]
+    
     views_to_query <-
       paste0(schema, ".", intersect(views_actual, views_expected))
     names(views_to_query) <- intersect(views_actual, views_expected)
-
     # ---------------------------------------------------------------------------------
     # function to parameterize queries to prevent SQL injection
     param_query <- function(view) {
@@ -137,6 +137,14 @@ get_meta <-
     # apply over list of views to query
     query_dfs <- lapply(views_to_query, param_query)
 
+    
+    # ---------------------------------------------------------------------------------
+    # read in boilerplate views separately since these do not have datasetid column
+    
+    query_dfs[["boilerplate"]] <- dbGetQuery(con, paste0('SELECT * FROM ', schema, '.vw_eml_boilerplate'))
+    query_dfs[["bp_people"]] <- dbGetQuery(con, paste0('SELECT * FROM ', schema, '.vw_eml_bp_people'))
+    
+    
     # disconnect
     dbDisconnect(con)
 
@@ -162,7 +170,9 @@ get_meta <-
       "provenance",
       "protocols",
       "instruments",
-      "software"
+      "software",
+      "boilerplate",
+      "bp_people"
     )
 
     # match expected views with names of data frames in list

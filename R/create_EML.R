@@ -7,7 +7,6 @@
 #' @param entity_list (character) A list of entities returned by \code{\link{create_entity_all}}.
 #' @param dataset_id (numeric) A dataset ID.
 #' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.
-#' @param boilerplate_path (character) System path to XML file containing boilerplate items.
 #' @param license_path (character) System path to pandoc compatible file containing intellectual rights statement.
 #'
 #' @return (list) An EML package-compatible XML list tree. Supply this list object to \code{\link[EML]{eml_validate}} and \code{\link[EML]{write_eml}} to, in order, validate and write to .xml file.
@@ -15,7 +14,7 @@
 #' @examples
 #' \dontrun{
 #' # continued from \code{\link{get_meta}} and \code{\link{create_entity_all}}
-#' EML <- create_EML(meta_list = metadata, entity_list = entities, dataset_id = 1, boilerplate_path = here::here("documents", "boilerplate.xml"), license_path = here::here("documents", "license.docx"))
+#' EML <- create_EML(meta_list = metadata, entity_list = entities, dataset_id = 1, license_path = here::here("documents", "license.docx"))
 #' }
 #' @export
 
@@ -24,7 +23,6 @@ create_EML <-
              entity_list,
              dataset_id,
              file_dir = NULL,
-             boilerplate_path,
              license_path) {
     # ----------------------------------------------------------------------------
     # initial check for missing arguments
@@ -42,7 +40,9 @@ create_EML <-
       stop("too many dataset ids. only one allowed for each EML document.")
     }
 
-    meta_list[c("attributes", "factors", "entities")] <- NULL
+    #meta_list[c("attributes", "factors", "entities")] <- NULL
+    
+    #meta_list <- lapply(meta_list, function(x) return(x[x[["datasetid"]] == dataset_id, ]))
 
     # -----------------------------------------------------------------------------
     # creators
@@ -59,11 +59,9 @@ create_EML <-
       creator_list[order(creator_list$authorshiporder), ]
 
     # trim whitespace and convert blank strings to NAs
-    creator_list[["givenname"]] <- trimws(creator_list[["givenname"]])
-    creator_list[["givenname"]][creator_list[["givenname"]] == ""] <- NA
+    creator_list[["givenname"]] <- na_if_empty(creator_list[["givenname"]])
 
-    creator_list[["surname"]] <- trimws(creator_list[["surname"]])
-    creator_list[["surname"]][creator_list[["surname"]] == ""] <- NA
+    creator_list[["surname"]] <- na_if_empty(creator_list[["surname"]])
 
     creators <- assemble_personnel(creator_list)
 
@@ -175,27 +173,15 @@ create_EML <-
 
     # -----------------------------------------------------------------------------
     # boilerplate information
-    boilerplate <- EML::read_eml(boilerplate_path)
-
-    access <- EML::eml_get(boilerplate, element = "access")
-    contact <- EML::eml_get(boilerplate$dataset, element = "contact")
-    distribution <-
-      EML::eml_get(boilerplate$dataset, element = "distribution")
-    metadata_provider <-
-      EML::eml_get(boilerplate$dataset, element = "metadataProvider")
-    publisher <- EML::eml_get(boilerplate$dataset, element = "publisher")
-    project <- EML::eml_get(boilerplate$dataset, element = "project")
-    system <- boilerplate$system
+    
+    meta_list[["bp_people"]][["givenname"]] <- na_if_empty(meta_list[["bp_people"]][["givenname"]])
+    meta_list[["bp_people"]][["surname"]] <- na_if_empty(meta_list[["bp_people"]][["surname"]])
+    bp <- assemble_boilerplate(meta_list[["boilerplate"]], meta_list[["bp_people"]], dataset_meta[["bp_setting"]])
 
     # ----------------------------------------------------------------------------
     # maintenance
-
-
-
     change <- subset(meta_list[["changehistory"]], datasetid == dataset_id)
-    
     maintenance <- assemble_maintenance(dataset_df = dataset_meta, changehistory_df = change)
-    
 
     # -----------------------------------------------------------------------------
     # put the dataset together
@@ -207,16 +193,16 @@ create_EML <-
         shortName = dataset_meta[["shortname"]],
         creator = creators,
         associatedParty = associated_party,
-        metadataProvider = metadata_provider,
+        metadataProvider = bp[["metadata_provider"]],
         pubDate = as.character(format(as.Date(dataset_meta[["pubdate"]]), "%Y")),
         intellectualRights = EML::set_TextType(license_path),
         abstract = abstract,
         keywordSet = kall,
         coverage = coverage,
-        contact = contact,
-        publisher = publisher,
-        distribution = distribution,
-        project = project,
+        contact = bp[["contact"]],
+        publisher = bp[["publisher"]],
+        distribution = bp[["distribution"]],
+        project = bp[["project"]],
         methods = method_section,
         language = "English",
         dataTable = entity_list[["data_tables"]],
@@ -241,14 +227,13 @@ create_EML <-
 
     eml <-
       list(
-        packageId = dataset_meta[["edinum"]],
-        system = system,
+        packageId = paste0(bp[["scope"]], ".", dataset_id, ".", dataset_meta[["revision_number"]]),
+        system = bp[["system"]],
         schemaLocation = "eml://ecoinformatics.org/eml-2.1.1 http://nis.lternet.edu/schemas/EML/eml-2.1.1/eml.xsd",
-        access = access,
+        access = bp[["access"]],
         dataset = dataset,
         additionalMetadata = additional_metadata
       )
-
 
     return(eml)
   }
