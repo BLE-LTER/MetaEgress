@@ -3,7 +3,7 @@
 #'
 #' @description Create an EML package-compatible XML list tree for an EML document, ready to validate and write to .xml file.
 #'
-#' @param meta_list A list of dataframes containing metadata returned by \code{\link{get_meta}}.
+#' @param meta_list (list) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
 #' @param entity_list (character) A list of entities returned by \code{\link{create_entity_all}}.
 #' @param dataset_id (numeric) A dataset ID.
 #' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.
@@ -95,74 +95,12 @@ create_EML <-
     } else {
       abstract <- set_TextType(file.path(file_dir, dataset_meta$abstract))
     }
-    # ------------------------------------------------------------------------------
-    # temporal coverage, assume one range
-
-    tempo <-
-      subset(meta_list[["temporal"]], datasetid == dataset_id)
-
-    if (nrow(tempo) > 0) {
-      tempcover <-
-        list(rangeOfDates = list(
-          beginDate = list(calendarDate = as.character(tempo[, "begindate"])),
-          endDate = list(calendarDate = as.character(tempo[, "enddate"]))
-        ))
-    } else {
-      tempcover <- NULL
-    }
+    
     # -----------------------------------------------------------------------------
-    # spatial coverage, list
+    # geo, tempo, taxa coverage
 
-    geo <- subset(meta_list[["geo"]], datasetid == dataset_id)
-    geo_func <- function(geo_list) {
-      geo <-
-        list(
-          geographicDescription = geo_list[["geographicdescription"]],
-          boundingCoordinates = list(
-            westBoundingCoordinate = as.character(geo_list[["westboundingcoordinate"]]),
-            eastBoundingCoordinate = as.character(geo_list[["eastboundingcoordinate"]]),
-            northBoundingCoordinate = as.character(geo_list[["northboundingcoordinate"]]),
-            southBoundingCoordinate = as.character(geo_list[["southboundingcoordinate"]]),
-            boundingAltitudes = list(
-              altitudeMinimum = if (!is.na(geo_list[["altitudeminimum"]])) geo_list[["altitudeminimum"]] else NULL,
-              altitudeMaximum = if (!is.na(geo_list[["altitudemaximum"]])) geo_list[["altitudemaximum"]] else NULL,
-              altitudeUnits = if (!is.na(geo_list[["altitudeunits"]])) geo_list[["altitudeunits"]] else NULL
-            )
-          )
-        )
-      return(geo)
-    }
-
-    if (nrow(geo) > 0) {
-      geoall <- apply(geo, 1, geo_func)
-      names(geoall) <- NULL
-    } else {
-      geoall <- NULL
-    }
-
-
-    # -----------------------------------------------------------------------------
-    # taxonomic coverage
-
-    taxa <- subset(meta_list[["taxonomy"]], datasetid == dataset_id)
-
-    if (nrow(taxa) > 0) {
-      taxcov <- set_taxonomicCoverage(taxa[["taxonrankvalue"]], expand = T)
-      names(taxcov[[1]]) <- NULL
-    } else {
-      taxcov <- NULL
-    }
-
-    # -----------------------------------------------------------------------------
-    # overall coverage
-
-    coverage <-
-      list(
-        geographicCoverage = geoall,
-        temporalCoverage = tempcover,
-        taxonomicCoverage = taxcov
-      )
-
+    coverage <- assemble_coverage(meta_list)
+    
     # -----------------------------------------------------------------------------
     # keywords
 
