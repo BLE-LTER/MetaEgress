@@ -8,6 +8,12 @@ null_if_na <- function(parent, thing) {
   }
 }
 
+na_if_empty <- function(thing) {
+  thing <- trimws(thing)
+  thing[thing == ""] <- NA
+  return(thing)
+}
+
 
 # utilities for MetaEgress
 # not exported

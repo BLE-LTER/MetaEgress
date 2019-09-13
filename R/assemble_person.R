@@ -32,22 +32,22 @@ assemble_personnel <- function(personnel_df) {
 #' @title Assemble EML list structure for singular personnel.
 #' @description Assemble emld list structure for an EML ResponsibleParty type.
 #'
-#' @param row (data.frame) A single-row data.frame containing information on a single ResponsibleParty.
+#' @param person (data.frame) A single-row data.frame containing information on a single ResponsibleParty.
 #' @return (list) emld list structure.
 #' 
 #' @export
 #'
 
-assemble_person <- function(row) {
+assemble_person <- function(person) {
   # check for organization
 
-  if (!is.na(row[["givenname"]]) ||
-    !is.na(row[["surname"]])) {
-    if (!is.na(row[["givenname"]]) || !is.na(row[["givenname2"]])) {
+  if (!is.na(person[["givenname"]]) ||
+    !is.na(person[["surname"]])) {
+    if (!is.na(person[["givenname"]]) || !is.na(person[["givenname2"]])) {
       given_name <-
         paste(
-          null_if_na(row, "givenname"),
-          null_if_na(row, "givenname2")
+          null_if_na(person, "givenname"),
+          null_if_na(person, "givenname2")
         )
     } else {
       given_name <- NULL
@@ -55,7 +55,7 @@ assemble_person <- function(row) {
 
     individual_name <- list(
       givenName = given_name,
-      surName = null_if_na(row, "surname")
+      surName = null_if_na(person, "surname")
     )
   } else {
     individual_name <- NULL
@@ -64,30 +64,30 @@ assemble_person <- function(row) {
 
   # check for empty address
 
-  if (is.na(row[["address1"]]) &
-    is.na(row[["address2"]]) & is.na(row[["address3"]])) {
+  if (is.na(person[["address1"]]) &
+    is.na(person[["address2"]]) & is.na(person[["address3"]])) {
     delivery_point <- NULL
   } else {
     delivery_point <-
       paste(
-        null_if_na(row, "address1"),
-        null_if_na(row, "address2"),
-        null_if_na(row, "address3")
+        null_if_na(person, "address1"),
+        null_if_na(person, "address2"),
+        null_if_na(person, "address3")
       )
   }
 
   address <- list(
     deliveryPoint = delivery_point,
-    city = null_if_na(row, "city"),
-    administrativeArea = null_if_na(row, "state"),
-    postalCode = null_if_na(row, "zipcode"),
-    country = null_if_na(row, "country")
+    city = null_if_na(person, "city"),
+    administrativeArea = null_if_na(person, "state"),
+    postalCode = null_if_na(person, "zipcode"),
+    country = null_if_na(person, "country")
   )
 
   user_id <-
-    if ("userid" %in% colnames(row) & !is.na(row[["userid"]])) {
-      list(row[["userid"]],
-        `directory` = null_if_na(row, "userid_type")
+    if ("userid" %in% colnames(person) & !is.na(person[["userid"]])) {
+      list(person[["userid"]],
+        `directory` = null_if_na(person, "userid_type")
       )
     }
     else {
@@ -99,16 +99,13 @@ assemble_person <- function(row) {
 
   p <- list(
     individualName = individual_name,
-    organizationName = null_if_na(row, "organization"),
+    organizationName = null_if_na(person, "organization"),
     address = address,
-    phone = null_if_na(row, "phone1"),
-    electronicMailAddress = null_if_na(row, "email"),
+    phone = null_if_na(person, "phone1"),
+    electronicMailAddress = null_if_na(person, "email"),
     userId = user_id,
-    role = if ("authorshiprole" %in% colnames(row) & !row[["authorshiprole"]] %in% c("creator", "contact")) {
-      null_if_na(row, "authorshiprole")
-    } else {
-      NULL
-    }
+    role = if ("authorshiprole" %in% colnames(person)) if (!person[["authorshiprole"]] %in% c("creator", "contact")) null_if_na(person, "authorshiprole") else NULL 
+    else NULL
   )
   return(p)
 }
