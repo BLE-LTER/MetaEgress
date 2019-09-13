@@ -4,7 +4,7 @@
 #' @param bp_people (data.frame) Data frame containing expanded info on contact, metadata provider, publisher. 
 #' @param bp_setting (character) The boilerplate setting ("default" or otherwise).
 #'
-#' @return (list) Named list containing boilerplate items: scope, system, access, project, distribution, contact, metadata provider, publisher.
+#' @return (list) Named list containing boilerplate items: scope, system, access, project, distribution, contact, metadata provider, publisher, license.
 
 
 assemble_boilerplate <- function(bp_df, bp_people, bp_setting) {
@@ -30,6 +30,8 @@ assemble_boilerplate <- function(bp_df, bp_people, bp_setting) {
   project = as_emld(xml2::read_xml(as.character(bp_df[["project"]])))
   project <- project[!names(project) %in% c("@context", "@type")]
   
+  license <- set_TextType(bp[["license"]])
+  
   bp <- list(
     scope = bp_df[["scope"]],
     system = bp_df[["system"]],
@@ -38,7 +40,8 @@ assemble_boilerplate <- function(bp_df, bp_people, bp_setting) {
     distribution = distribution,
     contact = contact,
     metadata_provider = metadata_provider, 
-    publisher = publisher
+    publisher = publisher,
+    license
   )
   return(bp)
   

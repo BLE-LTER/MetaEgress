@@ -7,8 +7,7 @@
 #' @param entity_list (character) A list of entities returned by \code{\link{create_entity_all}}.
 #' @param dataset_id (numeric) A dataset ID.
 #' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.
-#' @param license_path (character) System path to pandoc compatible file containing intellectual rights statement.
-#'
+
 #' @return (list) An EML package-compatible XML list tree. Supply this list object to \code{\link[EML]{eml_validate}} and \code{\link[EML]{write_eml}} to, in order, validate and write to .xml file.
 #'
 #' @examples
@@ -22,8 +21,7 @@ create_EML <-
   function(meta_list,
              entity_list,
              dataset_id,
-             file_dir = NULL,
-             license_path) {
+             file_dir = NULL) {
     # ----------------------------------------------------------------------------
     # initial check for missing arguments
 
@@ -133,7 +131,7 @@ create_EML <-
         associatedParty = associated_party,
         metadataProvider = bp[["metadata_provider"]],
         pubDate = as.character(format(as.Date(dataset_meta[["pubdate"]]), "%Y")),
-        intellectualRights = EML::set_TextType(license_path),
+        intellectualRights = bp[["license"]],
         abstract = abstract,
         keywordSet = kall,
         coverage = coverage,

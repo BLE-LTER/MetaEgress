@@ -36,7 +36,6 @@ assemble_personnel <- function(personnel_df) {
 #' @return (list) emld list structure.
 #' 
 #' @export
-#'
 
 assemble_person <- function(person) {
   # check for organization

@@ -1,12 +1,12 @@
 #'
-#' Create a maintenance tree for dataset
+#' Assemble dataset level maintenance tree
 #' 
 #' @param dataset_df
 #' @param changehistory_df
 #'
-#' @return (list) An emld list structure containting the EML maintenance tree
+#' @return (list) An emld list structure containting the EML maintenance tree: description, update frequency, change history
 #' 
-#' 
+#' @export
 
 assemble_maintenance <- function(dataset_df, changehistory_df) {
   maint_desc <-
