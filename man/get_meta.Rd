@@ -14,9 +14,9 @@ get_meta(dbname, schema = "mb2eml_r", dataset_ids, host = "localhost",
 
 \item{dataset_ids}{(numeric) Number or numeric vector of dataset IDs to query.}
 
-\item{host}{(numeric) host name or IP address. Defaults to 'localhost'.}
+\item{host}{(character) host name or IP address. Defaults to 'localhost'.}
 
-\item{port}{(character) port number. Defaults to 5432.}
+\item{port}{(numeric) port number. Defaults to 5432.}
 
 \item{user}{(character) (optional) username to use in connecting to database. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.}
 

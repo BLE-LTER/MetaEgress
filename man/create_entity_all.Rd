@@ -15,8 +15,8 @@ create_entity_all(meta_list, file_dir, dataset_id)
 }
 \value{
 (list) A list containing all data entities from dataset. Use this in the `entity_list` argument for \code{\link{create_EML}}.
-First level list elements are grouped by entity types present in dataset and named accordingly. 
-Each first level element is a list of unnamed lists; the number of elements correspond to how many entities of each type are present in dataset. 
+First level list elements are grouped by entity types present in dataset and named accordingly.
+Each first level element is a list of unnamed lists; the number of elements correspond to how many entities of each type are present in dataset.
 Second level elements are analogous to output from \code{\link{create_entity}}.
 }
 \description{

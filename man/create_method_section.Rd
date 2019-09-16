@@ -14,8 +14,8 @@ create_method_section(meta_list, dataset_id, file_dir = NULL)
 \item{file_dir}{(character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.}
 }
 \value{
-(list) An EML package-compatible XML list tree containing information on methods in LTER-core-metabase for the specified dataset ID.
+(list) An emld list containing information on methods in LTER-core-metabase for the specified dataset ID.
 }
 \description{
-Create an EML package-compatible XML list tree for a dataset method section.
+Create emld list for a dataset method section.
 }

@@ -2,13 +2,16 @@
 % Please edit documentation in R/assemble_person.R
 \name{assemble_personnel}
 \alias{assemble_personnel}
-\title{Create a person list structure}
+\title{Assemble EML list structure for multiple personnel.}
 \usage{
 assemble_personnel(personnel_df)
 }
 \arguments{
 \item{personnel_df}{(data.frame) A data frame containing information on personnel}
 }
+\value{
+(list) emld list with unnamed child items, each with information on personnel
+}
 \description{
-Create a person list structure
+Assemble emld list structure for multiple EML ResponsibleParty type.
 }

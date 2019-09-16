@@ -16,8 +16,8 @@ create_method_step(step_id, meta_list, dataset_id, file_dir = NULL)
 \item{file_dir}{(character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.}
 }
 \value{
-(list) An EML package-compatible XML list tree containing a methodStep for the specified dataset ID and methodStep ID.
+(list) An emld list containing a methodStep for the specified dataset ID and methodStep ID.
 }
 \description{
-Create an EML package-compatible XML list tree for a dataset methodStep.
+Create an emld list for a methodStep.
 }

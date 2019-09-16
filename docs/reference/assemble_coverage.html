@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Connect to metabase and query metadata. — get_meta • MetaEgress</title>
+<title>Assemble dataset coverage elements — assemble_coverage • MetaEgress</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Connect to metabase and query metadata. — get_meta" />
+<meta property="og:title" content="Assemble dataset coverage elements — assemble_coverage" />
 
-<meta property="og:description" content="Connect to instance of LTER-core-metabase and query for metadata." />
+<meta property="og:description" content="Assemble geographic, temporal, and taxonomic coverage elements at the dataset level." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -109,65 +109,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Connect to metabase and query metadata.</h1>
+    <h1>Assemble dataset coverage elements</h1>
     
-    <div class="hidden name"><code>get_meta.Rd</code></div>
+    <div class="hidden name"><code>assemble_coverage.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Connect to instance of LTER-core-metabase and query for metadata.</p>
+    <p>Assemble geographic, temporal, and taxonomic coverage elements at the dataset level.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_meta</span>(<span class='no'>dbname</span>, <span class='kw'>schema</span> <span class='kw'>=</span> <span class='st'>"mb2eml_r"</span>, <span class='no'>dataset_ids</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='st'>"localhost"</span>,
-  <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>5432</span>, <span class='kw'>user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>password</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>assemble_coverage</span>(<span class='no'>meta_list</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dbname</th>
-      <td><p>(character) name of database.</p></td>
-    </tr>
-    <tr>
-      <th>schema</th>
-      <td><p>(character) name of schema containing views. Defaults to 'mb2eml_r'.</p></td>
-    </tr>
-    <tr>
-      <th>dataset_ids</th>
-      <td><p>(numeric) Number or numeric vector of dataset IDs to query.</p></td>
-    </tr>
-    <tr>
-      <th>host</th>
-      <td><p>(character) host name or IP address. Defaults to 'localhost'.</p></td>
-    </tr>
-    <tr>
-      <th>port</th>
-      <td><p>(numeric) port number. Defaults to 5432.</p></td>
-    </tr>
-    <tr>
-      <th>user</th>
-      <td><p>(character) (optional) username to use in connecting to database. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.</p></td>
-    </tr>
-    <tr>
-      <th>password</th>
-      <td><p>(character) (optional) password to user. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.</p></td>
+      <th>meta_list</th>
+      <td><p>(list) A list of dataframes containing metadata returned by <code><a href='get_meta.html'>get_meta</a></code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>(list) A list of data frames corresponding to views from specified schema in metabase
-to pass to <code><a href='create_entity.html'>create_entity</a></code>, <code><a href='create_entity_all.html'>create_entity_all</a></code> and <code><a href='create_EML.html'>create_EML</a></code></p>
+    <p>(list) A named list containing geographicCoverage, temporalCoverage, and taxonomicCoverage elements, each NULL if no information is provided.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Can query multiple datasets at once</span>
-<span class='no'>metadata</span> <span class='kw'>&lt;-</span> <span class='fu'>get_meta</span>(<span class='kw'>dbname</span> <span class='kw'>=</span> <span class='st'>"ble_metabase"</span>, <span class='kw'>dataset_ids</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>))
-<span class='co'># }</span><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -175,9 +143,7 @@ to pass to <code><a href='create_entity.html'>create_entity</a></code>, <code><a
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
