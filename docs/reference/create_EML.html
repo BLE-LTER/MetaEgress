@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create EML list object. — create_EML • MetaEgress</title>
+<title>Create EML. — create_EML • MetaEgress</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Create EML list object. — create_EML" />
+<meta property="og:title" content="Create EML. — create_EML" />
 
-<meta property="og:description" content="Create ready-to-validate-and-write EML list object." />
+<meta property="og:description" content="Create an EML package-compatible XML list tree for an EML document, ready to validate and write to .xml file." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -109,26 +109,25 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create EML list object.</h1>
+    <h1>Create EML.</h1>
     
     <div class="hidden name"><code>create_EML.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Create ready-to-validate-and-write EML list object.</p>
+    <p>Create an EML package-compatible XML list tree for an EML document, ready to validate and write to .xml file.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>create_EML</span>(<span class='no'>meta_list</span>, <span class='no'>entity_list</span>, <span class='no'>dataset_id</span>, <span class='no'>boilerplate_path</span>,
-  <span class='no'>license_path</span>)</pre>
+    <pre class="usage"><span class='fu'>create_EML</span>(<span class='no'>meta_list</span>, <span class='no'>entity_list</span>, <span class='no'>dataset_id</span>, <span class='kw'>file_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>meta_list</th>
-      <td><p>A list of dataframes containing metadata returned by <code><a href='get_meta.html'>get_meta</a></code>.</p></td>
+      <td><p>(list) A list of dataframes containing metadata returned by <code><a href='get_meta.html'>get_meta</a></code>.</p></td>
     </tr>
     <tr>
       <th>entity_list</th>
@@ -139,24 +138,20 @@
       <td><p>(numeric) A dataset ID.</p></td>
     </tr>
     <tr>
-      <th>boilerplate_path</th>
-      <td><p>(character) System path to XML file containing boilerplate items.</p></td>
-    </tr>
-    <tr>
-      <th>license_path</th>
-      <td><p>(character) System path to pandoc compatible file containing intellectual rights statement.</p></td>
+      <th>file_dir</th>
+      <td><p>(character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>(list) A list containing all EML elements. Supply this list object to <code><a href='https://www.rdocumentation.org/packages/EML/topics/eml_validate'>eml_validate</a></code> and <code><a href='https://www.rdocumentation.org/packages/EML/topics/write_eml'>write_eml</a></code> to validate and write to .xml file.</p>
+    <p>(list) An EML package-compatible XML list tree. Supply this list object to <code><a href='https://www.rdocumentation.org/packages/EML/topics/eml_validate'>eml_validate</a></code> and <code><a href='https://www.rdocumentation.org/packages/EML/topics/write_eml'>write_eml</a></code> to, in order, validate and write to .xml file.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='co'># continued from \code{\link{get_meta}} and \code{\link{create_entity_all}}</span>
-<span class='no'>EML</span> <span class='kw'>&lt;-</span> <span class='fu'>create_EML</span>(<span class='kw'>meta_list</span> <span class='kw'>=</span> <span class='no'>metadata</span>, <span class='kw'>entity_list</span> <span class='kw'>=</span> <span class='no'>entities</span>, <span class='kw'>dataset_id</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>boilerplate_path</span> <span class='kw'>=</span> <span class='kw pkg'>here</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/here/topics/here'>here</a></span>(<span class='st'>"documents"</span>, <span class='st'>"boilerplate.xml"</span>), <span class='kw'>license_path</span> <span class='kw'>=</span> <span class='kw pkg'>here</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/here/topics/here'>here</a></span>(<span class='st'>"documents"</span>, <span class='st'>"license.docx"</span>))
+<span class='no'>EML</span> <span class='kw'>&lt;-</span> <span class='fu'>create_EML</span>(<span class='kw'>meta_list</span> <span class='kw'>=</span> <span class='no'>metadata</span>, <span class='kw'>entity_list</span> <span class='kw'>=</span> <span class='no'>entities</span>, <span class='kw'>dataset_id</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>license_path</span> <span class='kw'>=</span> <span class='kw pkg'>here</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/here/topics/here'>here</a></span>(<span class='st'>"documents"</span>, <span class='st'>"license.docx"</span>))
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

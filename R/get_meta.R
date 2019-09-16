@@ -5,8 +5,8 @@
 #' @param dbname (character) name of database.
 #' @param schema (character) name of schema containing views. Defaults to 'mb2eml_r'.
 #' @param dataset_ids (numeric) Number or numeric vector of dataset IDs to query.
-#' @param host (numeric) host name or IP address. Defaults to 'localhost'.
-#' @param port (character) port number. Defaults to 5432.
+#' @param host (character) host name or IP address. Defaults to 'localhost'.
+#' @param port (numeric) port number. Defaults to 5432.
 #' @param user (character) (optional) username to use in connecting to database. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.
 #' @param password (character) (optional) password to user. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.
 #'
@@ -18,23 +18,25 @@
 #' # Can query multiple datasets at once
 #' metadata <- get_meta(dbname = "ble_metabase", dataset_ids = c(1, 2))
 #' }
+#'
+#' @import RPostgres
 #' @export
 
 
 
 get_meta <-
   function(dbname,
-           schema = 'mb2eml_r',
-           dataset_ids,
-           host = 'localhost',
-           port = 5432,
-           user = NULL,
-           password = NULL) {
+             schema = "mb2eml_r",
+             dataset_ids,
+             host = "localhost",
+             port = 5432,
+             user = NULL,
+             password = NULL) {
     # -----------------------------------------------------------------------------------
     # set DB driver
     driver <- RPostgres::Postgres()
-    
-    # connect to specified DBs
+
+    # connect to specified DB
     con <- dbConnect(
       drv = driver,
       dbname = dbname,
@@ -42,14 +44,12 @@ get_meta <-
       port = port,
       user = if (is.null(user))
         rstudioapi::showPrompt(title = "Enter database username", message = "Username to use in connecting to metabase")
-      else
-        user,
+       else user,
       password = if (is.null(password))
         rstudioapi::askForPassword(prompt = "Enter database password")
-      else
-        password
+      else password
     )
-    
+
     # -------------------------------------------------------------------------------------
     # get names of all views in schema
     views_actual <-
@@ -62,7 +62,7 @@ get_meta <-
         )
       )
     views_actual <- as.vector(views_actual[[1]])
-    
+
     # expected views
     views_expected <- c(
       "vw_eml_attributes",
@@ -82,7 +82,9 @@ get_meta <-
       "vw_eml_provenance",
       "vw_eml_protocols",
       "vw_eml_instruments",
-      "vw_eml_software"
+      "vw_eml_software",
+      "vw_eml_boilerplate",
+      "vw_eml_bp_people"
     )
     
     # missing views: difference between expected and actual views
@@ -94,11 +96,11 @@ get_meta <-
           schema,
           "' not matching expected views. Missing following view(s): ",
           paste(views_missing, collapse = ", "),
-          ". Please check your installation of core-metabase."
+          ". Please check your installation of LTER-core-metabase."
         )
       )
     }
-    
+
     # unexpected views: difference between actual and expected views
     views_unexpected <- setdiff(views_actual, views_expected)
     if (length(views_unexpected) != 0) {
@@ -113,32 +115,42 @@ get_meta <-
       )
     }
     
+    # remove boilerplate views
+    views_expected <- views_expected[!views_expected %in% c("vw_eml_boilerplate", "vw_eml_bp_people")]
+    
     views_to_query <-
       paste0(schema, ".", intersect(views_actual, views_expected))
     names(views_to_query) <- intersect(views_actual, views_expected)
-    
     # ---------------------------------------------------------------------------------
     # function to parameterize queries to prevent SQL injection
     param_query <- function(view) {
       # create queries. $1 is code for parameterization in postgres
       query <- paste("SELECT * FROM", view, "WHERE datasetid = $1")
-      
+
       result <- RPostgres::dbSendQuery(conn = con, query)
       RPostgres::dbBind(result, list(dataset_ids))
       query_df <- RPostgres::dbFetch(result)
       RPostgres::dbClearResult(result)
       return(query_df)
     }
-    
+
     # apply over list of views to query
     query_dfs <- lapply(views_to_query, param_query)
+
+    
+    # ---------------------------------------------------------------------------------
+    # read in boilerplate views separately since these do not have datasetid column
+    
+    query_dfs[["boilerplate"]] <- dbGetQuery(con, paste0('SELECT * FROM ', schema, '.vw_eml_boilerplate'))
+    query_dfs[["bp_people"]] <- dbGetQuery(con, paste0('SELECT * FROM ', schema, '.vw_eml_bp_people'))
+    
     
     # disconnect
     dbDisconnect(con)
-    
+
     # ----------------------------------------------------------------------------------
     # rename list items
-    
+
     # short names order has to match order of expected views
     names_short <- c(
       "attributes",
@@ -158,15 +170,17 @@ get_meta <-
       "provenance",
       "protocols",
       "instruments",
-      "software"
+      "software",
+      "boilerplate",
+      "bp_people"
     )
-    
+
     # match expected views with names of data frames in list
     existing <- match(views_expected, names(query_dfs))
-    
+
     # rename according to matched indices
     names(query_dfs)[na.omit(existing)] <-
       names_short[which(!is.na(existing))]
-    
+
     return(query_dfs)
   }

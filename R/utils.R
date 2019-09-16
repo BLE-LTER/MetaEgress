@@ -1,5 +1,20 @@
 
 
+null_if_na <- function(parent, thing) {
+  if (!is.na(parent[[thing]])) {
+    return(parent[[thing]])
+  } else {
+    return(NULL)
+  }
+}
+
+na_if_empty <- function(thing) {
+  thing <- trimws(thing)
+  thing[thing == ""] <- NA
+  return(thing)
+}
+
+
 # utilities for MetaEgress
 # not exported
 
@@ -22,12 +37,16 @@ hold_place <- function(df) {
 
 subset_dataset <- function(meta_list, list_item, dataset_id) {
   if (list_item %in% names(meta_list)) {
-  subset(meta_list[[list_item]], datasetid == dataset_id)
-  } else return(NULL)
+    subset(meta_list[[list_item]], datasetid == dataset_id)
+  } else {
+    return(NULL)
+  }
 }
 
 subset_entity <- function(df) {
   if (exists(df)) {
     subset(df, entity_position == entity_position)
-  } else return(NULL)
+  } else {
+    return(NULL)
+  }
 }

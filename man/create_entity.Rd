@@ -31,10 +31,9 @@ entity_1 <- create_entity(meta_list = metadata, dataset_id = 1, entity = 1)
 data_tables <- c(1:4)
 other_entities <- c(5:7)
 entity_list <- list(
- dataTable = lapply(data_tables, create_entity, meta_list = metadata, dataset_id = 1),
- otherEntity = lapply(other_entities, create_entity, meta_list = metadata, dataset_id = 1)
+  dataTable = lapply(data_tables, create_entity, meta_list = metadata, dataset_id = 1),
+  otherEntity = lapply(other_entities, create_entity, meta_list = metadata, dataset_id = 1)
 )
-
 }
 
 }

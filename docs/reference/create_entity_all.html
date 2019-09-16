@@ -120,7 +120,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>create_entity_all</span>(<span class='no'>meta_list</span>, <span class='no'>dataset_id</span>)</pre>
+    <pre class="usage"><span class='fu'>create_entity_all</span>(<span class='no'>meta_list</span>, <span class='no'>file_dir</span>, <span class='no'>dataset_id</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -128,6 +128,10 @@
     <tr>
       <th>meta_list</th>
       <td><p>(character) A list of dataframes containing metadata returned by <code><a href='get_meta.html'>get_meta</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>file_dir</th>
+      <td><p>(character) Path to directory containing flat files (data files). Defaults to current R working directory if NULL.</p></td>
     </tr>
     <tr>
       <th>dataset_id</th>
@@ -138,8 +142,8 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>(list) A list containing all data entities from dataset. Use this in the `entity_list` argument for <code><a href='create_EML.html'>create_EML</a></code>.
-First level list elements are grouped by entity types present in dataset and named accordingly. 
-Each first level element is a list of unnamed lists; the number of elements correspond to how many entities of each type are present in dataset. 
+First level list elements are grouped by entity types present in dataset and named accordingly.
+Each first level element is a list of unnamed lists; the number of elements correspond to how many entities of each type are present in dataset.
 Second level elements are analogous to output from <code><a href='create_entity.html'>create_entity</a></code>.</p>
     
 
