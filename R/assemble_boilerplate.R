@@ -36,7 +36,7 @@ assemble_boilerplate <- function(bp_df, bp_people, bp_setting) {
   project <- project[!names(project) %in% c("@context", "@type")]
   } else project <- NULL
   
-  license <- set_TextType(bp_df[["license"]])
+  license <- set_TextType(text = bp_df[["license"]])
   
   bp <- list(
     scope = bp_df[["scope"]],
