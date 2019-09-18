@@ -44,9 +44,10 @@ assemble_temporal <- function(tempo_df) {
   
     tempcover <-
       list(rangeOfDates = list(
-        beginDate = list(calendarDate = as.character(tempo[, "begindate"])),
-        endDate = list(calendarDate = as.character(tempo[, "enddate"]))
+        beginDate = list(calendarDate = as.character(tempo_df[, "begindate"])),
+        endDate = list(calendarDate = as.character(tempo_df[, "enddate"]))
       ))
+    return(tempcover)
 }
 
 # ------------------------------------------------------------------------------
