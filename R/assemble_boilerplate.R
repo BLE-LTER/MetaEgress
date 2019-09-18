@@ -47,7 +47,7 @@ assemble_boilerplate <- function(bp_df, bp_people, bp_setting) {
     contact = contact,
     metadata_provider = metadata_provider, 
     publisher = publisher,
-    license
+    license = license
   )
   return(bp)
   
