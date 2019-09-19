@@ -40,30 +40,31 @@ assemble_coverage <- function(meta_list) {
 
 # ------------------------------------------------------------------------------
 
-assemble_temporal <- function(tempo_df) {
+assemble_temporal <- function(tempo_row) {
   
     tempcover <-
       list(rangeOfDates = list(
-        beginDate = list(calendarDate = as.character(tempo[, "begindate"])),
-        endDate = list(calendarDate = as.character(tempo[, "enddate"]))
+        beginDate = list(calendarDate = as.character(tempo_row[["begindate"]])),
+        endDate = list(calendarDate = as.character(tempo_row[["enddate"]]))
       ))
+    return(tempcover)
 }
 
 # ------------------------------------------------------------------------------
 
-assemble_geographic <- function(geo_df) {
+assemble_geographic <- function(geo_row) {
   geo <-
     list(
-      geographicDescription = geo_df[["geographicdescription"]],
+      geographicDescription = geo_row[["geographicdescription"]],
       boundingCoordinates = list(
-        westBoundingCoordinate = as.character(geo_df[["westboundingcoordinate"]]),
-        eastBoundingCoordinate = as.character(geo_df[["eastboundingcoordinate"]]),
-        northBoundingCoordinate = as.character(geo_df[["northboundingcoordinate"]]),
-        southBoundingCoordinate = as.character(geo_df[["southboundingcoordinate"]]),
+        westBoundingCoordinate = as.character(geo_row[["westboundingcoordinate"]]),
+        eastBoundingCoordinate = as.character(geo_row[["eastboundingcoordinate"]]),
+        northBoundingCoordinate = as.character(geo_row[["northboundingcoordinate"]]),
+        southBoundingCoordinate = as.character(geo_row[["southboundingcoordinate"]]),
         boundingAltitudes = list(
-          altitudeMinimum = null_if_na(geo_df, "altitudeminimum"),
-          altitudeMaximum = null_if_na(geo_df, "altitudemaximum"),
-          altitudeUnits = null_if_na(geo_df, "altitudeunits")
+          altitudeMinimum = null_if_na(geo_row, "altitudeminimum"),
+          altitudeMaximum = null_if_na(geo_row, "altitudemaximum"),
+          altitudeUnits = null_if_na(geo_row, "altitudeunits")
         )
       )
     )

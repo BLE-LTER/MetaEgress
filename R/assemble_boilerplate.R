@@ -21,16 +21,22 @@ assemble_boilerplate <- function(bp_df, bp_people, bp_setting) {
   metadata_provider <- bp_people[bp_people[["bp_role"]] == "metadata_provider", ]
   metadata_provider <- tryCatch(assemble_person(metadata_provider), error = function(cond) return(NULL))
   
+  if (!is.na(bp_df[["access"]])) {
   access <- as_emld(xml2::read_xml(as.character(bp_df[["access"]])))
   access <- access[!names(access) %in% c("@context", "@type")]
+  } else access <- NULL
   
+  if (!is.na(bp_df[["distribution"]])) {
   distribution <- as_emld(xml2::read_xml(as.character(bp_df[["distribution"]])))
   distribution <- distribution[!names(distribution) %in% c("@context", "@type")]
+  } else distribution <- NULL
   
+  if (!is.na(bp_df[["project"]])) {
   project = as_emld(xml2::read_xml(as.character(bp_df[["project"]])))
   project <- project[!names(project) %in% c("@context", "@type")]
+  } else project <- NULL
   
-  license <- set_TextType(bp[["license"]])
+  license <- set_TextType(text = bp_df[["license"]])
   
   bp <- list(
     scope = bp_df[["scope"]],
@@ -41,7 +47,7 @@ assemble_boilerplate <- function(bp_df, bp_people, bp_setting) {
     contact = contact,
     metadata_provider = metadata_provider, 
     publisher = publisher,
-    license
+    license = license
   )
   return(bp)
   
