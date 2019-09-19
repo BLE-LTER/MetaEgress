@@ -13,7 +13,7 @@ assemble_coverage <- function(meta_list) {
   
   if (nrow(geo) > 0) {
     geocov <- apply(geo, 1, assemble_geographic)
-    names(geoall) <- NULL
+    names(geocov) <- NULL
   } else
     geocov <- NULL
   
