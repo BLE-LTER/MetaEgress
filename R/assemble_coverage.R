@@ -9,11 +9,15 @@
 #' @export
 
 assemble_coverage <- function(meta_list) {
-  geo <- meta_list[["geo"]]
   
+  
+  geo <- meta_list[["geo"]]
+  # geo uses a for loop instead of apply() because apply() converts the df into a matrix and therefore our hard work using format() to pad to 6 decimal points is lost
   if (nrow(geo) > 0) {
-    geocov <- apply(geo, 1, assemble_geographic)
-    names(geocov) <- NULL
+    geocov <- list()
+    for (i in 1:nrow(geo)) {
+      geocov[[i]] <- assemble_geographic(geo[i, ])    
+      }
   } else
     geocov <- NULL
   
@@ -58,10 +62,10 @@ assemble_geographic <- function(geo_row) {
     list(
       geographicDescription = geo_row[["geographicdescription"]],
       boundingCoordinates = list(
-        westBoundingCoordinate = as.character(format(geo_row[["westboundingcoordinate"]], nsmall = 6)),
-        eastBoundingCoordinate = as.character(format(geo_row[["eastboundingcoordinate"]], nsmall = 6)),
-        northBoundingCoordinate = as.character(format(geo_row[["northboundingcoordinate"]], nsmall = 6)),
-        southBoundingCoordinate = as.character(format(geo_row[["southboundingcoordinate"]], nsmall = 6)),
+        westBoundingCoordinate = format(geo_row[["westboundingcoordinate"]], nsmall = 6), # format to pad trailing zeroes till at least 6 decimal points
+        eastBoundingCoordinate = format(geo_row[["eastboundingcoordinate"]], nsmall = 6),
+        northBoundingCoordinate = format(geo_row[["northboundingcoordinate"]], nsmall = 6),
+        southBoundingCoordinate = format(geo_row[["southboundingcoordinate"]], nsmall = 6),
         boundingAltitudes = list(
           altitudeMinimum = null_if_na(geo_row, "altitudeminimum"),
           altitudeMaximum = null_if_na(geo_row, "altitudemaximum"),
