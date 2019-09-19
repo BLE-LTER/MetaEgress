@@ -131,7 +131,7 @@ create_EML <-
         associatedParty = associated_party,
         metadataProvider = bp[["metadata_provider"]],
         pubDate = as.character(format(as.Date(dataset_meta[["pubdate"]]), "%Y")),
-        intellectualRights = bp[["license"]],
+        intellectualRights = bp[["rights"]],
         abstract = abstract,
         keywordSet = kall,
         coverage = coverage,
@@ -154,9 +154,7 @@ create_EML <-
     if (dim(unit)[1] > 0) {
       unit_list <- EML::set_unitList(unit)
       additional_metadata <- list(metadata = list(unitList = unit_list))
-    } else {
-      additional_metadata <- NULL
-    }
+    } else additional_metadata <- NULL
 
     # ------------------------------------------------------------------------------------
     # EML EML EML EML
