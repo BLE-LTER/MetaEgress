@@ -22,9 +22,7 @@ assemble_personnel <- function(personnel_df) {
 
     names(people) <- NULL
     return(people)
-  } else {
-    return(NULL)
-  }
+  } else return(NULL)
 }
 
 # ------------------------------------------------------------------------------
@@ -38,7 +36,6 @@ assemble_personnel <- function(personnel_df) {
 #' @export
 
 assemble_person <- function(person) {
-  # check for organization
 
   if (!is.na(person[["givenname"]]) ||
     !is.na(person[["surname"]])) {
@@ -48,17 +45,13 @@ assemble_person <- function(person) {
           null_if_na(person, "givenname"),
           null_if_na(person, "givenname2")
         )
-    } else {
-      given_name <- NULL
-    }
+    } else given_name <- NULL
 
     individual_name <- list(
       givenName = given_name,
       surName = null_if_na(person, "surname")
     )
-  } else {
-    individual_name <- NULL
-  }
+  } else individual_name <- NULL
 
 
   # check for empty address
@@ -89,22 +82,23 @@ assemble_person <- function(person) {
         `directory` = null_if_na(person, "userid_type")
       )
     }
-    else {
-      NULL
-    }
+    else NULL
 
   # ---
   # assemble person list structure
 
   p <- list(
     individualName = individual_name,
+    positionName = null_if_na(person, "position"),
     organizationName = null_if_na(person, "organization"),
     address = address,
     phone = null_if_na(person, "phone1"),
     electronicMailAddress = null_if_na(person, "email"),
     userId = user_id,
     role = if ("authorshiprole" %in% colnames(person)) if (!person[["authorshiprole"]] %in% c("creator", "contact")) null_if_na(person, "authorshiprole") else NULL 
-    else NULL
+    else NULL,
+    onlineUrl = null_if_na(person, "online_url")
   )
+  
   return(p)
 }
