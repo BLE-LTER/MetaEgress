@@ -1,4 +1,3 @@
-#'
 #' @title Assemble EML list structure for multiple personnel.
 #' @description Assemble emld list structure for multiple EML ResponsibleParty type.
 #'
