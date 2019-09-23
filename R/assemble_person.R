@@ -1,4 +1,3 @@
-#'
 #' @title Assemble EML list structure for multiple personnel.
 #' @description Assemble emld list structure for multiple EML ResponsibleParty type.
 #'
@@ -7,13 +6,16 @@
 #' @export
 
 assemble_personnel <- function(personnel_df) {
+  
   if (nrow(personnel_df) > 0) {
     
     people <- list()
-    # loop over all personnel
+    nameids <- unique(personnel_df[["nameid"]])
     
-    for (i in 1:nrow(personnel_df)) {
-      people[[i]] <- assemble_person(personnel_df[i, ])
+    # loop over unique personnel ids (not single rows, to account for multiple user IDs)
+    
+    for (i in 1:length(nameids)) {
+      people[[i]] <- assemble_person(personnel_df[personnel_df[["nameid"]] == nameids[[i]], ])
     }
 
     # for EML elements with possible multiple sub-elements
@@ -22,9 +24,7 @@ assemble_personnel <- function(personnel_df) {
 
     names(people) <- NULL
     return(people)
-  } else {
-    return(NULL)
-  }
+  } else return(NULL)
 }
 
 # ------------------------------------------------------------------------------
@@ -32,13 +32,17 @@ assemble_personnel <- function(personnel_df) {
 #' @title Assemble EML list structure for singular personnel.
 #' @description Assemble emld list structure for an EML ResponsibleParty type.
 #'
-#' @param person (data.frame) A single-row data.frame containing information on a single ResponsibleParty.
+#' @param nameid (data.frame) A data.frame containing information on a single ResponsibleParty corresponding to a metabase name ID. Most often single row but can contain multiple rows if there are multiple user IDs listed.
 #' @return (list) emld list structure.
 #' 
 #' @export
 
-assemble_person <- function(person) {
-  # check for organization
+assemble_person <- function(nameid) {
+  
+  # account for multiple rows aka multiple user IDs
+  if (nrow(nameid) > 1) {
+    person <- nameid[1, ]
+  } else person <- nameid
 
   if (!is.na(person[["givenname"]]) ||
     !is.na(person[["surname"]])) {
@@ -48,17 +52,13 @@ assemble_person <- function(person) {
           null_if_na(person, "givenname"),
           null_if_na(person, "givenname2")
         )
-    } else {
-      given_name <- NULL
-    }
+    } else given_name <- NULL
 
     individual_name <- list(
       givenName = given_name,
       surName = null_if_na(person, "surname")
     )
-  } else {
-    individual_name <- NULL
-  }
+  } else individual_name <- NULL
 
 
   # check for empty address
@@ -83,28 +83,36 @@ assemble_person <- function(person) {
     country = null_if_na(person, "country")
   )
 
-  user_id <-
-    if ("userid" %in% colnames(person) & !is.na(person[["userid"]])) {
-      list(person[["userid"]],
-        `directory` = null_if_na(person, "userid_type")
-      )
-    }
-    else {
-      NULL
-    }
+  user_id <- apply(nameid, 1, assemble_userid)
+  names(user_id) <- NULL
 
   # ---
   # assemble person list structure
 
   p <- list(
     individualName = individual_name,
+    positionName = null_if_na(person, "position"),
     organizationName = null_if_na(person, "organization"),
     address = address,
     phone = null_if_na(person, "phone1"),
     electronicMailAddress = null_if_na(person, "email"),
     userId = user_id,
     role = if ("authorshiprole" %in% colnames(person)) if (!person[["authorshiprole"]] %in% c("creator", "contact")) null_if_na(person, "authorshiprole") else NULL 
-    else NULL
+    else NULL,
+    onlineUrl = null_if_na(person, "online_url")
   )
+  
   return(p)
+}
+
+# -----
+
+assemble_userid <- function(person) {
+  
+  if (!is.na(person[["userid"]])) {
+    list(person[["userid"]],
+         `directory` = null_if_na(person, "userid_type")
+    )
+  }
+  else NULL
 }

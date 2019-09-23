@@ -1,33 +1,29 @@
 #'
 #' Assemble dataset level maintenance tree
 #' 
-#' @param dataset_df
-#' @param changehistory_df
+#' @param dataset_df (data.frame) A data frame containing information on the dataset.
+#' @param changehistory_df (data.frame) A data frame containing information on the dataset's change history. 
 #'
 #' @return (list) An emld list structure containting the EML maintenance tree: description, update frequency, change history
 #' 
 #' @export
 
 assemble_maintenance <- function(dataset_df, changehistory_df) {
+  
   maint_desc <-
     if (!is.na(dataset_df[["maintenance_description"]])) {
       dataset_df[["maintenance_description"]]
-    } else {
-      "No maintenance description provided."
-    }
+    } else "No maintenance description provided."
+  
   update_freq <-
     if (!is.na(dataset_df[["maintenanceupdatefrequency"]])) {
       dataset_df[["maintenanceupdatefrequency"]]
-    } else {
-      NULL
-    }
+    } else NULL
   
   if (nrow(changehistory_df) > 0) {
     change_history <- apply(changehistory_df, 1, make_history)
     names(change_history) <- NULL
-  } else {
-    change_history <- NULL
-  }
+  } else  change_history <- NULL
   
   maintenance <- list(
     description = maint_desc,
