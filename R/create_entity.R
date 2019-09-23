@@ -76,7 +76,7 @@ create_entity <-
     
     # ------------------------------------------------------------------------------------
     # extract information from file
-    filename <- as.character(entity_e$filename)
+    filename <- as.character(entity_e[["filename"]])
     size0 <- as.character(file.size(filename))
     if (is.null(file_dir)) {
       checksum <- digest::digest(filename, algo = "md5", file = TRUE)
@@ -89,7 +89,7 @@ create_entity <-
     # ------------------------------------------------------------------------------------
     # check for either "dataTable" or "otherEntity"
     
-    if (entity_e$entitytype == "dataTable") {
+    if (entity_e[["entitytype"]] == "dataTable") {
       physical <-
         set_physical(
           objectName = filename,
@@ -97,8 +97,8 @@ create_entity <-
           sizeUnit = "byte",
           
           # check for missing urlhead, return NULL if NA
-          url = if (!is.na(entity_e$urlpath)) {
-            paste0(entity_e$urlpath, filename)
+          url = if (!is.na(entity_e[["urlpath"]])) {
+            paste0(entity_e[["urlpath"]], filename)
           } else
             NULL,
           numHeaderLines = null_if_na(entity_e, "headerlines"),
@@ -178,7 +178,7 @@ create_entity <-
           size = list(size0, unit = "byte"),
           authentication = list(checksum, method = "MD5"),
           dataFormat = list(
-            externallyDefinedFormat = list(formatName = entity_e$formatname)
+            externallyDefinedFormat = list(formatName = entity_e[["formatname"]])
           ),
           
           # check for missing urlhead, return NULL if NA
