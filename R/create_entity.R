@@ -3,7 +3,7 @@
 #' @description Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use \code{\link{create_entity_all}} for common EML generation usage, which calls this function under the hood.
 #'
 #' @param meta_list (character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
-#' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory if NULL.
+#' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory if NULL. Note: if the "entityrecords", "filesize", "filesize_units", and "checksum" columns in the entities table in metabase are filled out, there is no need for reading the actual files, so this field can stay NULL. 
 #' @param dataset_id (numeric) A dataset ID.
 #' @param entity (numeric) An entity number.
 #'
@@ -25,6 +25,7 @@
 #' }
 #' @import EML
 #' @importFrom readr count_fields
+#' @importFrom digest digest
 #' @export
 #'
 
@@ -75,17 +76,34 @@ create_entity <-
     df_list <- lapply(df_list, check_empty_and_insert)
     
     # ------------------------------------------------------------------------------------
-    # extract information from file
-    filename <- as.character(entity_e[["filename"]])
-    size0 <- as.character(file.size(filename))
-    if (is.null(file_dir)) {
-      checksum <- digest::digest(filename, algo = "md5", file = TRUE)
-    } else if (!is.null(file_dir)) {
-      checksum <-
-        digest::digest(file.path(file_dir, filename),
-                       algo = "md5",
-                       file = TRUE)
-    }
+    # extract physical file information
+    
+    filename <- entity_e[["filename"]]
+    
+    # if not user specified file dir is working dir
+    if (is.null(file_dir))
+      file_dir <- getwd()
+    
+    # get absolute path
+    filename <- file.path(file_dir, filename)
+    
+    if (!is.na(entity_e[["filesize"]]))
+      size <-
+      entity_e[["filesize"]]
+    else
+      size <- as.character(file.size(filename))
+    
+    if (!is.na(entity_e[["filesize_units"]]))
+      size_unit <- entity_e[["filesize_units"]]
+    else
+      size_unit <- "byte"
+    
+    if (!is.na(entity_e[["checksum"]])) {
+      checksum <- entity_e[["checksum"]]
+    } else
+      checksum <- digest::digest(filename,
+                                 algo = "md5",
+                                 file = TRUE)
     # ------------------------------------------------------------------------------------
     # check for either "dataTable" or "otherEntity"
     
@@ -93,8 +111,8 @@ create_entity <-
       physical <-
         set_physical(
           objectName = filename,
-          size = size0,
-          sizeUnit = "byte",
+          size = size,
+          sizeUnit = size_unit,
           
           # check for missing urlhead, return NULL if NA
           url = if (!is.na(entity_e[["urlpath"]])) {
@@ -104,32 +122,26 @@ create_entity <-
           numHeaderLines = null_if_na(entity_e, "headerlines"),
           numFooterLines = null_if_na(entity_e, "footerlines"),
           recordDelimiter = null_if_na(entity_e, "recorddelimiter"),
-          fieldDelimiter = null_if_na(entity_e, "fielddelimiter"),
+          fieldDelimiter = null_if_na(entity_e, "fielddlimiter"),
+          # a typo in the view DDL
           quoteCharacter = null_if_na(entity_e, "quotecharacter"),
           attributeOrientation = "column",
           authentication = checksum,
           authMethod = "MD5"
         )
+      
       # getting record count, skipping header rows as specified
-      if (is.null(file_dir)) {
-        row_count <-
-          length(
-            readr::count_fields(
-              filename,
-              tokenizer = readr::tokenizer_csv(),
-              skip = entity_e[["headerlines"]]
-            )
+      if (is.na(entity_e[["entityrecords"]])) {
+      row_count <-
+        length(
+          readr::count_fields(
+            filename,
+            tokenizer = readr::tokenizer_csv(),
+            skip = entity_e[["headerlines"]]
           )
-      } else {
-        row_count <-
-          length(
-            readr::count_fields(
-              file.path(file_dir, filename),
-              tokenizer = readr::tokenizer_csv(),
-              skip = entity_e[["headerlines"]]
-            )
-          )
-      }
+        )
+      } else row_count <- entity_e[["entityrecords"]]
+      
       
       # coalesce precision and dateTimePrecision
       attributes[["precision"]] <-
@@ -165,7 +177,7 @@ create_entity <-
           entityDescription = null_if_na(entity_e, "entitydescription"),
           physical = physical,
           attributeList = attributeList,
-          numberOfRecords = as.character(row_count)
+          numberOfRecords = row_count
         )
     }
     
@@ -175,11 +187,9 @@ create_entity <-
       physical <-
         list(
           objectName = filename,
-          size = list(size0, unit = "byte"),
+          size = list(size, unit = size_unit),
           authentication = list(checksum, method = "MD5"),
-          dataFormat = list(
-            externallyDefinedFormat = list(formatName = entity_e[["formatname"]])
-          ),
+          dataFormat = list(externallyDefinedFormat = list(formatName = entity_e[["formatname"]])),
           
           # check for missing urlhead, return NULL if NA
           distribution = if (!is.na(entity_e[["urlpath"]])) {
