@@ -9,7 +9,7 @@ create_entity(meta_list, file_dir = NULL, dataset_id, entity)
 \arguments{
 \item{meta_list}{(character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.}
 
-\item{file_dir}{(character) Path to directory containing flat files (data files). Defaults to current R working directory if NULL.}
+\item{file_dir}{(character) Path to directory containing flat files (data files). Defaults to current R working directory if NULL. Note: if the "entityrecords", "filesize", "filesize_units", and "checksum" columns in the entities table in metabase are filled out, there is no need for reading the actual files, so this field can stay NULL.}
 
 \item{dataset_id}{(numeric) A dataset ID.}
 
@@ -35,5 +35,4 @@ entity_list <- list(
   otherEntity = lapply(other_entities, create_entity, meta_list = metadata, dataset_id = 1)
 )
 }
-
 }

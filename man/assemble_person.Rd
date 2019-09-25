@@ -4,10 +4,10 @@
 \alias{assemble_person}
 \title{Assemble EML list structure for singular personnel.}
 \usage{
-assemble_person(person)
+assemble_person(nameid)
 }
 \arguments{
-\item{person}{(data.frame) A single-row data.frame containing information on a single ResponsibleParty.}
+\item{nameid}{(data.frame) A data.frame containing information on a single ResponsibleParty corresponding to a metabase name ID. Most often single row but can contain multiple rows if there are multiple user IDs listed.}
 }
 \value{
 (list) emld list structure.
