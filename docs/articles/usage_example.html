@@ -83,7 +83,7 @@
 
     
     
-<p>Last updated: 13 September, 2019</p>
+<p>Last updated: 25 September, 2019</p>
 <p>This is an example workflow from metabase to EML document. This guide assumes you have an installed and populated instance of LTER-core-metabase, plus log-in credentials for an user with at least read or SELECT access to this database. See the <a href="https://github.com/lter/LTER-core-metabase">LTER-core-metabase Github repository</a> for information on installation and population. If you would like to test drive <code>MetaEgress</code>, use the database dump specifically made for this purpose; see <a href="use_dump.html">this document</a>.</p>
 <div id="outline" class="section level2">
 <h2 class="hasAnchor">
@@ -108,26 +108,10 @@
 <ul>
 <li>An abstract document in pandoc-compatible format. The file name should be exactly as specified in metabase <code>DataSet.Abstract</code>.</li>
 <li>A method document in pandoc-compatible format. The file name should be exactly as specified in metabase <code>DataSetMethods.methodDocument</code>.</li>
-<li>A boilerplate XML file (see <a href="#filling-out-a-boilerplate-for-your-project">Filling out a boilerplate for your project</a>).</li>
-<li>A license document in pandoc-compatible format.</li>
 <li>Data files for all listed entities. File names should be exactly as listed in metabase <code>DataSetEntities.FileName</code>.</li>
 </ul>
 <p><strong>Note on document formats</strong></p>
 <p><code>MetaEgress</code> uses the function <code>set_TextType</code> from the EML R package to wrap documents in XML tags. See <code>set_TextType</code> documentation to learn more about compatible formats: <code><a href="https://www.rdocumentation.org/packages/EML/topics/set_TextType">?EML::set_TextType</a></code>.</p>
-</div>
-<div id="filling-out-a-boilerplate-for-your-project" class="section level3">
-<h3 class="hasAnchor">
-<a href="#filling-out-a-boilerplate-for-your-project" class="anchor"></a>Filling out a boilerplate for your project</h3>
-<p>There are certain EML elements that you might wish to include in an EML document and that are not represented in LTER-core-metabase. This might change in the future. However, these are generally general information about the research project that do not normally change between datasets. For normal usage at LTER sites, these are trees at the following XPaths:</p>
-<ul>
-<li>eml/access</li>
-<li>eml/dataset/distribution</li>
-<li>eml/dataset/publisher</li>
-<li>eml/dataset/contact</li>
-<li>eml/dataset/project</li>
-</ul>
-<p>Fill out these trees as applicable to your LTER site or project. Refer to the <a href="https://environmentaldatainitiative.files.wordpress.com/2017/11/emlbestpractices-v3.pdf">EML best practices v3</a> document. Save the XML file in your project folder (see below).</p>
-<p><strong>NOTE:</strong> <code>MetaEgress</code> will not read in other XML tags not contained in the above trees.</p>
 </div>
 <div id="set-up-a-local-project-folder" class="section level3">
 <h3 class="hasAnchor">
@@ -150,11 +134,7 @@
 <a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(MetaEgress)</a>
 <a class="sourceLine" id="cb1-3" title="3"></a>
 <a class="sourceLine" id="cb1-4" title="4"><span class="co"># Set working directory to current script's directory</span></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/basename">dirname</a></span>(rstudioapi<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rstudioapi/topics/rstudio-editors">getActiveDocumentContext</a></span>()<span class="op">$</span>path))</a>
-<a class="sourceLine" id="cb1-6" title="6"></a>
-<a class="sourceLine" id="cb1-7" title="7"><span class="co"># Set paths to boilerplate XML file and license document</span></a>
-<a class="sourceLine" id="cb1-8" title="8">boilerplate_path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/normalizePath">normalizePath</a></span>(<span class="st">"./00_Shared_document/boilerplate.xml"</span>)</a>
-<a class="sourceLine" id="cb1-9" title="9">license_path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/normalizePath">normalizePath</a></span>(<span class="st">"./00_Shared_document/IntellectualRights.docx"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">setwd</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/basename">dirname</a></span>(rstudioapi<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rstudioapi/topics/rstudio-editors">getActiveDocumentContext</a></span>()<span class="op">$</span>path))</a></code></pre></div>
 </div>
 <div id="connect-and-query-from-lter-core-metabase" class="section level2">
 <h2 class="hasAnchor">
@@ -183,9 +163,10 @@
 <a class="sourceLine" id="cb3-4" title="4"><span class="co"># Use the function</span></a>
 <a class="sourceLine" id="cb3-5" title="5">entities &lt;-<span class="st"> </span><span class="kw"><a href="../reference/create_entity_all.html">create_entity_all</a></span>(</a>
 <a class="sourceLine" id="cb3-6" title="6">  <span class="dt">meta_list =</span> metadata,   <span class="co"># list returned by `get_meta`</span></a>
-<a class="sourceLine" id="cb3-7" title="7">  <span class="dt">dataset_id =</span> <span class="dv">1</span>          <span class="co"># a singular dataset ID</span></a>
-<a class="sourceLine" id="cb3-8" title="8">)</a></code></pre></div>
-<p><strong>Note</strong> that even if the function runs successfully, many warnings will likely be generated. Use <code><a href="https://www.rdocumentation.org/packages/base/topics/warnings">warnings()</a></code> to see them. Most of the time the warnings will be about custom units and can safely be ignored.</p>
+<a class="sourceLine" id="cb3-7" title="7">  <span class="dt">dataset_id =</span> <span class="dv">1</span>,         <span class="co"># a singular dataset ID</span></a>
+<a class="sourceLine" id="cb3-8" title="8">  <span class="dt">file_dir =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/getwd">getwd</a></span>()      <span class="co"># directory containing data files</span></a>
+<a class="sourceLine" id="cb3-9" title="9">)</a></code></pre></div>
+<p><strong>Note</strong> that even if the function runs successfully, many warnings will be generated. Use <code><a href="https://www.rdocumentation.org/packages/base/topics/warnings">warnings()</a></code> to see them. Most of the time the warnings will concern custom units and can safely be ignored.</p>
 </div>
 <div id="create-eml" class="section level2">
 <h2 class="hasAnchor">
@@ -198,10 +179,8 @@
 <a class="sourceLine" id="cb4-6" title="6"><span class="st">  </span><span class="kw"><a href="../reference/create_EML.html">create_EML</a></span>(</a>
 <a class="sourceLine" id="cb4-7" title="7">    <span class="dt">meta_list =</span> metadata,                 <span class="co"># list returned by `get_meta`</span></a>
 <a class="sourceLine" id="cb4-8" title="8">    <span class="dt">entity_list =</span> entities,               <span class="co"># list returned by `create_entity_all`</span></a>
-<a class="sourceLine" id="cb4-9" title="9">    <span class="dt">dataset_id =</span> <span class="dv">1</span>,                       <span class="co"># a singular dataset ID</span></a>
-<a class="sourceLine" id="cb4-10" title="10">    <span class="dt">boilerplate_path =</span> boilerplate_path,  <span class="co"># path to boilerplate XML file</span></a>
-<a class="sourceLine" id="cb4-11" title="11">    <span class="dt">license_path =</span> license_path           <span class="co"># path to license document</span></a>
-<a class="sourceLine" id="cb4-12" title="12">)</a></code></pre></div>
+<a class="sourceLine" id="cb4-9" title="9">    <span class="dt">dataset_id =</span> <span class="dv">1</span>                       <span class="co"># a singular dataset ID</span></a>
+<a class="sourceLine" id="cb4-10" title="10">)</a></code></pre></div>
 </div>
 <div id="validate-and-write-to-file" class="section level2">
 <h2 class="hasAnchor">
@@ -209,12 +188,12 @@
 <p>First validate EML document using the function <code>eml_validate</code> from EML R package. The input could be an EML list object or output from <code>create_entity</code>, or a XML file.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">EML<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/EML/topics/eml_validate">eml_validate</a></span>(EML)</a></code></pre></div>
 <p>Desired outcome is TRUE:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">[<span class="dv">1</span>] <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/attr">attr</a></span>(,<span class="st">"errors"</span>)</a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/character">character</a></span>(<span class="dv">0</span>)</a></code></pre></div>
-<p>Should <code>eml_validate</code> return FALSE, examine the list object returned by <code>create_EML</code>. Error messages by <code>eml_validate</code> could be quite cryptic and might not point to the real problem.</p>
+<blockquote>
+<p>[1] TRUE attr(,“errors”) character(0)</p>
+</blockquote>
+<p>Should <code>eml_validate</code> return FALSE, examine the list object returned by <code>create_EML</code>. Error messages generated by <code>eml_validate</code> could be quite cryptic and might not point to the real problem.</p>
 <p>Then serialize or write to XML file using the function <code>write_eml</code> from the EML R package.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">EML<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/EML/topics/write_eml">write_eml</a></span>(EML, <span class="dt">file =</span> <span class="st">"EML.xml"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">EML<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/EML/topics/write_eml">write_eml</a></span>(EML, <span class="dt">file =</span> <span class="st">"EML.xml"</span>)</a></code></pre></div>
 </div>
 <div id="troubleshoot-invalid-eml" class="section level2">
 <h2 class="hasAnchor">

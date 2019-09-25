@@ -7,7 +7,9 @@
 assemble_maintenance(dataset_df, changehistory_df)
 }
 \arguments{
-\item{changehistory_df}{}
+\item{dataset_df}{(data.frame) A data frame containing information on the dataset.}
+
+\item{changehistory_df}{(data.frame) A data frame containing information on the dataset's change history.}
 }
 \value{
 (list) An emld list structure containting the EML maintenance tree: description, update frequency, change history

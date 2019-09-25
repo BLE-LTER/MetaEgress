@@ -131,7 +131,7 @@
     </tr>
     <tr>
       <th>file_dir</th>
-      <td><p>(character) Path to directory containing flat files (data files). Defaults to current R working directory if NULL.</p></td>
+      <td><p>(character) Path to directory containing flat files (data files). Defaults to current R working directory if NULL. Note: if the "entityrecords", "filesize", "filesize_units", and "checksum" columns in the entities table in metabase are filled out, there is no need for reading the actual files, so this field can stay NULL.</p></td>
     </tr>
     <tr>
       <th>dataset_id</th>
@@ -161,8 +161,7 @@
   <span class='kw'>dataTable</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>data_tables</span>, <span class='no'>create_entity</span>, <span class='kw'>meta_list</span> <span class='kw'>=</span> <span class='no'>metadata</span>, <span class='kw'>dataset_id</span> <span class='kw'>=</span> <span class='fl'>1</span>),
   <span class='kw'>otherEntity</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>other_entities</span>, <span class='no'>create_entity</span>, <span class='kw'>meta_list</span> <span class='kw'>=</span> <span class='no'>metadata</span>, <span class='kw'>dataset_id</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 )
-<span class='co'># }</span><div class='input'>
-</div></pre>
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
