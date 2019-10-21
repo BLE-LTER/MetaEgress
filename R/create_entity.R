@@ -182,21 +182,16 @@ create_entity <-
       # attributeList2 <- attributeList
       
       for (i in 1:length(attributeList[["attribute"]])) {
-        
-        # # first scrub
-        # indicies <- seq(1:length(attributeList[["attribute"]][[i]]))
-        # attributeList[["attribute"]][[i]] <- attributeList[["attribute"]][[i]][!indicies]
-        # 
-        # # then insert back in from the copy
-        # attributeList[["attribute"]][[i]][[1]] <- attributeList2[["attribute"]][[i]]
-        
-        # then insert ID
         attributeList[["attribute"]][[i]][["id"]] <- ids[i]
         
-        annotation <- subset(annotations, column_position == i)
-        if (nrow(annotation) > 0) {
-        attributeList[["attribute"]][[i]][["annotation"]] <- apply(annotation, 1, assemble_annotation)
-        names(attributeList[["attribute"]][[i]][["annotation"]]) <- NULL
+        if ("annotation" %in% names(meta_list)) {
+          annotation <- subset(annotations, column_position == i)
+          if (nrow(annotation) > 0) {
+            attributeList[["attribute"]][[i]][["annotation"]] <-
+              apply(annotation, 1, assemble_annotation)
+            names(attributeList[["attribute"]][[i]][["annotation"]]) <-
+              NULL
+          }
         }
       }
       
