@@ -135,6 +135,7 @@ create_EML <-
         metadataProvider = bp[["metadata_provider"]],
         pubDate = as.character(format(as.Date(dataset_meta[["pubdate"]]), "%Y")),
         intellectualRights = bp[["rights"]],
+        licensed = bp[["licensed"]],
         abstract = abstract,
         keywordSet = kall,
         coverage = coverage,
