@@ -122,7 +122,7 @@ create_EML <-
     if (nrow(ds_annotations) > 0) {
     annotations <- apply(ds_annotations, 1, assemble_annotation)
     names(annotations) <- NULL
-    }
+    } else annotations <- NULL
     } else annotations <- NULL
     # -----------------------------------------------------------------------------
     # put the dataset together
