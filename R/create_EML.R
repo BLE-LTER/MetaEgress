@@ -119,8 +119,10 @@ create_EML <-
     # dataset annotation
     if ("annotation" %in% names(meta_list)) {
     ds_annotations <- subset(meta_list[["annotation"]], datasetid == dataset_id & entity_position == 0 & column_position == 0)
+    if (nrow(ds_annotations) > 0) {
     annotations <- apply(ds_annotations, 1, assemble_annotation)
     names(annotations) <- NULL
+    }
     } else annotations <- NULL
     # -----------------------------------------------------------------------------
     # put the dataset together
