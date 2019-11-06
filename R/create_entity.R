@@ -173,7 +173,7 @@ create_entity <-
       # assemble dataTable
       entity <-
         list(
-          entityName = entity_e[["entity_name"]],
+          entityName = entity_e[["entityname"]],
           entityDescription = null_if_na(entity_e, "entitydescription"),
           physical = physical,
           attributeList = attributeList,
