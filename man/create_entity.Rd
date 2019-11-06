@@ -4,12 +4,12 @@
 \alias{create_entity}
 \title{Create EML entity list object.}
 \usage{
-create_entity(meta_list, file_dir = NULL, dataset_id, entity)
+create_entity(meta_list, file_dir = "", dataset_id, entity)
 }
 \arguments{
 \item{meta_list}{(character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.}
 
-\item{file_dir}{(character) Path to directory containing flat files (data files). Defaults to current R working directory if NULL. Note: if the "entityrecords", "filesize", "filesize_units", and "checksum" columns in the entities table in metabase are filled out, there is no need for reading the actual files, so this field can stay NULL.}
+\item{file_dir}{(character) Path to directory containing flat files (data files). Defaults to current R working directory if "". Note: if there's information on "entityrecords", "filesize", "filesize_units", and "checksum" columns in the entities table in metabase, there is no need for reading the actual files, so this field can stay NULL.}
 
 \item{dataset_id}{(numeric) A dataset ID.}
 

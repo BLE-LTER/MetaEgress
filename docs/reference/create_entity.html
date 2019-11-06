@@ -120,7 +120,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>create_entity</span>(<span class='no'>meta_list</span>, <span class='kw'>file_dir</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>dataset_id</span>, <span class='no'>entity</span>)</pre>
+    <pre class="usage"><span class='fu'>create_entity</span>(<span class='no'>meta_list</span>, <span class='kw'>file_dir</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='no'>dataset_id</span>, <span class='no'>entity</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -131,7 +131,7 @@
     </tr>
     <tr>
       <th>file_dir</th>
-      <td><p>(character) Path to directory containing flat files (data files). Defaults to current R working directory if NULL. Note: if the "entityrecords", "filesize", "filesize_units", and "checksum" columns in the entities table in metabase are filled out, there is no need for reading the actual files, so this field can stay NULL.</p></td>
+      <td><p>(character) Path to directory containing flat files (data files). Defaults to current R working directory if "". Note: if there's information on "entityrecords", "filesize", "filesize_units", and "checksum" columns in the entities table in metabase, there is no need for reading the actual files, so this field can stay NULL.</p></td>
     </tr>
     <tr>
       <th>dataset_id</th>

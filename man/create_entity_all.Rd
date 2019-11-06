@@ -4,12 +4,12 @@
 \alias{create_entity_all}
 \title{Quickly create all EML entity list objects.}
 \usage{
-create_entity_all(meta_list, file_dir, dataset_id)
+create_entity_all(meta_list, file_dir = "", dataset_id)
 }
 \arguments{
 \item{meta_list}{(character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.}
 
-\item{file_dir}{(character) Path to directory containing flat files (data files). Defaults to current R working directory if NULL.}
+\item{file_dir}{(character) Path to directory containing flat files (data files). Defaults to current R working directory if "".}
 
 \item{dataset_id}{(numeric) A dataset ID.}
 }
