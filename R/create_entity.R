@@ -178,9 +178,6 @@ create_entity <-
       # insert IDs for semantic annotation
       ids <- paste0("d", dataset_id, "-e", entity, "-att", seq(1:nrow(attributes)))
       
-      # # make a copy
-      # attributeList2 <- attributeList
-      
       for (i in 1:length(attributeList[["attribute"]])) {
         attributeList[["attribute"]][[i]][["id"]] <- ids[i]
         
