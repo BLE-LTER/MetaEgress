@@ -4,7 +4,7 @@
 #'
 #' @param meta_list (list) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
 #' @param dataset_id (numeric) A dataset ID.
-#' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.
+#' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if "".
 #'
 #'
 #' @return (list) An emld list containing information on methods in LTER-core-metabase for the specified dataset ID.
@@ -12,7 +12,7 @@
 #' @export
 
 create_method_section <-
-  function(meta_list, dataset_id, file_dir = NULL) {
+  function(meta_list, dataset_id, file_dir = "") {
     steps <- meta_list[["methodstep"]][["methodstep_id"]]
 
     methodStep <-
@@ -37,7 +37,7 @@ create_method_section <-
 #' @param step_id (numeric) A methodStep ID. Distinct IDs constitute distinct methodSteps.
 #' @param meta_list (list) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
 #' @param dataset_id (numeric) A dataset ID.
-#' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.
+#' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults to "" or current R working directory.
 #'
 #' @return (list) An emld list containing a methodStep for the specified dataset ID and methodStep ID.
 #'
@@ -47,7 +47,7 @@ create_method_step <-
   function(step_id,
              meta_list,
              dataset_id,
-             file_dir = NULL) {
+             file_dir = "") {
     # ---
     # subset
 
@@ -68,18 +68,21 @@ create_method_step <-
         methodstep_id == step_id)
 
     # ---
-    # get method step description
-    description <-
-      if (is.null(file_dir)) {
-        set_TextType(file = method_desc[["description"]])
-      } else {
-        set_TextType(file.path(file_dir, method_desc[["description"]]))
-      }
+    # method step description
+    desc_type <- method_desc[["description_type"]]
+    desc_content <- method_desc[["description"]]
+    
+      if (desc_type == "file") {
+        description <- set_TextType(file = file.path(file_dir, desc_content))
+      } else if (desc_type == "md") {
+        description <- list(markdown = desc_content)
+      } else if (desc_type == "docbook") {
+        description <- as_emld(xml2::read_xml(as.character(desc_content)))
+        description <- description[!names(description) %in% c("@context", "@type")]
+      } else if (desc_type == "plaintext") description <- set_TextType(text = desc_content)
 
     # ---
     # get and expand provenance
-
-
 
     if (nrow(provenance) > 0) {
       ids <-
@@ -107,9 +110,6 @@ create_method_step <-
     } else {
       data_source <- NULL
     }
-
-
-
 
     # ---
     # get protocols
