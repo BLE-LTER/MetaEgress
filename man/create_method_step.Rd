@@ -4,7 +4,7 @@
 \alias{create_method_step}
 \title{Create method step.}
 \usage{
-create_method_step(step_id, meta_list, dataset_id, file_dir = NULL)
+create_method_step(step_id, meta_list, dataset_id, file_dir = "")
 }
 \arguments{
 \item{step_id}{(numeric) A methodStep ID. Distinct IDs constitute distinct methodSteps.}
@@ -13,7 +13,7 @@ create_method_step(step_id, meta_list, dataset_id, file_dir = NULL)
 
 \item{dataset_id}{(numeric) A dataset ID.}
 
-\item{file_dir}{(character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.}
+\item{file_dir}{(character) Path to directory containing flat files (abstract and method documents). Defaults to "" or current R working directory.}
 }
 \value{
 (list) An emld list containing a methodStep for the specified dataset ID and methodStep ID.

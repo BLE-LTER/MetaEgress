@@ -13,7 +13,7 @@ create_EML(meta_list, entity_list, dataset_id, file_dir = NULL)
 
 \item{dataset_id}{(numeric) A dataset ID.}
 
-\item{file_dir}{(character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.}
+\item{file_dir}{(character) Path to directory containing flat files (abstract and method documents). Defaults to "" or current R working directory.}
 }
 \value{
 (list) An EML package-compatible XML list tree. Supply this list object to \code{\link[EML]{eml_validate}} and \code{\link[EML]{write_eml}} to, in order, validate and write to .xml file.

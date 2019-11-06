@@ -4,14 +4,14 @@
 \alias{create_method_section}
 \title{Create dataset method section.}
 \usage{
-create_method_section(meta_list, dataset_id, file_dir = NULL)
+create_method_section(meta_list, dataset_id, file_dir = "")
 }
 \arguments{
 \item{meta_list}{(list) A list of dataframes containing metadata returned by \code{\link{get_meta}}.}
 
 \item{dataset_id}{(numeric) A dataset ID.}
 
-\item{file_dir}{(character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if NULL.}
+\item{file_dir}{(character) Path to directory containing flat files (abstract and method documents). Defaults to current R working directory if "".}
 }
 \value{
 (list) An emld list containing information on methods in LTER-core-metabase for the specified dataset ID.
