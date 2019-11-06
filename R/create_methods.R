@@ -13,7 +13,7 @@
 
 create_method_section <-
   function(meta_list, dataset_id, file_dir = "") {
-    steps <- meta_list[["methodstep"]][["methodstep_id"]]
+    steps <- subset(meta_list[["methodstep"]], datasetid == dataset_id, select = methodstep_id, drop = TRUE)
 
     methodStep <-
       lapply(steps,
