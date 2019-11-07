@@ -48,10 +48,10 @@ assemble_person <- function(nameid) {
     !is.na(person[["surname"]])) {
     if (!is.na(person[["givenname"]]) || !is.na(person[["givenname2"]])) {
       given_name <-
-        paste(
+        trimws(paste(
           null_if_na(person, "givenname"),
           null_if_na(person, "givenname2")
-        )
+        ))
     } else given_name <- NULL
 
     individual_name <- list(
@@ -68,11 +68,11 @@ assemble_person <- function(nameid) {
     delivery_point <- NULL
   } else {
     delivery_point <-
-      paste(
+      trimws(paste(
         null_if_na(person, "address1"),
         null_if_na(person, "address2"),
         null_if_na(person, "address3")
-      )
+      ))
   }
 
   address <- list(
