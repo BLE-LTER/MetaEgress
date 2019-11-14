@@ -7,8 +7,8 @@
 #' @param dataset_ids (numeric) Number or numeric vector of dataset IDs to query.
 #' @param host (character) host name or IP address. Defaults to 'localhost'.
 #' @param port (numeric) port number. Defaults to 5432.
-#' @param user (character) (optional) username to use in connecting to database. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.
-#' @param password (character) (optional) password to user. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.
+#' @param user (character) (optional) username to use in connecting to database. Use to save time. If not supplied, the R console will prompt you to enter a username.
+#' @param password (character) (optional) password to user. Use to save time. If not supplied, the R console will prompt you to enter a password.
 #'
 #' @return (list) A list of data frames corresponding to views from specified schema in metabase
 #' to pass to \code{\link{create_entity}}, \code{\link{create_entity_all}} and \code{\link{create_EML}}
@@ -43,10 +43,10 @@ get_meta <-
       host = host,
       port = port,
       user = if (is.null(user))
-        rstudioapi::showPrompt(title = "Enter database username", message = "Username to use in connecting to metabase")
+        readline(prompt = "Enter database username: ")
        else user,
       password = if (is.null(password))
-        rstudioapi::askForPassword(prompt = "Enter database password")
+        readline(prompt = "Enter database password: ")
       else password
     )
 
@@ -181,6 +181,6 @@ get_meta <-
     # rename according to matched indices
     names(query_dfs)[na.omit(existing)] <-
       names_short[which(!is.na(existing))]
-
+    message("You might want to erase command history, since user password to your database was given.")
     return(query_dfs)
   }
