@@ -19,20 +19,5 @@ create_entity(meta_list, file_dir = "", dataset_id, entity)
 (list) A list object containing one data entity.
 }
 \description{
-Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use \code{\link{create_entity_all}} for common EML generation usage, which calls this function under the hood.
-}
-\examples{
-\dontrun{
-# continued from \\code{\\link{get_meta}}
-# A single entity. Useful to examine EML list structure and troubleshoot.
-entity_1 <- create_entity(meta_list = metadata, dataset_id = 1, entity = 1)
-
-# Many entities. Loop separately for each entity type and name accordingly.
-data_tables <- c(1:4)
-other_entities <- c(5:7)
-entity_list <- list(
-  dataTable = lapply(data_tables, create_entity, meta_list = metadata, dataset_id = 1),
-  otherEntity = lapply(other_entities, create_entity, meta_list = metadata, dataset_id = 1)
-)
-}
+Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use \code{\link{create_entity_all}} for common EML generation usage, which loops this function over all entities listed in a dataset under the hood.
 }
