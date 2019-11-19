@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Create EML entity list object. — create_entity" />
 
-<meta property="og:description" content="Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use create_entity_all for common EML generation usage, which calls this function under the hood." />
+<meta property="og:description" content="Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use create_entity_all for common EML generation usage, which loops this function over all entities listed in a dataset under the hood." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -116,7 +116,7 @@
 
     <div class="ref-description">
     
-    <p>Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use <code><a href='create_entity_all.html'>create_entity_all</a></code> for common EML generation usage, which calls this function under the hood.</p>
+    <p>Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use <code><a href='create_entity_all.html'>create_entity_all</a></code> for common EML generation usage, which loops this function over all entities listed in a dataset under the hood.</p>
     
     </div>
 
@@ -148,20 +148,6 @@
     <p>(list) A list object containing one data entity.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># continued from \code{\link{get_meta}}</span>
-<span class='co'># A single entity. Useful to examine EML list structure and troubleshoot.</span>
-<span class='no'>entity_1</span> <span class='kw'>&lt;-</span> <span class='fu'>create_entity</span>(<span class='kw'>meta_list</span> <span class='kw'>=</span> <span class='no'>metadata</span>, <span class='kw'>dataset_id</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>entity</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-
-<span class='co'># Many entities. Loop separately for each entity type and name accordingly.</span>
-<span class='no'>data_tables</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>)
-<span class='no'>other_entities</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>:<span class='fl'>7</span>)
-<span class='no'>entity_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
-  <span class='kw'>dataTable</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>data_tables</span>, <span class='no'>create_entity</span>, <span class='kw'>meta_list</span> <span class='kw'>=</span> <span class='no'>metadata</span>, <span class='kw'>dataset_id</span> <span class='kw'>=</span> <span class='fl'>1</span>),
-  <span class='kw'>otherEntity</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>other_entities</span>, <span class='no'>create_entity</span>, <span class='kw'>meta_list</span> <span class='kw'>=</span> <span class='no'>metadata</span>, <span class='kw'>dataset_id</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-)
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -169,9 +155,7 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
