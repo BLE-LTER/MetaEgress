@@ -18,9 +18,9 @@ get_meta(dbname, schema = "mb2eml_r", dataset_ids, host = "localhost",
 
 \item{port}{(numeric) port number. Defaults to 5432.}
 
-\item{user}{(character) (optional) username to use in connecting to database. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.}
+\item{user}{(character) (optional) username to use in connecting to database. Use to save time. If not supplied, the R console will prompt you to enter a username.}
 
-\item{password}{(character) (optional) password to user. Use to save time or if not using RStudio. If NULL, RStudio will create a pop-up asking for username.}
+\item{password}{(character) (optional) password to user. Use to save time. If not supplied, the R console will prompt you to enter a password.}
 }
 \value{
 (list) A list of data frames corresponding to views from specified schema in metabase
