@@ -43,13 +43,14 @@ create_entity <-
     
     # ------------------------------------------------------------------------------------
     # extract physical file information
-    filename <- file.path(file_dir, entity_e[["filename"]])
+    filename <- entity_e[["filename"]]
+    filepath <- file.path(file_dir, filename)
     
     if (!is.na(entity_e[["filesize"]]))
       size <-
       entity_e[["filesize"]]
     else
-      size <- as.character(file.size(filename))
+      size <- as.character(file.size(filepath))
     
     if (!is.na(entity_e[["filesize_units"]]))
       size_unit <- entity_e[["filesize_units"]]
@@ -59,7 +60,7 @@ create_entity <-
     if (!is.na(entity_e[["checksum"]])) {
       checksum <- entity_e[["checksum"]]
     } else
-      checksum <- digest::digest(filename,
+      checksum <- digest::digest(filepath,
                                  algo = "md5",
                                  file = TRUE)
     # ------------------------------------------------------------------------------------
@@ -82,7 +83,7 @@ create_entity <-
       
       physical <-
         set_physical(
-          objectName = filename,
+          objectName = filepath,
           size = size,
           sizeUnit = size_unit,
           
@@ -107,7 +108,7 @@ create_entity <-
       row_count <-
         length(
           readr::count_fields(
-            filename,
+            filepath,
             tokenizer = readr::tokenizer_csv(),
             skip = entity_e[["headerlines"]]
           )
