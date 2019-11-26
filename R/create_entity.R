@@ -41,6 +41,12 @@ create_entity <-
                entity_position == entity)
   
     
+    if ("annotation" %in% names(meta_list)) {
+      annotations <-
+        subset(meta_list[["annotation"]], datasetid == dataset_id &
+                 entity_position == entity)
+    }
+    
     # ------------------------------------------------------------------------------------
     # extract physical file information
     filename <- entity_e[["filename"]]
@@ -139,9 +145,26 @@ create_entity <-
       else if (nrow(missing) == 0) {
         attributeList <- set_attributes(attributes, factors = factors_e)
       }
-      else {
-        attributeList <- set_attributes(attributes)
+      else attributeList <- set_attributes(attributes)
+      
+      
+      # insert IDs for semantic annotation
+      ids <- paste0("d", dataset_id, "-e", entity, "-att", seq(1:nrow(attributes)))
+      
+      for (i in 1:length(attributeList[["attribute"]])) {
+        attributeList[["attribute"]][[i]][["id"]] <- ids[i]
+        
+        if ("annotation" %in% names(meta_list)) {
+          annotation <- subset(annotations, column_position == i)
+          if (nrow(annotation) > 0) {
+            attributeList[["attribute"]][[i]][["annotation"]] <-
+              apply(annotation, 1, assemble_annotation)
+            names(attributeList[["attribute"]][[i]][["annotation"]]) <-
+              NULL
+          }
+        }
       }
+      
       
       # assemble dataTable
       entity <-

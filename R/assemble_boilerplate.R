@@ -41,6 +41,11 @@ assemble_boilerplate <- function(bp_df, bp_people, bp_setting) {
     rights <- rights[!names(rights) %in% c("@context", "@type")]
   } else rights <- NULL
   
+  if (!is.na(bp_df[["licensed"]])) {
+    licensed = as_emld(xml2::read_xml(as.character(bp_df[["licensed"]])))
+    licensed <- licensed[!names(licensed) %in% c("@context", "@type")]
+  } else licensed <- NULL
+  
   bp <- list(
     scope = bp_df[["scope"]],
     system = bp_df[["system"]],
@@ -50,7 +55,8 @@ assemble_boilerplate <- function(bp_df, bp_people, bp_setting) {
     contact = contact,
     metadata_provider = metadata_provider, 
     publisher = publisher,
-    rights = rights
+    rights = rights,
+    licensed = licensed
   )
   return(bp)
   
