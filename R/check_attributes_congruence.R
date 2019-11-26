@@ -5,7 +5,7 @@
 #' @param meta_list (character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
 #' @param dataset_id (numeric) A dataset ID.
 #' @param entity (numeric) An entity number.
-#' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory if "".
+#' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory.
 #' @param filename (character) Filename. Defaults to "", in which case the entity metadata will be read to find filename.
 #' @return (character) Character vector of warnings to be used in a stop() or warning() call.
 #' @importFrom data.table fread
@@ -15,7 +15,7 @@ check_attribute_congruence <-
   function(meta_list,
             dataset_id,
             entity,
-            file_dir = "",
+            file_dir = getwd(),
             filename = "") {
     # subset to specified dataset_id and entity number
     entity_e <-
@@ -43,8 +43,8 @@ check_attribute_congruence <-
     #############################
     output_msgs <- c()
     if (filename != "") {
-    entity_df <- data.table::fread(filename)
-    } else entity_df <- data.table::fread(file.path(file_dir, entity_e[["filename"]]))
+    entity_df <- data.table::fread(file.path(file_dir, filename))
+    } else entity_df <- data.table::fread(file.path(file_dir, entity_e[["filename"]]), na.strings = NULL)
     entity_name <- entity_e[["entityname"]]
     data_cols <- colnames(entity_df)
     meta_cols <- attributes[["attributeName"]]

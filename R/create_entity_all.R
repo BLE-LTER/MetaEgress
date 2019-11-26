@@ -3,7 +3,7 @@
 #'
 #' @description. Use to quickly create EML entity list objects from all entities listed in dataset.
 #' @param meta_list (character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
-#' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory if "".
+#' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory.
 #' @param dataset_id (numeric) A dataset ID.
 #'
 #' @return (list) A list containing all data entities from dataset. Use this in the `entity_list` argument for \code{\link{create_EML}}.
@@ -21,7 +21,7 @@
 #'
 
 
-create_entity_all <- function(meta_list, file_dir = "", dataset_id) {
+create_entity_all <- function(meta_list, file_dir = getwd(), dataset_id) {
   entities <- subset_dataset(meta_list, "entities", dataset_id)
   factors <- subset_dataset(meta_list, "factors", dataset_id)
   attributes <- subset_dataset(meta_list, "attributes", dataset_id)

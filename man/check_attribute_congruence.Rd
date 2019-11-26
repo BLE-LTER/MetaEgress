@@ -4,8 +4,8 @@
 \alias{check_attribute_congruence}
 \title{Check metadata-data congruence for attributes.}
 \usage{
-check_attribute_congruence(meta_list, dataset_id, entity, file_dir = "",
-  filename = "")
+check_attribute_congruence(meta_list, dataset_id, entity,
+  file_dir = getwd(), filename = "")
 }
 \arguments{
 \item{meta_list}{(character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.}
@@ -14,7 +14,7 @@ check_attribute_congruence(meta_list, dataset_id, entity, file_dir = "",
 
 \item{entity}{(numeric) An entity number.}
 
-\item{file_dir}{(character) Path to directory containing flat files (data files). Defaults to current R working directory if "".}
+\item{file_dir}{(character) Path to directory containing flat files (data files). Defaults to current R working directory.}
 
 \item{filename}{(character) Filename. Defaults to "", in which case the entity metadata will be read to find filename.}
 }

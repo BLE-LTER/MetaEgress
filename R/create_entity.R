@@ -3,7 +3,7 @@
 #' @description Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use \code{\link{create_entity_all}} for common EML generation usage, which loops this function over all entities listed in a dataset under the hood.
 #'
 #' @param meta_list (character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
-#' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory if "". Note: if there's information on "entityrecords", "filesize", "filesize_units", and "checksum" columns in the entities table in metabase, there is no need for reading the actual files, so this field can stay NULL. 
+#' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory. Note: if there's information on "entityrecords", "filesize", "filesize_units", and "checksum" columns in the entities table in metabase, there is no need for reading the actual files, so this field can stay NULL. 
 #' @param dataset_id (numeric) A dataset ID.
 #' @param entity (numeric) An entity number.
 #'
@@ -16,7 +16,7 @@
 
 
 create_entity <-
-  function(meta_list, file_dir = "", dataset_id, entity) {
+  function(meta_list, file_dir = getwd(), dataset_id, entity) {
     # -----------------------------------------------------------------------------------
     
     # subset to specified dataset_id and entity number
