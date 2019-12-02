@@ -4,7 +4,8 @@
 \alias{create_entity_all}
 \title{Quickly create all EML entity list objects.}
 \usage{
-create_entity_all(meta_list, file_dir = getwd(), dataset_id)
+create_entity_all(meta_list, file_dir = getwd(), dataset_id,
+  entity_numbers = NULL)
 }
 \arguments{
 \item{meta_list}{(character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.}
@@ -12,6 +13,8 @@ create_entity_all(meta_list, file_dir = getwd(), dataset_id)
 \item{file_dir}{(character) Path to directory containing flat files (data files). Defaults to current R working directory.}
 
 \item{dataset_id}{(numeric) A dataset ID.}
+
+\item{entity_numbers}{(numeric) Vector of entity numbers to include. Defaults to all of them. Use only when you need to delibrately exclude a couple entities.}
 }
 \value{
 (list) A list containing all data entities from dataset. Use this in the `entity_list` argument for \code{\link{create_EML}}.
