@@ -3,9 +3,10 @@
 #' @description Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use \code{\link{create_entity_all}} for common EML generation usage, which loops this function over all entities listed in a dataset under the hood.
 #'
 #' @param meta_list (character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
-#' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory if "". Note: if there's information on "entityrecords", "filesize", "filesize_units", and "checksum" columns in the entities table in metabase, there is no need for reading the actual files, so this field can stay NULL. 
+#' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory. Note: if there's information on "entityrecords", "filesize", "filesize_units", and "checksum" columns in the entities table in metabase, there is no need for reading the actual files, so this field can stay NULL. 
 #' @param dataset_id (numeric) A dataset ID.
 #' @param entity (numeric) An entity number.
+#' @param skip_checks (logical) Whether to skip checking for attribute congruence. Defaults to FALSE. 
 #'
 #' @return (list) A list object containing one data entity.
 #' @import EML
@@ -16,7 +17,7 @@
 
 
 create_entity <-
-  function(meta_list, file_dir = "", dataset_id, entity) {
+  function(meta_list, file_dir = getwd(), dataset_id, entity, skip_checks = FALSE) {
     # -----------------------------------------------------------------------------------
     
     # subset to specified dataset_id and entity number
@@ -41,15 +42,22 @@ create_entity <-
                entity_position == entity)
   
     
+    if ("annotation" %in% names(meta_list)) {
+      annotations <-
+        subset(meta_list[["annotation"]], datasetid == dataset_id &
+                 entity_position == entity)
+    }
+    
     # ------------------------------------------------------------------------------------
     # extract physical file information
-    filename <- file.path(file_dir, entity_e[["filename"]])
+    filename <- entity_e[["filename"]]
+    filepath <- file.path(file_dir, filename)
     
     if (!is.na(entity_e[["filesize"]]))
       size <-
       entity_e[["filesize"]]
     else
-      size <- as.character(file.size(filename))
+      size <- as.character(file.size(filepath))
     
     if (!is.na(entity_e[["filesize_units"]]))
       size_unit <- entity_e[["filesize_units"]]
@@ -59,7 +67,7 @@ create_entity <-
     if (!is.na(entity_e[["checksum"]])) {
       checksum <- entity_e[["checksum"]]
     } else
-      checksum <- digest::digest(filename,
+      checksum <- digest::digest(filepath,
                                  algo = "md5",
                                  file = TRUE)
     # ------------------------------------------------------------------------------------
@@ -68,7 +76,7 @@ create_entity <-
     ######################
     
     if (entity_e[["entitytype"]] == "dataTable") {
-      
+      if (!skip_checks) {
       warning(
         paste0(check_attribute_congruence(
           meta_list = meta_list,
@@ -79,10 +87,11 @@ create_entity <-
         collapse = "\n"
       )
       )
+      }
       
       physical <-
         set_physical(
-          objectName = filename,
+          objectName = filepath,
           size = size,
           sizeUnit = size_unit,
           
@@ -107,7 +116,7 @@ create_entity <-
       row_count <-
         length(
           readr::count_fields(
-            filename,
+            filepath,
             tokenizer = readr::tokenizer_csv(),
             skip = entity_e[["headerlines"]]
           )
@@ -138,9 +147,26 @@ create_entity <-
       else if (nrow(missing) == 0) {
         attributeList <- set_attributes(attributes, factors = factors_e)
       }
-      else {
-        attributeList <- set_attributes(attributes)
+      else attributeList <- set_attributes(attributes)
+      
+      
+      # insert IDs for semantic annotation
+      ids <- paste0("d", dataset_id, "-e", entity, "-att", seq(1:nrow(attributes)))
+      
+      for (i in 1:length(attributeList[["attribute"]])) {
+        attributeList[["attribute"]][[i]][["id"]] <- ids[i]
+        
+        if ("annotation" %in% names(meta_list)) {
+          annotation <- subset(annotations, column_position == i)
+          if (nrow(annotation) > 0) {
+            attributeList[["attribute"]][[i]][["annotation"]] <-
+              apply(annotation, 1, assemble_annotation)
+            names(attributeList[["attribute"]][[i]][["annotation"]]) <-
+              NULL
+          }
+        }
       }
+      
       
       # assemble dataTable
       entity <-

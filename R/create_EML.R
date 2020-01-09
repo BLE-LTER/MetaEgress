@@ -38,10 +38,6 @@ create_EML <-
       stop("too many dataset ids. only one allowed for each EML document.")
     }
 
-    #meta_list[c("attributes", "factors", "entities")] <- NULL
-    
-    #meta_list <- lapply(meta_list, function(x) return(x[x[["datasetid"]] == dataset_id, ]))
-
     # -----------------------------------------------------------------------------
     # creators
 
@@ -124,7 +120,16 @@ create_EML <-
     # maintenance
     change <- subset(meta_list[["changehistory"]], datasetid == dataset_id)
     maintenance <- assemble_maintenance(dataset_df = dataset_meta, changehistory_df = change)
-
+    
+    # -----------------------------------------------------------------------------
+    # dataset annotation
+    if ("annotation" %in% names(meta_list)) {
+    ds_annotations <- subset(meta_list[["annotation"]], datasetid == dataset_id & entity_position == 0 & column_position == 0)
+    if (nrow(ds_annotations) > 0) {
+    annotations <- apply(ds_annotations, 1, assemble_annotation)
+    names(annotations) <- NULL
+    } else annotations <- NULL
+    } else annotations <- NULL
     # -----------------------------------------------------------------------------
     # put the dataset together
 
@@ -138,6 +143,7 @@ create_EML <-
         metadataProvider = bp[["metadata_provider"]],
         pubDate = as.character(format(as.Date(dataset_meta[["pubdate"]]), "%Y")),
         intellectualRights = bp[["rights"]],
+        licensed = bp[["licensed"]],
         abstract = abstract,
         keywordSet = kall,
         coverage = coverage,
@@ -149,7 +155,9 @@ create_EML <-
         language = "English",
         dataTable = entity_list[["data_tables"]],
         otherEntity = entity_list[["other_entities"]],
-        maintenance = maintenance
+        maintenance = maintenance,
+        annotation = annotations,
+        id = paste0("d", dataset_id)
       )
 
     # -------------------------------------------------------------------------------------
@@ -169,7 +177,7 @@ create_EML <-
       list(
         packageId = paste0(bp[["scope"]], ".", dataset_id, ".", dataset_meta[["revision_number"]]),
         system = bp[["system"]],
-        schemaLocation = "eml://ecoinformatics.org/eml-2.1.1 http://nis.lternet.edu/schemas/EML/eml-2.1.1/eml.xsd",
+        schemaLocation = "eml://ecoinformatics.org/eml-2.2.0 http://nis.lternet.edu/schemas/EML/eml-2.2.0/eml.xsd",
         access = bp[["access"]],
         dataset = dataset,
         additionalMetadata = additional_metadata

@@ -84,7 +84,8 @@ get_meta <-
       "vw_eml_instruments",
       "vw_eml_software",
       "vw_eml_boilerplate",
-      "vw_eml_bp_people"
+      "vw_eml_bp_people",
+      "vw_eml_semantic_annotation"
     )
     
     # missing views: difference between expected and actual views
@@ -137,17 +138,6 @@ get_meta <-
     # apply over list of views to query
     query_dfs <- lapply(views_to_query, param_query)
 
-    
-    # ---------------------------------------------------------------------------------
-    # read in boilerplate views separately since these do not have datasetid column
-    
-    query_dfs[["boilerplate"]] <- dbGetQuery(con, paste0('SELECT * FROM ', schema, '.vw_eml_boilerplate'))
-    query_dfs[["bp_people"]] <- dbGetQuery(con, paste0('SELECT * FROM ', schema, '.vw_eml_bp_people'))
-    
-    
-    # disconnect
-    dbDisconnect(con)
-
     # ----------------------------------------------------------------------------------
     # rename list items
 
@@ -171,8 +161,7 @@ get_meta <-
       "protocols",
       "instruments",
       "software",
-      "boilerplate",
-      "bp_people"
+      "annotation"
     )
 
     # match expected views with names of data frames in list
@@ -181,6 +170,17 @@ get_meta <-
     # rename according to matched indices
     names(query_dfs)[na.omit(existing)] <-
       names_short[which(!is.na(existing))]
+    
+    # ---------------------------------------------------------------------------------
+    # read in boilerplate views separately since these do not have datasetid column
+    
+    query_dfs[["boilerplate"]] <- dbGetQuery(con, paste0('SELECT * FROM ', schema, '.vw_eml_boilerplate'))
+    query_dfs[["bp_people"]] <- dbGetQuery(con, paste0('SELECT * FROM ', schema, '.vw_eml_bp_people'))
+    
+    
+    # disconnect
+    dbDisconnect(con)
+
     message("You might want to erase command history, since user password to your database was given.")
     return(query_dfs)
   }
