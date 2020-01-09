@@ -5,7 +5,7 @@
 \title{Quickly create all EML entity list objects.}
 \usage{
 create_entity_all(meta_list, file_dir = getwd(), dataset_id,
-  entity_numbers = NULL)
+  entity_numbers = NULL, skip_checks = FALSE)
 }
 \arguments{
 \item{meta_list}{(character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.}
@@ -15,6 +15,8 @@ create_entity_all(meta_list, file_dir = getwd(), dataset_id,
 \item{dataset_id}{(numeric) A dataset ID.}
 
 \item{entity_numbers}{(numeric) Vector of entity numbers to include. Defaults to all of them. Use only when you need to delibrately exclude a couple entities.}
+
+\item{skip_checks}{(logical) Whether to skip checking for attribute congruence. Defaults to FALSE.}
 }
 \value{
 (list) A list containing all data entities from dataset. Use this in the `entity_list` argument for \code{\link{create_EML}}.

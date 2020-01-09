@@ -6,6 +6,7 @@
 #' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory. Note: if there's information on "entityrecords", "filesize", "filesize_units", and "checksum" columns in the entities table in metabase, there is no need for reading the actual files, so this field can stay NULL. 
 #' @param dataset_id (numeric) A dataset ID.
 #' @param entity (numeric) An entity number.
+#' @param skip_checks (logical) Whether to skip checking for attribute congruence. Defaults to FALSE. 
 #'
 #' @return (list) A list object containing one data entity.
 #' @import EML
@@ -16,7 +17,7 @@
 
 
 create_entity <-
-  function(meta_list, file_dir = getwd(), dataset_id, entity) {
+  function(meta_list, file_dir = getwd(), dataset_id, entity, skip_checks = FALSE) {
     # -----------------------------------------------------------------------------------
     
     # subset to specified dataset_id and entity number
@@ -75,7 +76,7 @@ create_entity <-
     ######################
     
     if (entity_e[["entitytype"]] == "dataTable") {
-      
+      if (!skip_checks) {
       warning(
         paste0(check_attribute_congruence(
           meta_list = meta_list,
@@ -86,6 +87,7 @@ create_entity <-
         collapse = "\n"
       )
       )
+      }
       
       physical <-
         set_physical(
