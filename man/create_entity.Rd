@@ -4,8 +4,13 @@
 \alias{create_entity}
 \title{Create EML entity list object.}
 \usage{
-create_entity(meta_list, file_dir = getwd(), dataset_id, entity,
-  skip_checks = FALSE)
+create_entity(
+  meta_list,
+  file_dir = getwd(),
+  dataset_id,
+  entity,
+  skip_checks = FALSE
+)
 }
 \arguments{
 \item{meta_list}{(character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.}

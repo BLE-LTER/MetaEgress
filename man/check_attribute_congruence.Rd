@@ -4,8 +4,13 @@
 \alias{check_attribute_congruence}
 \title{Check metadata-data congruence for attributes.}
 \usage{
-check_attribute_congruence(meta_list, dataset_id, entity,
-  file_dir = getwd(), filename = "")
+check_attribute_congruence(
+  meta_list,
+  dataset_id,
+  entity,
+  file_dir = getwd(),
+  filename = ""
+)
 }
 \arguments{
 \item{meta_list}{(character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.}

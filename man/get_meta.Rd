@@ -4,8 +4,15 @@
 \alias{get_meta}
 \title{Connect to metabase and query metadata.}
 \usage{
-get_meta(dbname, schema = "mb2eml_r", dataset_ids, host = "localhost",
-  port = 5432, user = NULL, password = NULL)
+get_meta(
+  dbname,
+  schema = "mb2eml_r",
+  dataset_ids,
+  host = "localhost",
+  port = 5432,
+  user = NULL,
+  password = NULL
+)
 }
 \arguments{
 \item{dbname}{(character) name of database.}

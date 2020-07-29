@@ -4,7 +4,13 @@
 \alias{create_EML}
 \title{Create EML.}
 \usage{
-create_EML(meta_list, entity_list, dataset_id, file_dir = NULL)
+create_EML(
+  meta_list,
+  entity_list,
+  dataset_id,
+  file_dir = getwd(),
+  ble_options = FALSE
+)
 }
 \arguments{
 \item{meta_list}{(list) A list of dataframes containing metadata returned by \code{\link{get_meta}}.}
@@ -13,7 +19,9 @@ create_EML(meta_list, entity_list, dataset_id, file_dir = NULL)
 
 \item{dataset_id}{(numeric) A dataset ID.}
 
-\item{file_dir}{(character) Path to directory containing flat files (abstract and method documents). Defaults to "" or current R working directory.}
+\item{file_dir}{(character) Path to directory containing flat files (abstract and method documents). Defaults current R working directory.}
+
+\item{ble_options}{(logical) Whether to perform tasks specific to BLE-LTER: add an additional metadata snippet to facilitate replication to the Arctic Data Center. Defaults to FALSE.}
 }
 \value{
 (list) An EML package-compatible XML list tree. Supply this list object to \code{\link[EML]{eml_validate}} and \code{\link[EML]{write_eml}} to, in order, validate and write to .xml file.
@@ -23,7 +31,7 @@ Create an EML package-compatible XML list tree for an EML document, ready to val
 }
 \examples{
 \dontrun{
-# continued from \\code{\\link{get_meta}} and \\code{\\link{create_entity_all}}
+# continued from \code{\link{get_meta}} and \code{\link{create_entity_all}}
 EML <- create_EML(meta_list = metadata, entity_list = entities, dataset_id = 1, license_path = here::here("documents", "license.docx"))
 }
 }
