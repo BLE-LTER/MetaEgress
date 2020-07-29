@@ -6,7 +6,8 @@
 #' @param meta_list (list) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
 #' @param entity_list (character) A list of entities returned by \code{\link{create_entity_all}}.
 #' @param dataset_id (numeric) A dataset ID.
-#' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults to "" or current R working directory.
+#' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults current R working directory.
+#' @param ble_options (logical) Whether to perform tasks specific to BLE-LTER: add an additional metadata snippet to facilitate replication to the Arctic Data Center. Defaults to FALSE.
 
 #' @return (list) An EML package-compatible XML list tree. Supply this list object to \code{\link[EML]{eml_validate}} and \code{\link[EML]{write_eml}} to, in order, validate and write to .xml file.
 #'
@@ -21,7 +22,8 @@ create_EML <-
   function(meta_list,
              entity_list,
              dataset_id,
-             file_dir = NULL) {
+             file_dir = getwd(),
+             ble_options = FALSE) {
     # ----------------------------------------------------------------------------
     # initial check for missing arguments
 
@@ -167,17 +169,32 @@ create_EML <-
 
     if (dim(unit)[1] > 0) {
       unit_list <- EML::set_unitList(unit)
-      additional_metadata <- list(metadata = list(unitList = unit_list))
-    } else additional_metadata <- NULL
+    } else unit_list <- NULL
+    
+    if (ble_options) { 
+      replication <- list(preferredMemberNode = "urn:node:ADC",
+                                         numberReplicas = "1",
+                                        "xmlns:d1v1" = "http://ns.dataone.org/service/types/v1",
+                                         replicationAllowed = "true")
+      schema_location <- "https://eml.ecoinformatics.org/eml-2.2.0 https://nis.lternet.edu/schemas/EML/eml-2.2.0/xsd/eml.xsd http://ns.dataone.org/service/types/v1"
+      d1_namespace <- "http://ns.dataone.org/service/types/v1"
+    } else {
+      replication <- NULL 
+      schema_location <- "https://eml.ecoinformatics.org/eml-2.2.0 https://nis.lternet.edu/schemas/EML/eml-2.2.0/xsd/eml.xsd"
+      d1_namespace <- NULL
+    }
 
+    additional_metadata <- list(metadata = list(unitList = unit_list,
+                                                `d1v1:ReplicationPolicy` = replication))
     # ------------------------------------------------------------------------------------
     # EML EML EML EML
 
     eml <-
       list(
         packageId = paste0(bp[["scope"]], ".", dataset_id, ".", dataset_meta[["revision_number"]]),
+        "xmlns:d1v1" = d1_namespace,
         system = bp[["system"]],
-        schemaLocation = "eml://ecoinformatics.org/eml-2.2.0 http://nis.lternet.edu/schemas/EML/eml-2.2.0/eml.xsd",
+        schemaLocation = schema_location,
         access = bp[["access"]],
         dataset = dataset,
         additionalMetadata = additional_metadata
