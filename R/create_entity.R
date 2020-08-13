@@ -115,9 +115,9 @@ create_entity <-
       if (is.na(entity_e[["entityrecords"]])) {
       row_count <-
         length(
-          readr::count_fields(
+          count.fields(
             filepath,
-            tokenizer = readr::tokenizer_csv(),
+            sep = ",",
             skip = entity_e[["headerlines"]]
           )
         )
