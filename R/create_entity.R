@@ -75,7 +75,7 @@ create_entity <-
     # assemble dataTable #
     ######################
     
-    if (entity_e[["entitytype"]] == "dataTable") {
+    if (entity_e[["entitytype"]] %in% c("dataTable", "data table")) {
       if (!skip_checks) {
       warning(
         paste0(check_attribute_congruence(

@@ -6,14 +6,14 @@ context("getting metadata from ble_metabase")
 skip_if_no_db <- function() {
   tryCatch(
     expr = {
-          DBI::dbConnect(
-          drv = RPostgres::Postgres(),
-          dbname = "ble_metabase",
-          host = "10.157.18.129",
-          port = 5432,
-          user = "metaegress_user",
-          password = "usedinMetaEgress"
-        )
+      DBI::dbConnect(
+        drv = RPostgres::Postgres(),
+        dbname = "ble_metabase",
+        host = "10.157.18.129",
+        port = 5432,
+        user = "metaegress_user",
+        password = "usedinMetaEgress"
+      )
     },
     error = function(e) {
       skip(
@@ -26,7 +26,7 @@ skip_if_no_db <- function() {
     warning = function(w) {
       message(
         paste(
-          "Warning(s) with connecting to and/or getting metadata from database. Tests will NOT be skipped. Original waring message(s): ",
+          "Warning(s) with connecting to and/or getting metadata from database. Tests will NOT be skipped. Original warning message(s): ",
           print(w)
         )
       )
@@ -37,7 +37,6 @@ skip_if_no_db <- function() {
 
 test_that("function returns a list of dataframes", {
   skip_if_no_db()
-  
   metadata <- get_meta(
     dbname = "ble_metabase",
     dataset_ids = 1,
@@ -48,7 +47,7 @@ test_that("function returns a list of dataframes", {
   )
 
   expect_is(metadata, class = "list")
-  
+
   for (i in 1:length(metadata)) {
     expect_s3_class(metadata[[i]], class = "data.frame")
   }

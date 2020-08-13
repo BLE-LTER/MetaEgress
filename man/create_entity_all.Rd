@@ -4,8 +4,13 @@
 \alias{create_entity_all}
 \title{Quickly create all EML entity list objects.}
 \usage{
-create_entity_all(meta_list, file_dir = getwd(), dataset_id,
-  entity_numbers = NULL, skip_checks = FALSE)
+create_entity_all(
+  meta_list,
+  file_dir = getwd(),
+  dataset_id,
+  entity_numbers = NULL,
+  skip_checks = FALSE
+)
 }
 \arguments{
 \item{meta_list}{(character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.}
@@ -29,7 +34,7 @@ Second level elements are analogous to output from \code{\link{create_entity}}.
 }
 \examples{
 \dontrun{
-# continued from \\code{\\link{get_meta}}
+# continued from \code{\link{get_meta}}
 entities <- create_entity_all(meta_list = metadata, dataset_id = 1)
 }
 
