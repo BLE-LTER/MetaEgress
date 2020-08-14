@@ -48,8 +48,8 @@ create_entity_all <- function(meta_list, file_dir = getwd(), dataset_id, entity_
     )
 
   all2 <- list(
-    data_tables = all[which(names(all) == "dataTable")],
-    other_entities = all[which(names(all) == "otherEntity")]
+    data_tables = all[which(names(all) %in% c("dataTable", "data table"))],
+    other_entities = all[which(FALSE == (names(all) %in% c("dataTable", "data table")))]
   )
   names(all2[["other_entities"]]) <- NULL
   names(all2[["data_tables"]]) <- NULL
