@@ -176,7 +176,7 @@ create_EML <-
                                          numberReplicas = "1",
                                         "xmlns:d1v1" = "http://ns.dataone.org/service/types/v1",
                                          replicationAllowed = "true")
-      schema_location <- "https://eml.ecoinformatics.org/eml-2.2.0 https://nis.lternet.edu/schemas/EML/eml-2.2.0/xsd/eml.xsd http://ns.dataone.org/service/types/v1"
+      schema_location <- "https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd http://ns.dataone.org/service/types/v1"
       d1_namespace <- "http://ns.dataone.org/service/types/v1"
       additional_metadata <- list(metadata = list(unitList = unit_list,
                                                   `d1v1:ReplicationPolicy` = replication))
@@ -191,7 +191,7 @@ create_EML <-
           additionalMetadata = additional_metadata
         )
     } else {
-      schema_location <- "https://eml.ecoinformatics.org/eml-2.2.0 https://nis.lternet.edu/schemas/EML/eml-2.2.0/xsd/eml.xsd"
+      schema_location <- "https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd"
       additional_metadata <- list(metadata = list(unitList = unit_list))
       eml <-
         list(
