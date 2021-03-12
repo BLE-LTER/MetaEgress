@@ -196,7 +196,6 @@ create_EML <-
       eml <-
         list(
           packageId = paste0(bp[["scope"]], ".", dataset_id, ".", dataset_meta[["revision_number"]]),
-          "xmlns:d1v1" = d1_namespace,
           system = bp[["system"]],
           schemaLocation = schema_location,
           access = bp[["access"]],
