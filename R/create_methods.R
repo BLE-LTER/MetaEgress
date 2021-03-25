@@ -8,7 +8,7 @@
 #'
 #'
 #' @return (list) An emld list containing information on methods in LTER-core-metabase for the specified dataset ID.
-#'
+#' @importFrom EDIutils api_get_provenance_metadata
 #' @export
 
 create_method_section <-
