@@ -6,23 +6,26 @@
 #'
 #'
 
+
 assemble_publications <- function(publication_df) {
-  if (nrow(publication_df) > 0) {
-    pubs <- list(
-      lit_cited = list(citation = list()),
-      usage_citation = list(citation = list()),
-      ref_pub = list(citation = list())
-    )
-    for (i in 1:nrow(publication_df)) {
-      row <- publication_df[i, ]
-      if (row[["relationship"]] == "literatureCited") {
-        pubs[["lit_cited"]][["citation"]][[i]] <- list(bibtex = row[["bibtex"]])
-      } else if (row[["relationship"]] == "usageCitation") {
-        pubs[["usage_citation"]][["citation"]][[i]] <- list(bibtex = row[["bibtex"]])
-      } else if (row[["relationship"]] == "referencePublication") {
-        pubs[["ref_pub"]][["citation"]] <-  list(bibtex = row[["bibtex"]])
-      }
+  pubs <- list(
+    lit_cited = list(bibtex = NULL),
+    usage_citation = list(bibtex = NULL),
+    ref_pub = list(bibtex = NULL)
+  )
+  for (i in 1:nrow(publication_df)) {
+    row <- publication_df[i,]
+    if (row[["relationship"]] == "literatureCited") {
+      pubs[["lit_cited"]][["bibtex"]] <-
+        paste(pubs[["lit_cited"]][["bibtex"]], row[["bibtex"]], sep = "\n")
+    } else if (row[["relationship"]] == "usageCitation") {
+      pubs[["usage_citation"]][["bibtex"]] <-
+        paste(pubs[["usage_citation"]][["bibtex"]], row[["bibtex"]], sep = "\n")
+    } else if (row[["relationship"]] == "referencePublication") {
+      pubs[["ref_pub"]][["bibtex"]] <-
+        paste(pubs[["ref_pub"]][["bibtex"]], row[["bibtex"]], sep = "\n")
     }
-    return(pubs)
   }
+  return(pubs)
 }
+
