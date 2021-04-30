@@ -4,7 +4,7 @@
 #' @param publication_df (data.frame) A data frame containing information on publications
 #' @return (list) emld list with unnamed child items, each with information on publications
 #'
-#'
+#' @export
 
 
 assemble_publications <- function(publication_df) {
