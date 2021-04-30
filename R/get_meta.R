@@ -85,7 +85,8 @@ get_meta <-
       "vw_eml_software",
       "vw_eml_boilerplate",
       "vw_eml_bp_people",
-      "vw_eml_semantic_annotation"
+      "vw_eml_semantic_annotation",
+      "vw_eml_publications"
     )
     
     # missing views: difference between expected and actual views
@@ -97,7 +98,7 @@ get_meta <-
           schema,
           "' not matching expected views. Missing following view(s): ",
           paste(views_missing, collapse = ", "),
-          ". Please check your installation of LTER-core-metabase."
+          ". Please check your installation of LTER-core-metabase and update if applicable. MetaEgress will not process or output EML with content from missing views."
         )
       )
     }
@@ -161,7 +162,8 @@ get_meta <-
       "protocols",
       "instruments",
       "software",
-      "annotation"
+      "annotation",
+      "publication"
     )
 
     # match expected views with names of data frames in list
@@ -181,6 +183,6 @@ get_meta <-
     # disconnect
     dbDisconnect(con)
 
-    message("You might want to erase command history, since user password to your database was given.")
+    message("You might want to erase your R console history, since user password to your database was given.")
     return(query_dfs)
   }

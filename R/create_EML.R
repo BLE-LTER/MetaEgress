@@ -133,6 +133,14 @@ create_EML <-
     } else annotations <- NULL
     } else annotations <- NULL
     # -----------------------------------------------------------------------------
+    # publication info
+    if ("publication" %in% names(meta_list)) {
+      ds_publications <- subset(meta_list[["publication"]], datasetid == dataset_id)
+      if (nrow(ds_publications) > 0) {
+        pubs <- assemble_publications(ds_publications)
+      } else pubs <- NULL
+    } else pubs <- NULL
+    # -----------------------------------------------------------------------------
     # put the dataset together
 
     dataset <-
@@ -159,7 +167,10 @@ create_EML <-
         otherEntity = entity_list[["other_entities"]],
         maintenance = maintenance,
         annotation = annotations,
-        id = paste0("d", dataset_id)
+        id = paste0("d", dataset_id),
+        literatureCited = pubs[["lit_cited"]],
+        usageCitation = pubs[["usage_citation"]],
+        referencePublication = pubs[["ref_pub"]]
       )
 
     # -------------------------------------------------------------------------------------
