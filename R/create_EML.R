@@ -133,6 +133,14 @@ create_EML <-
     } else annotations <- NULL
     } else annotations <- NULL
     # -----------------------------------------------------------------------------
+    # publication info
+    if ("publication" %in% names(meta_list)) {
+      ds_publications <- subset(meta_list[["publication"]], datasetid == dataset_id)
+      if (nrow(ds_publications) > 0) {
+        pubs <- assemble_publications(ds_publications)
+      } else pubs <- NULL
+    } else pubs <- NULL
+    # -----------------------------------------------------------------------------
     # put the dataset together
 
     dataset <-
@@ -159,7 +167,10 @@ create_EML <-
         otherEntity = entity_list[["other_entities"]],
         maintenance = maintenance,
         annotation = annotations,
-        id = paste0("d", dataset_id)
+        id = paste0("d", dataset_id),
+        literatureCited = pubs[["lit_cited"]],
+        usageCitation = pubs[["usage_citation"]],
+        referencePublication = pubs[["ref_pub"]]
       )
 
     # -------------------------------------------------------------------------------------
@@ -176,29 +187,39 @@ create_EML <-
                                          numberReplicas = "1",
                                         "xmlns:d1v1" = "http://ns.dataone.org/service/types/v1",
                                          replicationAllowed = "true")
-      schema_location <- "https://eml.ecoinformatics.org/eml-2.2.0 https://nis.lternet.edu/schemas/EML/eml-2.2.0/xsd/eml.xsd http://ns.dataone.org/service/types/v1"
+      schema_location <- "https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd http://ns.dataone.org/service/types/v1"
       d1_namespace <- "http://ns.dataone.org/service/types/v1"
+      additional_metadata <- list(metadata = list(unitList = unit_list,
+                                                  `d1v1:ReplicationPolicy` = replication))
+      eml <-
+        list(
+          packageId = paste0(bp[["scope"]], ".", dataset_id, ".", dataset_meta[["revision_number"]]),
+          "xmlns:d1v1" = d1_namespace,
+          system = bp[["system"]],
+          schemaLocation = schema_location,
+          access = bp[["access"]],
+          dataset = dataset,
+          additionalMetadata = additional_metadata
+        )
     } else {
-      replication <- NULL 
-      schema_location <- "https://eml.ecoinformatics.org/eml-2.2.0 https://nis.lternet.edu/schemas/EML/eml-2.2.0/xsd/eml.xsd"
-      d1_namespace <- NULL
+      schema_location <- "https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd"
+      additional_metadata <- list(metadata = list(unitList = unit_list))
+      eml <-
+        list(
+          packageId = paste0(bp[["scope"]], ".", dataset_id, ".", dataset_meta[["revision_number"]]),
+          system = bp[["system"]],
+          schemaLocation = schema_location,
+          access = bp[["access"]],
+          dataset = dataset,
+          additionalMetadata = additional_metadata
+        )
     }
 
-    additional_metadata <- list(metadata = list(unitList = unit_list,
-                                                `d1v1:ReplicationPolicy` = replication))
+
     # ------------------------------------------------------------------------------------
     # EML EML EML EML
 
-    eml <-
-      list(
-        packageId = paste0(bp[["scope"]], ".", dataset_id, ".", dataset_meta[["revision_number"]]),
-        "xmlns:d1v1" = d1_namespace,
-        system = bp[["system"]],
-        schemaLocation = schema_location,
-        access = bp[["access"]],
-        dataset = dataset,
-        additionalMetadata = additional_metadata
-      )
+    
 
     return(eml)
   }
