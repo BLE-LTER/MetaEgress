@@ -8,7 +8,7 @@
 #'
 #'
 #' @return (list) An emld list containing information on methods in LTER-core-metabase for the specified dataset ID.
-#' @importFrom EDIutils api_get_provenance_metadata
+#' @importFrom EDIutils get_provenance_metadata
 #' @export
 
 create_method_section <-
@@ -71,7 +71,7 @@ create_method_step <-
     # method step description
     desc_type <- method_desc[["description_type"]]
     desc_content <- method_desc[["description"]]
-    
+
       if (desc_type == "file") {
         description <- set_TextType(file = file.path(file_dir, desc_content))
       } else if (desc_type == "md") {
@@ -90,7 +90,7 @@ create_method_step <-
 
       prov <-
         lapply(
-          lapply(ids, EDIutils::api_get_provenance_metadata),
+          lapply(ids, EDIutils::get_provenance_metadata),
           emld::as_emld
         )
 
