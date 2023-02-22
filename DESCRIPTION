@@ -14,5 +14,6 @@ Imports:
     RPostgres (>= 1.1.0)
 Suggest: stringr
 RoxygenNote: 7.1.1
+VignetteBuilder: knitr
 Suggests: 
     testthat (>= 2.1.0)

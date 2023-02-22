@@ -8,7 +8,14 @@ Last updated: `r format(Sys.time(), '%d %B, %Y')`
 knitr::opts_chunk$set(eval = FALSE, echo = TRUE, message= FALSE, warning=FALSE)
 ```
 
-This is an example workflow from metabase to EML document. This guide assumes you have an installed and populated instance of LTER-core-metabase, plus log-in credentials for an user with at least read or SELECT access to this database. See the [LTER-core-metabase Github repository](https://github.com/lter/LTER-core-metabase) for information on installation and population. If you would like to test drive `MetaEgress`, use the database dump specifically made for this purpose; see [this document](use_dump.md). 
+This is an example workflow, taking a populated instance of LTER-core-metabase to generate complete EML document. This guide
+assumes you have an installed and populated instance of
+LTER-core-metabase, plus log-in credentials for an user with at least
+read (or SELECT) access to this database. See the [LTER-core-metabase
+Github repository](https://github.com/lter/LTER-core-metabase) for
+information on installation and population of the database. If you would like to test
+drive `MetaEgress`, use the database dump specifically made for this
+purpose; see [this document](use_dump.md).
 
 ## Outline
 
@@ -18,35 +25,30 @@ This is an example workflow from metabase to EML document. This guide assumes yo
 - [Create entities](#create-entities)
 - [Create EML](#create-eml)
 - [Validate and write to file](#validate-and-write-to-file)
-- [Troubleshoot invalid EML](#troubleshoot-invalid-eml)
 
 
 ## Preparation
 
 ### Necessary components
 
-(aside from well populated metabase)
+(aside from populated LTER-core-metabase)
 
-- An abstract document in pandoc-compatible format. The file name should be exactly as specified in metabase `DataSet.Abstract`.
-- A method document in pandoc-compatible format. The file name should be exactly as specified in metabase `DataSetMethods.methodDocument`.
-- Data files for all listed entities. File names should be exactly as listed in metabase `DataSetEntities.FileName`.
+-   An abstract document in pandoc-compatible format. This can be a flat file, in which case the file name should be specified in `DataSet.Abstract` and `DataSet.AbstractType` set to "file", or it can be entered into LTER-core-metabase itself in plain-text or bookdown format, and the AbstractType specified accordingly.
+-   A method document in pandoc-compatible format. This can be a flat file, in which case the file name should be specified in `DataSetMethod.Description` and `DataSetMethod.DescriptionType` set to "file", or it can be entered into LTER-core-metabase itself in plain-text or bookdown format, and the AbstractType specified accordingly.
+-   Data files for all listed entities. File names should be exactly as listed in metabase `DataSetEntities.FileName`.
 
-**Note on document formats**
+**Note on document file formats**
 
-`MetaEgress` uses the function `set_TextType` from the EML R package to wrap documents in XML tags. See `set_TextType` documentation to learn more about compatible formats: `?EML::set_TextType`.
+`MetaEgress` uses the function `set_TextType` from the EML R package to
+wrap documents in XML tags. See `set_TextType` documentation to learn
+more about compatible formats: `?EML::set_TextType` in R console.
 
 ### Set up a local project folder
 
-Put data files and other documents (e.g. abstract, methods, boilerplate, license) in a folder. 
+Put data files and other documents (e.g. abstract, methods, if using files) in a folder.
 
-Recommended approach for local files: Create a R script in this folder and run `MetaEgress` from this script.
-
-For remotely hosted data: TODO
-
-### Remotely hosted data
-
-TODO
-
+Recommended approach for local files: Create a R script in this folder
+and run `MetaEgress` from this script.
 
 ## Set up in R
 
@@ -63,34 +65,35 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 ## Connect and query from LTER-core-metabase
 
 ```{r}
-# View documentation
-?get_meta
+    # View documentation
+    ?get_meta
 
-# Use function
-metadata <-
-  get_meta(
-    dbname = "metabase",       # change to your DB name
-    schema = "mb2eml_r",       # change to schema containing views
-    dataset_ids = 1,           # change to ID or numeric vector of IDs wanted
-    host = "localhost",        # change to IP address if remote host
-    port = 5432,
-    user = NULL,               # change to username and password to save time or if not using RStudio
-    password = NULL            # if NULL, RStudio will create pop-up windows asking for username and password
-  )
+    # Use function
+    metadata <-
+      get_meta(
+        dbname = "metabase",       # change to your DB name
+        schema = "mb2eml_r",       # change to schema containing views
+        dataset_ids = 1,           # change to ID or numeric vector of IDs wanted
+        host = "localhost",        # change to IP address if remote host
+        port = 5432,
+        user = NULL,               # option to enter the username and password here to save time
+        password = NULL            # if NULL, R will ask for your username and password in the console
+      )
 ```
 
 ## Create entities
 
 ```{r}
-# View documentation
-?create_entity_all
+    # View documentation
+    ?create_entity_all
 
-# Use the function
-entities <- create_entity_all(
-  meta_list = metadata,   # list returned by `get_meta`
-  dataset_id = 1,         # a singular dataset ID
-  file_dir = getwd()      # directory containing data files
-)
+    # Use the function
+    entities <- create_entity_all(
+      meta_list = metadata,   # list returned by `get_meta`
+      dataset_id = 1,         # a single dataset ID
+      file_dir = NULL,        # will use current working directory if NULL
+      skip_checks = T,        # if FALSE, MetaEgress will perform a congruency check comparing the names of attributes listed in your metadata and column names as appear in your data
+    )
 ```
 
 **Note** that even if the function runs successfully, many warnings will be generated. Use `warnings()` to see them. Most of the time the warnings will concern custom units and can safely be ignored.
@@ -102,7 +105,7 @@ entities <- create_entity_all(
 ?create_EML
 
 # Use the function
-EML <-
+eml_document <-
   create_EML(
     meta_list = metadata,                 # list returned by `get_meta`
     entity_list = entities,               # list returned by `create_entity_all`
@@ -112,7 +115,7 @@ EML <-
 
 ## Validate and write to file
 
-First validate EML document using the function `eml_validate` from EML R package. The input could be an EML list object or output from `create_entity`, or a XML file. 
+First validate EML document using the function `eml_validate` from EML R package. The input could be an EML list object or output from `create_EML`, or a XML file. 
 
 ```{r}
 EML::eml_validate(EML)
@@ -130,9 +133,5 @@ Should `eml_validate` return FALSE, examine the list object returned by `create_
 Then serialize or write to XML file using the function `write_eml` from the EML R package.
 
 ```{r}
-EML::write_eml(EML, file = "EML.xml")
+EML::write_eml(eml_document, file = "eml_document.xml")
 ```
-
-## Troubleshoot invalid EML
-
-TODO

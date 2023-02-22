@@ -184,6 +184,11 @@ create_entity <-
     ########################
     
     else {
+      if (entity_e[["formattype"]] == "textFormat") {
+      data_format <- list(textFormat = )
+      } else if (entity_e[["formattype"]] == "externallyDefinedFormat") {
+      data_format <- list(externallyDefinedFormat = list(formatName = entity_e[["formatname"]]))
+      }
       physical <-
         list(
           objectName = filename,
