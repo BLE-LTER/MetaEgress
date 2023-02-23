@@ -113,7 +113,7 @@ check_attribute_congruence <-
     
     for (i in unique(missing[["attributeName"]])) {
       codes <- subset(missing, attributeName == i, select = code, drop = TRUE)
-      if (!codes %in% unique(entity_df[[i]])) {
+      if (!all(codes %in% unique(entity_df[[i]]))) {
         msg <- paste(
           "Missing code in attribute",
           i,
