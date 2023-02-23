@@ -109,7 +109,7 @@ create_EML <-
     # -----------------------------------------------------------------------------
     # geo, tempo, taxa coverage
     
-    coverage <- assemble_coverage(meta_list, expand_taxa)
+    coverage <- assemble_coverage(meta_list, expand_taxa, skip_taxa)
     
     # -----------------------------------------------------------------------------
     # keywords
