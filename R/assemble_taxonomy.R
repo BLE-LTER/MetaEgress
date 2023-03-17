@@ -23,24 +23,10 @@ assemble_taxonomic <- function(taxa_df, expand_taxa) {
       n <- length(provs)
       # list of taxonomic providers supported by taxadb and by extension EML
       # taken from https://docs.ropensci.org/taxadb/articles/data-sources.html
-      dbprovs <- c("itis",
-                   "ncbi",
-                   "col",
-                   "tpl",
-                   "gbif",
-                   "fb",
-                   "slb",
-                   "wd",
-                   "ott",
-                   "iucn")
       # list of taxonomic providers supported by taxize
       # taken from https://docs.ropensci.org/taxize/articles/datasources.html
-      izeprovs <- c(
       # TODO: check for one or multiple taxonomic providers
       # TODO: check for taxonomic providers not covered by taxadb
-
-      provs <- unique(taxa_df[["taxonid_provider"]])
-      n <- length(provs)
 
       # TODO: need to match providers to these acronyms
 
@@ -102,46 +88,33 @@ assemble_taxonomic <- function(taxa_df, expand_taxa) {
         "wiki",
         "pow"
       )
-      
-      # check whether the providers listed are supported by taxadb
-      alldb <-
-        provs %in% dbprovs
-      # check whether the providers listed are supported by taxize
-      allize <-
-        provs %in% izeprovs
-      # check whether there are providers supported 
-      expandize <- provs %in% expandprovs
-      # check whether there are providers supported by taxadb but not expandable taxize
-      dbnotize <-
-        provs %in% setdiff(dbprovs, izeprovs)
-      # check whether there are providers not supported at all
-      atall <- provs %in% union(dbprovs, izeprovs)
-      
+
+
       # ------------------------------------------------------------------
       # start checking for cases
       # ------------------------------------------------------------------
-      
+
       # case 1: one provider
       if (n == 1) {
-        
+
         # case 1.2: one provider supported by taxadb
-        
-        
-        # 
-        
+
+
+        #
+
         if (all(expandize)) {
-          
+
         }
-        
+
         else if (all(alldb)) {
           taxcov <-
           EML::set_taxonomicCoverage(taxa[["taxonrankvalue"]], expand = T, db = provs)
         names(taxcov[[1]]) <- NULL
         }
-      } 
-      
-      
-      
+      }
+
+
+
       else if (n > 1 &
                  all(alldb)) {
         # case 2: multiple providers supported by taxadb
@@ -155,11 +128,10 @@ assemble_taxonomic <- function(taxa_df, expand_taxa) {
         names(taxcov) <- NULL
       } else if (all(allize)) {
         # case 3: there are provider(s) not supported by taxadb
-        
+
       }
-    } else if (any(atall)) {
-        "natserv"
-      )
+    else if (any(atall)) {}
+
 
       # send different sets of taxa to different processing methods
       unsupported <-
@@ -186,7 +158,7 @@ assemble_taxonomic <- function(taxa_df, expand_taxa) {
             )
           )
       }
-
+}
 
     # ------------------------- NO EXPANDING TAXA -----------------------------#
     else if (!expand_taxa) {
@@ -206,8 +178,8 @@ assemble_taxonomic <- function(taxa_df, expand_taxa) {
 }
 
 
-assemble_taxize <- function(sci_names, provider) {
-  
+assemble_taxize <- function(sci_names, provider) {}
+
 #' Assemble a single non-recursive taxonomicClassification node
 #'
 #' @param taxa_row (data.frame) One row of a data.frame containing information on a single taxon.
@@ -350,7 +322,7 @@ nested_taxcov <- function(sci_names, db = "itis") {
 
 
 
-#' 
+#'
 #' #' Title
 #' #'
 #' #' @param sci_names
@@ -368,7 +340,7 @@ nested_taxcov <- function(sci_names, db = "itis") {
 #'   return(taxa_df)
 #'   return(structurize(taxa_df = taxa_df))
 #' }
-#' 
+#'
 #' #' Create the taxonomicCoverage EML node
 #' #'
 #' #' @param sci_names
@@ -399,16 +371,16 @@ nested_taxcov <- function(sci_names, db = "itis") {
 #'       )
 #'     }
 #'   }
-#'   
+#'
 #'   taxa <- lapply(sci_names,
 #'                  function(sci_name) {
 #'                    pop(sci_name)
 #'                  })
-#'   
+#'
 #'   return(list(taxonomicClassification = taxa))
-#'   
+#'
 #' }
-#' 
+#'
 #' #' Title
 #' #'
 #' #' @param taxa_df
@@ -420,18 +392,18 @@ nested_taxcov <- function(sci_names, db = "itis") {
 #' structurize <- function(taxa_df) {
 #'   if (ncol(taxa_df) > 0 && nrow(taxa_df) > 0) {
 #'     taxonomicClassification = list()
-#'     
+#'
 #'     while (all(is.na(unique(taxa_df[[1]])))) {
 #'       taxa_df <- taxa_df[, -1, drop = FALSE]
 #'     }
-#'     
+#'
 #'     for (i in seq_along(unique(taxa_df[[1]]))) {
 #'       current_rank_value <- unique(taxa_df[[1]])[[i]]
-#'       
+#'
 #'       # subset out the rows that will go into recursion
 #'       next_rank_taxa_df <-
 #'         taxa_df[taxa_df[[1]] == current_rank_value, -1, drop = FALSE]
-#'       
+#'
 #'       taxonomicClassification[[i]] <- list(
 #'         taxonRankName = colnames(taxa_df)[[1]],
 #'         taxonRankValue = current_rank_value,
