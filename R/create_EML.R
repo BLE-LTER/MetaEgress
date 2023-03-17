@@ -1,5 +1,5 @@
 
-#' @title Create EML.
+#' @title Create EML
 #'
 #' @description Create an EML package-compatible XML list tree for an EML document, ready to validate and write to .xml file.
 #'
@@ -8,7 +8,9 @@
 #' @param dataset_id (numeric) A dataset ID.
 #' @param file_dir (character) Path to directory containing flat files (abstract and method documents). Defaults current R working directory.
 #' @param ble_options (logical) Whether to perform tasks specific to BLE-LTER: add an additional metadata snippet to facilitate replication to the Arctic Data Center. Defaults to FALSE.
-
+#' @param skip_taxa (logical) Whether to skip the call to \code{assemble_taxonomic}. Provided in case it doesn't work -- taxonomies are tricky; one option is to insert a snippet of EML generated elsewhere manually in a text editor. 
+#' @param expand_taxa (logical) Whether to use just the taxa names stored in taxonrankvalue and expand into full taxonomic trees (TRUE), or just make a taxonomic coverage module strictly based on the information provided (FALSE). Defaults to TRUE.
+#'
 #' @return (list) An EML package-compatible XML list tree. Supply this list object to \code{\link[EML]{eml_validate}} and \code{\link[EML]{write_eml}} to, in order, validate and write to .xml file.
 #'
 #' @examples
@@ -23,11 +25,11 @@ create_EML <-
              entity_list,
              dataset_id,
              file_dir = getwd(),
-             ble_options = FALSE,
            expand_taxa = F) {
+             ble_options = FALSE,
     # ----------------------------------------------------------------------------
     # initial check for missing arguments
-
+    
     if (missing(meta_list)) {
       stop("metadata list missing. use get_meta() to extract from metase")
     }
@@ -40,53 +42,54 @@ create_EML <-
     if (length(dataset_id) > 1) {
       stop("too many dataset ids. only one allowed for each EML document.")
     }
-
+    
     # -----------------------------------------------------------------------------
     # creators
-
+    
     creator_list <-
-      subset(
-        meta_list[["creator"]],
-        datasetid == dataset_id
-        & authorshiprole == "creator"
-      ) # redundant condition
-
+      subset(meta_list[["creator"]],
+             datasetid == dataset_id
+             & authorshiprole == "creator") # redundant condition
+    
     # sort by authorship order, just to make sure
     creator_list <-
-      creator_list[order(creator_list$authorshiporder), ]
-
+      creator_list[order(creator_list$authorshiporder),]
+    
     # trim whitespace and convert blank strings to NAs
-    creator_list[["givenname"]] <- na_if_empty(creator_list[["givenname"]])
-
-    creator_list[["surname"]] <- na_if_empty(creator_list[["surname"]])
-
+    creator_list[["givenname"]] <-
+      na_if_empty(creator_list[["givenname"]])
+    
+    creator_list[["surname"]] <-
+      na_if_empty(creator_list[["surname"]])
+    
     creators <- assemble_personnel(creator_list)
-
+    
     # -------------------------------------------------------------------------------
     # associated parties
-
+    
     parties <-
-      subset(meta_list[["parties"]], datasetid == dataset_id & !authorshiprole %in% c("creator", "contact"))
-
+      subset(meta_list[["parties"]],
+             datasetid == dataset_id &
+               !authorshiprole %in% c("creator", "contact"))
+    
     associated_party <- assemble_personnel(parties)
-
-
+    
+    
     # -------------------------------------------------------------------------------
     # methods
-
+    
     method_section <-
       list(methodStep = create_method_section(meta_list,
-        dataset_id = dataset_id,
-        file_dir = file_dir
-      ))
-
-
+                                              dataset_id = dataset_id,
+                                              file_dir = file_dir))
+    
+    
     # ------------------------------------------------------------------------------
     # assemble abstract
-
+    
     dataset_meta <-
       subset(meta_list[["dataset"]], datasetid == dataset_id)
-
+    
     abstract_type <- dataset_meta[["abstract_type"]]
     abstract_content <- dataset_meta[["abstract"]]
 
@@ -106,12 +109,12 @@ create_EML <-
 
     # -----------------------------------------------------------------------------
     # keywords
-
+    
     keywords <-
       subset(meta_list[["keyword"]], datasetid == dataset_id)
-
+    
     kall <- assemble_keywordset(keywords)
-
+    
     # -----------------------------------------------------------------------------
     # boilerplate information
 
@@ -127,23 +130,31 @@ create_EML <-
     # -----------------------------------------------------------------------------
     # dataset annotation
     if ("annotation" %in% names(meta_list)) {
-    ds_annotations <- subset(meta_list[["annotation"]], datasetid == dataset_id & entity_position == 0 & column_position == 0)
-    if (nrow(ds_annotations) > 0) {
-    annotations <- apply(ds_annotations, 1, assemble_annotation)
-    names(annotations) <- NULL
-    } else annotations <- NULL
-    } else annotations <- NULL
+      ds_annotations <-
+        subset(meta_list[["annotation"]],
+               datasetid == dataset_id &
+                 entity_position == 0 & column_position == 0)
+      if (nrow(ds_annotations) > 0) {
+        annotations <- apply(ds_annotations, 1, assemble_annotation)
+        names(annotations) <- NULL
+      } else
+        annotations <- NULL
+    } else
+      annotations <- NULL
     # -----------------------------------------------------------------------------
     # publication info
     if ("publication" %in% names(meta_list)) {
-      ds_publications <- subset(meta_list[["publication"]], datasetid == dataset_id)
+      ds_publications <-
+        subset(meta_list[["publication"]], datasetid == dataset_id)
       if (nrow(ds_publications) > 0) {
         pubs <- assemble_publications(ds_publications)
-      } else pubs <- NULL
-    } else pubs <- NULL
+      } else
+        pubs <- NULL
+    } else
+      pubs <- NULL
     # -----------------------------------------------------------------------------
     # put the dataset together
-
+    
     dataset <-
       list(
         title = dataset_meta[["title"]],
@@ -173,12 +184,12 @@ create_EML <-
         usageCitation = pubs[["usage_citation"]],
         referencePublication = pubs[["ref_pub"]]
       )
-
+    
     # -------------------------------------------------------------------------------------
     # units. return unit_list NULL if no units
-
+    
     unit <- subset(meta_list[["unit"]], datasetid == dataset_id)
-
+    
     if (dim(unit)[1] > 0) {
       unit_list <- EML::set_unitList(unit)
     } else unit_list <- NULL
@@ -190,8 +201,11 @@ create_EML <-
                                          replicationAllowed = "true")
       schema_location <- "https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd http://ns.dataone.org/service/types/v1"
       d1_namespace <- "http://ns.dataone.org/service/types/v1"
-      additional_metadata <- list(metadata = list(unitList = unit_list,
-                                                  `d1v1:ReplicationPolicy` = replication))
+      additional_metadata <-
+        list(metadata = list(
+          unitList = unit_list,
+          `d1v1:ReplicationPolicy` = replication
+        ))
       eml <-
         list(
           packageId = paste0(bp[["scope"]], ".", dataset_id, ".", dataset_meta[["revision_number"]]),
@@ -203,8 +217,10 @@ create_EML <-
           additionalMetadata = additional_metadata
         )
     } else {
-      schema_location <- "https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd"
-      additional_metadata <- list(metadata = list(unitList = unit_list))
+      schema_location <-
+        "https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd"
+      additional_metadata <-
+        list(metadata = list(unitList = unit_list))
       eml <-
         list(
           packageId = paste0(bp[["scope"]], ".", dataset_id, ".", dataset_meta[["revision_number"]]),
@@ -215,8 +231,8 @@ create_EML <-
           additionalMetadata = additional_metadata
         )
     }
-
-
+    
+    
     # ------------------------------------------------------------------------------------
     # EML EML EML EML
 
