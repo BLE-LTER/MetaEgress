@@ -9,7 +9,7 @@
 #'
 #' @export
 
-assemble_coverage <- function(meta_list, expand_taxa = T) {
+assemble_coverage <- function(meta_list, expand_taxa = F) {
 
 
   geo <- meta_list[["geo"]]
@@ -32,7 +32,7 @@ assemble_coverage <- function(meta_list, expand_taxa = T) {
   taxa <- meta_list[["taxonomy"]]
 
   if (nrow(taxa) > 0) {
-    taxcov <- assemble_taxonomic(taxa, expand_taxa)
+    taxcov <- assemble_taxonomy(taxa, expand_taxa = expand_taxa)
   } else
     taxcov <- NULL
 

@@ -23,7 +23,8 @@ create_EML <-
              entity_list,
              dataset_id,
              file_dir = getwd(),
-             ble_options = FALSE) {
+             ble_options = FALSE,
+           expand_taxa = F) {
     # ----------------------------------------------------------------------------
     # initial check for missing arguments
 
@@ -88,7 +89,7 @@ create_EML <-
 
     abstract_type <- dataset_meta[["abstract_type"]]
     abstract_content <- dataset_meta[["abstract"]]
-    
+
       if (abstract_type == "file") {
         abstract <- set_TextType(file = file.path(file_dir, abstract_content))
       } else if (abstract_type == "md") {
@@ -97,12 +98,12 @@ create_EML <-
         abstract <- as_emld(xml2::read_xml(as.character(abstract_content)))
         abstract <- abstract[!names(abstract) %in% c("@context", "@type")]
       } else if (abstract_type == "plaintext") abstract <- set_TextType(text = abstract_content)
-    
+
     # -----------------------------------------------------------------------------
     # geo, tempo, taxa coverage
 
-    coverage <- assemble_coverage(meta_list)
-    
+    coverage <- assemble_coverage(meta_list, expand_taxa = expand_taxa)
+
     # -----------------------------------------------------------------------------
     # keywords
 
@@ -113,7 +114,7 @@ create_EML <-
 
     # -----------------------------------------------------------------------------
     # boilerplate information
-    
+
     meta_list[["bp_people"]][["givenname"]] <- na_if_empty(meta_list[["bp_people"]][["givenname"]])
     meta_list[["bp_people"]][["surname"]] <- na_if_empty(meta_list[["bp_people"]][["surname"]])
     bp <- assemble_boilerplate(meta_list[["boilerplate"]], meta_list[["bp_people"]], dataset_meta[["bp_setting"]])
@@ -122,7 +123,7 @@ create_EML <-
     # maintenance
     change <- subset(meta_list[["changehistory"]], datasetid == dataset_id)
     maintenance <- assemble_maintenance(dataset_df = dataset_meta, changehistory_df = change)
-    
+
     # -----------------------------------------------------------------------------
     # dataset annotation
     if ("annotation" %in% names(meta_list)) {
@@ -181,8 +182,8 @@ create_EML <-
     if (dim(unit)[1] > 0) {
       unit_list <- EML::set_unitList(unit)
     } else unit_list <- NULL
-    
-    if (ble_options) { 
+
+    if (ble_options) {
       replication <- list(preferredMemberNode = "urn:node:ADC",
                                          numberReplicas = "1",
                                         "xmlns:d1v1" = "http://ns.dataone.org/service/types/v1",
@@ -219,7 +220,7 @@ create_EML <-
     # ------------------------------------------------------------------------------------
     # EML EML EML EML
 
-    
+
 
     return(eml)
   }
