@@ -6,14 +6,14 @@
 #' @export
 
 assemble_personnel <- function(personnel_df) {
-
+  
   if (nrow(personnel_df) > 0) {
-
+    
     people <- list()
     nameids <- unique(personnel_df[["nameid"]])
-
+    
     # loop over unique personnel ids (not single rows, to account for multiple user IDs)
-
+    
     for (i in 1:length(nameids)) {
       people[[i]] <- assemble_person(personnel_df[personnel_df[["nameid"]] == nameids[[i]], ])
     }
@@ -34,11 +34,11 @@ assemble_personnel <- function(personnel_df) {
 #'
 #' @param nameid (data.frame) A data.frame containing information on a single ResponsibleParty corresponding to a metabase name ID. Most often single row but can contain multiple rows if there are multiple user IDs listed.
 #' @return (list) emld list structure.
-#'
+#' 
 #' @export
 
 assemble_person <- function(nameid) {
-
+  
   # account for multiple rows aka multiple user IDs
   if (nrow(nameid) > 1) {
     person <- nameid[1, ]
@@ -97,24 +97,18 @@ assemble_person <- function(nameid) {
     phone = null_if_na(person, "phone1"),
     electronicMailAddress = null_if_na(person, "email"),
     userId = user_id,
-    role = if ("authorshiprole" %in% colnames(person)) if (!person[["authorshiprole"]] %in% c("creator", "contact")) null_if_na(person, "authorshiprole") else NULL
+    role = if ("authorshiprole" %in% colnames(person)) if (!person[["authorshiprole"]] %in% c("creator", "contact")) null_if_na(person, "authorshiprole") else NULL 
     else NULL,
     onlineUrl = null_if_na(person, "online_url")
   )
-
+  
   return(p)
 }
 
 # -----
 
-#' Assemble userId EML element
-#'
-#' @param person (data.frame) One row of a data.frame containing information on a single ResponsibleParty corresponding to a metabase name ID.
-#'
-#' @return (list) Emld list structure
-#'
-#' @examples
 assemble_userid <- function(person) {
+  
   if (!is.na(person[["userid"]])) {
     list(person[["userid"]],
          `directory` = null_if_na(person, "userid_type")
