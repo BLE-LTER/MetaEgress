@@ -3,10 +3,10 @@
 #' @description Use to examine entity list structure or troubleshoot invalid EML, or to put together custom entity lists. Use \code{\link{create_entity_all}} for common EML generation usage, which loops this function over all entities listed in a dataset under the hood.
 #'
 #' @param meta_list (character) A list of dataframes containing metadata returned by \code{\link{get_meta}}.
-#' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory. Note: if there's information on "entityrecords", "filesize", "filesize_units", and "checksum" columns in the entities table in metabase, there is no need for reading the actual files, so this field can stay NULL. 
+#' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory. Note: if there's information on "entityrecords", "filesize", "filesize_units", and "checksum" columns in the entities table in metabase, there is no need for reading the actual files, so this field can stay NULL.
 #' @param dataset_id (numeric) A dataset ID.
 #' @param entity (numeric) An entity number.
-#' @param skip_checks (logical) Whether to skip checking for attribute congruence. Defaults to FALSE. 
+#' @param skip_checks (logical) Whether to skip checking for attribute congruence. Defaults to FALSE.
 #'
 #' @return (list) A list object containing one data entity.
 #' @import EML
@@ -19,51 +19,51 @@
 create_entity <-
   function(meta_list, file_dir = getwd(), dataset_id, entity, skip_checks = FALSE) {
     # -----------------------------------------------------------------------------------
-    
+
     # subset to specified dataset_id and entity number
     entity_e <-
       subset(meta_list[["entities"]], datasetid == dataset_id &
                entity_position == entity)
-    
+
     # convert whitespace strings to NA for easy checking
     entity_e <- lapply(entity_e, stringr::str_trim)
     entity_e[entity_e == ""] <- NA
     entity_e <- as.data.frame(entity_e)
-    
+
     factors_e <-
       subset(meta_list[["factors"]], datasetid == dataset_id &
                entity_position == entity)
     attributes <-
       subset(meta_list[["attributes"]], datasetid == dataset_id &
                entity_position == entity)
-    
+
     missing <-
       subset(meta_list[["missing"]], datasetid == dataset_id &
                entity_position == entity)
-  
-    
+
+
     if ("annotation" %in% names(meta_list)) {
       annotations <-
         subset(meta_list[["annotation"]], datasetid == dataset_id &
                  entity_position == entity)
     }
-    
+
     # ------------------------------------------------------------------------------------
     # extract physical file information
     filename <- entity_e[["filename"]]
     filepath <- file.path(file_dir, filename)
-    
+
     if (!is.na(entity_e[["filesize"]]))
       size <-
       entity_e[["filesize"]]
     else
       size <- as.character(file.size(filepath))
-    
+
     if (!is.na(entity_e[["filesize_units"]]))
       size_unit <- entity_e[["filesize_units"]]
     else
       size_unit <- "byte"
-    
+
     if (!is.na(entity_e[["checksum"]])) {
       checksum <- entity_e[["checksum"]]
     } else
@@ -74,27 +74,27 @@ create_entity <-
     ######################
     # assemble dataTable #
     ######################
-    
+
     if (entity_e[["entitytype"]] %in% c("dataTable", "data table")) {
       if (!skip_checks) {
-      warning(
+      message(
         paste0(check_attribute_congruence(
           meta_list = meta_list,
           dataset_id = dataset_id,
           entity = entity,
           file_dir = file_dir
-        ), 
+        ),
         collapse = "\n"
       )
       )
       }
-      
+
       physical <-
         set_physical(
           objectName = filepath,
           size = size,
           sizeUnit = size_unit,
-          
+
           # check for missing urlhead, return NULL if NA
           url = if (!is.na(entity_e[["urlpath"]])) {
             paste0(entity_e[["urlpath"]], filename)
@@ -110,7 +110,7 @@ create_entity <-
           authentication = checksum,
           authMethod = "MD5"
         )
-      
+
       # getting record count, skipping header rows as specified
       if (is.na(entity_e[["entityrecords"]])) {
       row_count <-
@@ -122,20 +122,20 @@ create_entity <-
           )
         )
       } else row_count <- entity_e[["entityrecords"]]
-      
-      
+
+
       # coalesce precision and dateTimePrecision
       attributes[["precision"]] <-
         ifelse(is.na(attributes[["precision"]]), attributes[["dateTimePrecision"]], attributes[["precision"]])
-      
+
       # trimming extra columns due to new column check in rEML 2.0.0
       attributes[["datasetid"]] <-
         attributes[["entity_position"]] <-
         attributes[["dateTimePrecision"]] <- NULL
-      
+
       # set attributes
       # check for NULL factors and missing codes dfs first
-      
+
       if (nrow(factors_e) > 0 & nrow(missing) > 0) {
         attributeList <-
           set_attributes(attributes,
@@ -148,14 +148,14 @@ create_entity <-
         attributeList <- set_attributes(attributes, factors = factors_e)
       }
       else attributeList <- set_attributes(attributes)
-      
-      
+
+
       # insert IDs for semantic annotation
       ids <- paste0("d", dataset_id, "-e", entity, "-att", seq(1:nrow(attributes)))
-      
+
       for (i in 1:length(attributeList[["attribute"]])) {
         attributeList[["attribute"]][[i]][["id"]] <- ids[i]
-        
+
         if ("annotation" %in% names(meta_list)) {
           annotation <- subset(annotations, column_position == i)
           if (nrow(annotation) > 0) {
@@ -166,8 +166,8 @@ create_entity <-
           }
         }
       }
-      
-      
+
+
       # assemble dataTable
       entity <-
         list(
@@ -178,11 +178,11 @@ create_entity <-
           numberOfRecords = row_count
         )
     }
-    
+
     ########################
     # assemble otherEntity #
     ########################
-    
+
     else {
       physical <-
         list(
@@ -190,7 +190,7 @@ create_entity <-
           size = list(size, unit = size_unit),
           authentication = list(checksum, method = "MD5"),
           dataFormat = list(externallyDefinedFormat = list(formatName = entity_e[["formatname"]])),
-          
+
           # check for missing urlhead, return NULL if NA
           distribution = if (!is.na(entity_e[["urlpath"]])) {
             list(online = list(url = list(
@@ -200,7 +200,7 @@ create_entity <-
           } else
             NULL
         )
-      
+
       # assemble otherEntity
       entity <-
         list(
