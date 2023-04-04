@@ -1,4 +1,6 @@
 
+# utilities for MetaEgress
+# not exported
 
 null_if_na <- function(parent, thing) {
   if (!is.na(parent[[thing]])) {
@@ -14,9 +16,6 @@ na_if_empty <- function(thing) {
   return(thing)
 }
 
-
-# utilities for MetaEgress
-# not exported
 
 # ---------------------------
 # check for empty queries and insert placeholder row with dataset_id in question and optional entity number too

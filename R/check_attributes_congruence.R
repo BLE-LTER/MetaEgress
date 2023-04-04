@@ -8,7 +8,6 @@
 #' @param file_dir (character) Path to directory containing flat files (data files). Defaults to current R working directory.
 #' @param filename (character) Filename. Defaults to "", in which case the entity metadata will be read to find filename.
 #' @return (character) Character vector of warnings to be used in a stop() or warning() call.
-#' @importFrom data.table fread
 #' @export
 #'
 check_attribute_congruence <-
@@ -17,27 +16,28 @@ check_attribute_congruence <-
             entity,
             file_dir = getwd(),
             filename = "") {
+
     # subset to specified dataset_id and entity number
     entity_e <-
       subset(meta_list[["entities"]], datasetid == dataset_id &
                entity_position == entity)
-    
+
     # convert whitespace strings to NA for easy checking
     entity_e <- lapply(entity_e, stringr::str_trim)
     entity_e[entity_e == ""] <- NA
     entity_e <- as.data.frame(entity_e)
-    
+
     factors_e <-
       subset(meta_list[["factors"]], datasetid == dataset_id &
                entity_position == entity)
     attributes <-
       subset(meta_list[["attributes"]], datasetid == dataset_id &
                entity_position == entity)
-    
+
     missing <-
       subset(meta_list[["missing"]], datasetid == dataset_id &
                entity_position == entity)
-    
+
     #############################
     # attribute names and order #
     #############################
@@ -82,13 +82,13 @@ check_attribute_congruence <-
        return(output_msgs)
      }
     }
-    
-    
+
+
     #########################
     # attribute enumeration #
     #########################
-    
-    
+
+
     for (i in unique(factors_e[["attributeName"]])) {
       cats <- subset(factors_e, attributeName == i, select = code, drop = TRUE)
       codes <- subset(missing, attributeName == i, select = code, drop = TRUE)
@@ -105,12 +105,12 @@ check_attribute_congruence <-
     if (length(output_msgs) > 0){
       return(output_msgs)
     }
-    
-    
+
+
     #######################
     # missing value codes #
     #######################
-    
+
     for (i in unique(missing[["attributeName"]])) {
       codes <- subset(missing, attributeName == i, select = code, drop = TRUE)
       if (!all(codes %in% unique(entity_df[[i]]))) {
@@ -121,7 +121,7 @@ check_attribute_congruence <-
           entity_name
         )
         output_msgs <- c(output_msgs, msg)
-        
+
       }
     }
     if (length(output_msgs) > 0){
