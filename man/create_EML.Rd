@@ -2,13 +2,15 @@
 % Please edit documentation in R/create_EML.R
 \name{create_EML}
 \alias{create_EML}
-\title{Create EML.}
+\title{Create EML}
 \usage{
 create_EML(
   meta_list,
   entity_list,
   dataset_id,
   file_dir = getwd(),
+  expand_taxa = TRUE,
+  skip_taxa = FALSE,
   ble_options = FALSE
 )
 }
@@ -20,6 +22,10 @@ create_EML(
 \item{dataset_id}{(numeric) A dataset ID.}
 
 \item{file_dir}{(character) Path to directory containing flat files (abstract and method documents). Defaults current R working directory.}
+
+\item{expand_taxa}{(logical) Whether to use just the taxa names stored in taxonrankvalue and expand into full taxonomic trees (TRUE), or just make a taxonomic coverage module strictly based on the information provided (FALSE). Defaults to TRUE.}
+
+\item{skip_taxa}{(logical) Whether to skip the call to \code{assemble_taxonomic}. Provided in case it doesn't work -- taxonomies are tricky; one option is to insert a snippet of EML generated elsewhere manually in a text editor.}
 
 \item{ble_options}{(logical) Whether to perform tasks specific to BLE-LTER: add an additional metadata snippet to facilitate replication to the Arctic Data Center. Defaults to FALSE.}
 }

@@ -4,10 +4,14 @@
 \alias{assemble_coverage}
 \title{Assemble dataset coverage elements}
 \usage{
-assemble_coverage(meta_list)
+assemble_coverage(meta_list, expand_taxa = TRUE, skip_taxa = FALSE)
 }
 \arguments{
 \item{meta_list}{(list) A list of dataframes containing metadata returned by \code{\link{get_meta}}.}
+
+\item{expand_taxa}{(logical) Whether to use just the taxa names stored in taxonrankvalue and expand into full taxonomic trees (TRUE), or just make a taxonomic coverage module strictly based on the information provided (FALSE). Defaults to TRUE.}
+
+\item{skip_taxa}{(logical) Whether to skip the call to \code{assemble_taxonomic}. Provided in case it doesn't work -- taxonomies are tricky; one option is to insert a snippet of EML generated elsewhere manually in a text editor.}
 }
 \value{
 (list) A named list containing geographicCoverage, temporalCoverage, and taxonomicCoverage elements, each NULL if no information is provided.
