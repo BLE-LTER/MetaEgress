@@ -1,11 +1,12 @@
 #' Assemble the taxonomicCoverage tree in EML
-#' @description This function takes the information in metabase and assembles a fully fleshed out taxonomicCoverage EML tree.
-#' @param expand_taxa (logical) TRUE/FALSE on whether to lookup and fully expand a leaf node taxon's full taxonomic classification (kingdom to the lowest rank provided) into nested EML taxonomicCoverage elements. Having the full classification may help your dataset be more discover-able. If this is set to TRUE, rows containing taxa from unsupported providers, or from supported providers but whose classification lookups fail, will not be expanded. The function will use information from the taxonid, taxonrankvalue, and taxonid_provider columns to lookup classifications. It expects taxonid to contain the correct identifier for the taxon from the listed taxonomic authority/provider, taxonrankvalue to contain the taxon's name, and taxonid_provider to provide a correctly spelled name or commonly used ID for the taxonomic provider/authority (e.g. ITIS for the Integrated Taxonomy Information System). Defaults to FALSE.
+#' @description This function takes the information in metabase and assembles a fully fleshed out taxonomicCoverage EML tree, or more correctly a list of taxonomicClassification nodes. The function will use information from the taxonid, taxonrankvalue, taxonid_provider, and (if you have it) providerurl columns from the vw_eml_taxonomy view queried from metabase. It expects taxonid to contain the correct identifier for the taxon from the listed taxonomic authority/provider, taxonrankvalue to contain the taxon's name, taxonid_provider to provide a correctly spelled name or commonly used ID for the taxonomic provider/authority (e.g. ITIS for the Integrated Taxonomy Information System), and providerurl to contain a working url to the same.
+#' @param expand_taxa (logical) TRUE/FALSE on whether to lookup and fully expand a leaf node taxon's full taxonomic classification (kingdom to the lowest rank provided) into nested EML taxonomicCoverage elements (TRUE) or simply make a taxonomic coverage module based on the information provided in metabase (FALSE). This assumes, of course, that the taxa provided are only the leaf nodes. If so, setting this to TRUE and having the full classification may help your dataset be more discover-able, however the lookup process may be more prone to errors. If this is set to TRUE, rows containing taxa from unsupported providers, or from supported providers but whose classification lookups fail, will not be expanded. Defaults to FALSE.
 #' @param taxa_df (data.frame) A data.frame with taxonomic information. This is normally queried from a view in LTER-core-metabase, and the function expects certain column names (taxonid, taxonid_provider, provider_url, providerid, taxonrankname, and taxonrankvalue).
-#' @return (list) taxonomicCoverage tree in emld list format
+#' @return (list) List of taxonomicClassification nodes, in emld list format, one per row of taxa_df
 #' @export
 
-assemble_taxonomic <- function(taxa_df, expand_taxa = FALSE) {
+assemble_taxonomic <- function(taxa_df,
+                               expand_taxa = FALSE) {
   # init the result list
   taxcov <- list()
 
@@ -53,17 +54,17 @@ assemble_taxonomic <- function(taxa_df, expand_taxa = FALSE) {
       # send different sets of taxa to different processing methods
       # first we separate the input by whether unsupported/supported and by which package
       unsupported <-
-        taxa_df[!taxa_df$taxonid_provider %in% union(taxadb_provs, expandprovs), ]
+        taxa_df[!taxa_df$taxonid_provider %in% union(taxadb_provs, expandprovs),]
       taxadb_supported <-
-        taxa_df[taxa_df$taxonid_provider %in% taxadb_provs, ]
+        taxa_df[taxa_df$taxonid_provider %in% taxadb_provs,]
       # only send to taxize what taxadb didn't already cover
       taxize_supported <-
-        taxa_df[taxa_df$taxonid_provider %in% setdiff(expandprovs, taxadb_provs), ]
+        taxa_df[taxa_df$taxonid_provider %in% setdiff(expandprovs, taxadb_provs),]
 
       # loop through each supported provider by taxadb
       for (i in seq_along(unique(taxadb_supported$taxonid_provider))) {
         df <-
-          taxadb_supported[taxadb_supported$taxonid_provider == unique(taxadb_supported$taxonid_provider)[[i]], ]
+          taxadb_supported[taxadb_supported$taxonid_provider == unique(taxadb_supported$taxonid_provider)[[i]],]
         taxcov <-
           c(
             taxcov,
@@ -80,7 +81,7 @@ assemble_taxonomic <- function(taxa_df, expand_taxa = FALSE) {
       for (i in seq_along(unique(taxize_supported$taxonid_provider))) {
         # subset
         df <-
-          taxize_supported[taxize_supported$taxonid_provider == unique(taxize_supported$taxonid_provider)[[i]],]
+          taxize_supported[taxize_supported$taxonid_provider == unique(taxize_supported$taxonid_provider)[[i]], ]
         # if taxonids arent available, then use names
         sci_ids <-
           ifelse(is.null(null_if_na(df, "taxonid")), df$taxonrankvalue, df$taxonid)
@@ -96,13 +97,13 @@ assemble_taxonomic <- function(taxa_df, expand_taxa = FALSE) {
         # append rows where classification failed back into unsupported
         narows <- is.na(classifications)
         unsupported <- rbind(unsupported,
-                             df[narows, ])
+                             df[narows,])
         # remove fails from classifications
         classifications <- classifications[!narows]
         cov <-
           lapply(classifications,
                  assemble_taxon_nested,
-                 providerurl = match_provider(df[1,], type = 'url'))
+                 providerurl = match_provider(df[1, ], type = 'url'))
         taxcov <- c(taxcov, cov)
       }
 
@@ -110,7 +111,7 @@ assemble_taxonomic <- function(taxa_df, expand_taxa = FALSE) {
       if (nrow(unsupported) > 1) {
         unsupported_cov <- list()
         for (i in 1:nrow(unsupported)) {
-          unsupported_cov[[i]] <- assemble_taxon(unsupported[i, ])
+          unsupported_cov[[i]] <- assemble_taxon(unsupported[i,])
         }
         # append unsupported taxa to taxcov
         taxcov <- c(taxcov, unsupported_cov)
@@ -123,7 +124,7 @@ assemble_taxonomic <- function(taxa_df, expand_taxa = FALSE) {
     # ------------------------- expand_taxa = FALSE -----------------------------#
     else if (!expand_taxa) {
       for (i in 1:nrow(taxa_df)) {
-        taxcov[[i]] <- assemble_taxon(taxa_df[i, ])
+        taxcov[[i]] <- assemble_taxon(taxa_df[i,])
       }
       names(taxcov) <- NULL
       taxcov <- list(taxonomicClassification = taxcov)
@@ -150,7 +151,7 @@ assemble_taxon_nested <- function(classification, providerurl) {
         taxonRankValue = taxa[1, 'name', drop = TRUE],
         taxonId = list(taxa[1, 'id', drop = TRUE],
                        `provider` = providerurl),
-        taxonomicClassification = pop(taxa[-1,])
+        taxonomicClassification = pop(taxa[-1, ])
       )
     }
     else {
