@@ -2,7 +2,7 @@
 
 null_if_na <- function(parent, thing) {
   if (thing %in% names(parent)) {
-    if (!is.na(parent[[thing]])) {
+    if (!all(is.na(parent[[thing]]))) {
       return(parent[[thing]])
     } else return(NULL)
   } else {
