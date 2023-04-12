@@ -9,7 +9,7 @@ create_EML(
   entity_list,
   dataset_id,
   file_dir = getwd(),
-  expand_taxa = TRUE,
+  expand_taxa = FALSE,
   skip_taxa = FALSE,
   ble_options = FALSE
 )
@@ -23,9 +23,9 @@ create_EML(
 
 \item{file_dir}{(character) Path to directory containing flat files (abstract and method documents). Defaults current R working directory.}
 
-\item{expand_taxa}{(logical) Whether to use just the taxa names stored in taxonrankvalue and expand into full taxonomic trees (TRUE), or just make a taxonomic coverage module strictly based on the information provided (FALSE). Defaults to TRUE.}
+\item{expand_taxa}{(logical) TRUE/FALSE on whether assemble_taxonomic will lookup and fully expand a leaf node taxon's full taxonomic classification (kingdom to the lowest rank provided) into nested EML taxonomicCoverage elements (TRUE) or simply make a taxonomic coverage module based on the information provided in metabase (FALSE). This assumes, of course, that the taxa provided are only the leaf nodes. If so, setting this to TRUE and having the full classification may help your dataset be more discover-able, however the lookup process may be more prone to errors. If this is set to TRUE, rows containing taxa from unsupported providers, or from supported providers but whose classification lookups fail, will not be expanded. The function will use information from the taxonid, taxonrankvalue, taxonid_provider, and (if you have it) providerurl columns from the vw_eml_taxonomy view queried from metabase. It expects taxonid to contain the correct identifier for the taxon from the listed taxonomic authority/provider, taxonrankvalue to contain the taxon's name, taxonid_provider to provide a correctly spelled name or commonly used ID for the taxonomic provider/authority (e.g. ITIS for the Integrated Taxonomy Information System), and providerurl to contain a working url to the same.}
 
-\item{skip_taxa}{(logical) Whether to skip the call to \code{assemble_taxonomic}. Provided in case it doesn't work -- taxonomies are tricky; one option is to insert a snippet of EML generated elsewhere manually in a text editor.}
+\item{skip_taxa}{(logical) Whether to skip the call to \code{assemble_taxonomic}. Provided in case assemble_taxonomic fails in some way -- taxonomies are tricky; one option is to manually insert in a text editor a snippet of EML generated elsewhere, into the complete EML output from MetaEgress. Defaults to FALSE.}
 
 \item{ble_options}{(logical) Whether to perform tasks specific to BLE-LTER: add an additional metadata snippet to facilitate replication to the Arctic Data Center. Defaults to FALSE.}
 }
