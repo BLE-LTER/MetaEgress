@@ -205,12 +205,14 @@ create_EML <-
     } else
       unit_list <- NULL
 
+    # insert the bit of code 
+    # that makes replication to ADC easier
     if (ble_options) {
       replication <- list(
         preferredMemberNode = "urn:node:ADC",
-        numberReplicas = "1",
-        "xmlns:d1v1" = "http://ns.dataone.org/service/types/v1",
-        replicationAllowed = "true"
+        `numberReplicas` = "1",
+        `xmlns:d1v1` = "http://ns.dataone.org/service/types/v1",
+        `replicationAllowed` = "true"
       )
       schema_location <-
         "https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd http://ns.dataone.org/service/types/v1"

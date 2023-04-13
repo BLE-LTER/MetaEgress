@@ -5,7 +5,7 @@
 #' @param bp_setting (character) The boilerplate setting ("default" or otherwise).
 #'
 #' @return (list) Named list containing boilerplate items: scope, system, access, project, distribution, contact, metadata provider, publisher, license.
-
+#' @export
 
 assemble_boilerplate <- function(bp_df, bp_people, bp_setting) {
   
