@@ -207,25 +207,23 @@ create_EML <-
 
     # insert the bit of code 
     # that makes replication to ADC easier
-    if (ble_options) {
+    if (ble_options) {  
+      d1_namespace <- "http://ns.dataone.org/service/types/v1"
       replication <- list(
         preferredMemberNode = "urn:node:ADC",
         `numberReplicas` = "1",
-        `xmlns:d1v1` = "http://ns.dataone.org/service/types/v1",
+        `xmlns:d1v1` = d1_namespace,
         `replicationAllowed` = "true"
       )
       schema_location <-
         "https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd http://ns.dataone.org/service/types/v1"
-      d1_namespace <- "http://ns.dataone.org/service/types/v1"
       additional_metadata <-
-        list(metadata = list(
-          unitList = unit_list,
-          `d1v1:ReplicationPolicy` = replication
-        ))
+        list(list(metadata = list(unitList = unit_list)),
+             list(metadata = list(`d1v1:ReplicationPolicy` = replication)))
       eml <-
         list(
           packageId = paste0(bp[["scope"]], ".", dataset_id, ".", dataset_meta[["revision_number"]]),
-          "xmlns:d1v1" = d1_namespace,
+          # "xmlns:d1v1" = d1_namespace,
           system = bp[["system"]],
           schemaLocation = schema_location,
           access = bp[["access"]],
