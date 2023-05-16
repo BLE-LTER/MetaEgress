@@ -216,7 +216,7 @@ create_EML <-
         `replicationAllowed` = "true"
       )
       schema_location <-
-        "https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd http://ns.dataone.org/service/types/v1"
+        "https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd"
       additional_metadata <-
         list(list(metadata = list(unitList = unit_list)),
              list(metadata = list(`d1v1:ReplicationPolicy` = replication)))

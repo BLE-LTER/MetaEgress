@@ -106,6 +106,7 @@ create_entity <-
           fieldDelimiter = null_if_na(entity_e, "fielddlimiter"),
           # a typo in the view DDL
           quoteCharacter = null_if_na(entity_e, "quotecharacter"),
+          characterEncoding = null_if_na(entity_e, "encoding"),
           attributeOrientation = "column",
           authentication = checksum,
           authMethod = "MD5"
