@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_EML.R
 \name{create_EML}
 \alias{create_EML}
-\title{Create EML}
+\title{Create EML.}
 \usage{
 create_EML(
   meta_list,
