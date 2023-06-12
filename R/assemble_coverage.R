@@ -8,20 +8,19 @@
 
 assemble_coverage <- function(meta_list,
                               expand_taxa = FALSE,
-                              skip_taxa = FALSE
-                              ) {
+                              skip_taxa = FALSE) {
   geo <- meta_list[["geo"]]
   # geo uses a for loop instead of apply() because apply() converts the df into a matrix and therefore our hard work using format() to pad to 6 decimal points is lost
   if (nrow(geo) > 0) {
     geocov <- list()
     for (i in 1:nrow(geo)) {
-      geocov[[i]] <- assemble_geographic(geo[i, ])    
-      }
+      geocov[[i]] <- assemble_geographic(geo[i, ])
+    }
   } else
     geocov <- NULL
-
+  
   tempo <- meta_list[["temporal"]]
-
+  
   if (nrow(tempo) > 0) {
     tempcov <- apply(tempo, 1, assemble_temporal)
   } else
@@ -29,10 +28,11 @@ assemble_coverage <- function(meta_list,
   
   taxa <- meta_list[["taxonomy"]]
   if (nrow(taxa) > 0 & !skip_taxa) {
-    taxcov <- assemble_taxonomic(taxa, expand_taxa)
+    taxcov <- assemble_taxonomic(taxa,
+                                 expand_taxa = expand_taxa)
   } else
     taxcov <- NULL
-
+  
   coverage <-
     list(
       geographicCoverage = geocov,
@@ -60,7 +60,8 @@ assemble_geographic <- function(geo_row) {
     list(
       geographicDescription = geo_row[["geographicdescription"]],
       boundingCoordinates = list(
-        westBoundingCoordinate = format(geo_row[["westboundingcoordinate"]], nsmall = 6), # format to pad trailing zeroes till at least 6 decimal points
+        westBoundingCoordinate = format(geo_row[["westboundingcoordinate"]], nsmall = 6),
+        # format to pad trailing zeroes till at least 6 decimal points
         eastBoundingCoordinate = format(geo_row[["eastboundingcoordinate"]], nsmall = 6),
         northBoundingCoordinate = format(geo_row[["northboundingcoordinate"]], nsmall = 6),
         southBoundingCoordinate = format(geo_row[["southboundingcoordinate"]], nsmall = 6),
