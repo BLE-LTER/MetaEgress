@@ -11,8 +11,10 @@ License: Creative Commons license CC0 1.0 Universal
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    EML, 
+    EML,
     readr,
+    EDIutils,
+    digest,
     RPostgres (>= 1.1.0)
 Suggest: stringr
 RoxygenNote: 7.2.3
