@@ -176,7 +176,7 @@ assemble_taxon <- function(taxa_row) {
     list(
       taxonRankName = null_if_na(taxa_row, "taxonrankname"),
       taxonRankValue = null_if_na(taxa_row, "taxonrankvalue"),
-      commonname = null_if_na(taxa_row, "commonname"),
+      commonName = null_if_na(taxa_row, "commonname"),
       taxonId = list(taxa_row[["taxonid"]],
                      `provider` = match_provider(taxa_row = taxa_row))
     )
