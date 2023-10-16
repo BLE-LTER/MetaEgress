@@ -142,7 +142,7 @@ assemble_taxonomic <- function(taxa_df,
 #' @param provider (character) URL of the taxonomic authority/provider
 #' @param classification (data.frame) One data.frame containing one full taxonomic classification tree for one leaf taxon.
 #'
-#' @return
+#' @return (list) A nested list structure that represents the taxonomic classification tree
 assemble_taxon_nested <- function(classification, providerurl) {
   pop <- function(taxa) {
     if (nrow(taxa) > 1) {

@@ -12,7 +12,7 @@ assemble_taxon_nested(classification, providerurl)
 \item{provider}{(character) URL of the taxonomic authority/provider}
 }
 \value{
-
+(list) A nested list structure that represents the taxonomic classification tree
 }
 \description{
 Recursive or nested means this function does use the full taxonomic tree and nest the leaf taxon within.

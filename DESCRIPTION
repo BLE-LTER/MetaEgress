@@ -15,6 +15,6 @@ Imports:
     readr,
     RPostgres (>= 1.1.0)
 Suggest: stringr
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 2.1.0)
