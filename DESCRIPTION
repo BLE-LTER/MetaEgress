@@ -1,9 +1,11 @@
 Package: MetaEgress
 Type: Package
 Title: Create Ecological Metadata Language From LTER Core Metabase
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(person(given = "An T.", family = "Nguyen",
-       email = "enthusiast@utexas.edu", role = c("aut", "cre")), person(given = "Li", family = "Kui", role = "aut"))
+       email = "enthusiast@utexas.edu", role = c("aut", "cre")), 
+       person(given = "Li", family = "Kui", role = "aut"),
+       person(given = "Tim", family = "Whiteaker", email = "whiteaker@utexas.edu", role = "aut"))
 Description: Functions to create Ecological Metadata Language (EML) XML documents from metadata stored in a metadata database design by the Long Term Ecological Research Network.
 License: Creative Commons license CC0 1.0 Universal
 Encoding: UTF-8
