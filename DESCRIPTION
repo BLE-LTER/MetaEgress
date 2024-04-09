@@ -1,7 +1,7 @@
 Package: MetaEgress
 Type: Package
 Title: Create Ecological Metadata Language From LTER Core Metabase
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(person(given = "An T.", family = "Nguyen",
        email = "enthusiast@utexas.edu", role = c("aut", "cre")), 
        person(given = "Li", family = "Kui", role = "aut"),
