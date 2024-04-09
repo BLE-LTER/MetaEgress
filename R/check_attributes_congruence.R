@@ -92,12 +92,23 @@ check_attribute_congruence <-
     for (i in unique(factors_e[["attributeName"]])) {
       cats <- subset(factors_e, attributeName == i, select = code, drop = TRUE)
       codes <- subset(missing, attributeName == i, select = code, drop = TRUE)
-      if (!all(unique(entity_df[[i]]) %in% c(cats, codes) | c(cats, codes) %in% unique(entity_df[[i]]))) {
+      
+      # Check for matching lengths
+      if (length(unique(entity_df[[i]])) != length(cats) + length(codes)) {
+        # Report mismatched codes along with entity and attribute names
+        mismatched_codes <- setdiff(unique(entity_df[[i]]), c(cats, codes))
         msg <- paste(
-          "Enumeration in attribute",
-          i,
-          "in metadata not matching that in data for entity",
-          entity_name
+          "Mismatched codes in attribute", i,
+          "for entity", entity_name,
+          ":", paste(mismatched_codes, collapse = ", ")
+        )
+        output_msgs <- c(output_msgs, msg)
+      }
+      else if (!all(unique(entity_df[[i]]) %in% c(cats, codes) | c(cats, codes) %in% unique(entity_df[[i]]))) {
+        # Report enumeration mismatch
+        msg <- paste(
+          "Enumeration in attribute", i,
+          "in metadata not matching that in data for entity", entity_name
         )
         output_msgs <- c(output_msgs, msg)
       }
