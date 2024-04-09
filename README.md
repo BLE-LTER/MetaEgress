@@ -33,4 +33,5 @@ See `example/example_workflow.R` for example workflow, from LTER-core-metabase i
 
 when updating the code and publishing a new release, be sure to also:
 
-1. Hi
+1. Update the date at the top of this readme.
+2. Update the version in the DESCRIPTION file.
