@@ -98,8 +98,8 @@ check_attribute_congruence <-
         # Report mismatched codes along with entity and attribute names
         mismatched_codes <- setdiff(unique(entity_df[[i]]), c(cats, codes))
         msg <- paste0(
-          "Mismatched codes in attribute", i,
-          "for entity", entity_name,".",
+          "Mismatched codes in attribute " , i,
+          " for entity", entity_name,".",
           "Has duplicate values in metadata for both enumeration and missing code for value:", codes,
           paste(mismatched_codes, collapse = ", ")
         )
