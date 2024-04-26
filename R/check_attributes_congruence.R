@@ -45,6 +45,7 @@ check_attribute_congruence <-
     if (filename != "") {
     entity_df <- data.table::fread(file.path(file_dir, filename))
     } else entity_df <- data.table::fread(file.path(file_dir, entity_e[["filename"]]), na.strings = NULL)
+
     entity_name <- entity_e[["entityname"]]
     data_cols <- colnames(entity_df)
     meta_cols <- attributes[["attributeName"]]
@@ -88,54 +89,52 @@ check_attribute_congruence <-
     # attribute enumeration #
     #########################
 
-
+    output_msgs <- c()
     for (i in unique(factors_e[["attributeName"]])) {
       cats <- subset(factors_e, attributeName == i, select = code, drop = TRUE)
       codes <- subset(missing, attributeName == i, select = code, drop = TRUE)
       
-      # Check for matching lengths
-      if (length(unique(entity_df[[i]])) != length(cats) + length(codes)) {
-        # Report mismatched codes along with entity and attribute names
-        mismatched_codes <- setdiff(unique(entity_df[[i]]), c(cats, codes))
-        msg <- paste(
-          "Mismatched codes in attribute", i,
-          "for entity", entity_name,
-          ":", paste(mismatched_codes, collapse = ", ")
+      # find values that are present in both cats and codes
+      common_values <- intersect(cats, codes)
+      if (length(common_values) > 0)  {
+        msg <- paste0(
+          "For attribute ", i, " in entity ", entity_name, 
+          " the following values appear in the metadata for both DataSetAttributeEnumeration and DataSetAttributeMissingCodes: ",
+          paste(common_values, collapse = ", "),
+          ". A term should appear in one metadata table, not both."
         )
         output_msgs <- c(output_msgs, msg)
       }
-      else if (!all(unique(entity_df[[i]]) %in% c(cats, codes) | c(cats, codes) %in% unique(entity_df[[i]]))) {
-        # Report enumeration mismatch
+
+      # Check for a value in the data not present in the metadata
+      missing_metadata_values <- setdiff(unique(entity_df[[i]]), c(cats, codes))
+      if (length(missing_metadata_values) > 0) {
         msg <- paste(
-          "Enumeration in attribute", i,
-          "in metadata not matching that in data for entity", entity_name
+          "Value in data not in metadata for attribute", i,
+          "for entity", entity_name, ":", paste(missing_metadata_values, collapse = ", ")
         )
         output_msgs <- c(output_msgs, msg)
       }
+      
+      # Check for a value in the metadata not present in the data
+      missing_data_values <- setdiff(cats, unique(entity_df[[i]]))
+      if (length(missing_data_values) > 0) {
+        msg <- paste(
+          "Value in metadata for DataSetAttributeEnumeration not in data for attribute", i,
+          "for entity", entity_name, ": ", paste(missing_data_values, collapse = ", ")
+        )
+        output_msgs <- c(output_msgs, msg)
+      }  
+      missing_data_values <- setdiff(codes, unique(entity_df[[i]]))
+      if (length(missing_data_values) > 0) {
+        msg <- paste(
+          "Value in metadata for DataSetAttributeMissingCodes not in data for attribute", i,
+          "for entity", entity_name, ": ", paste(missing_data_values, collapse = ", ")
+        )
+        output_msgs <- c(output_msgs, msg)
+      }    
     }
     if (length(output_msgs) > 0){
       return(output_msgs)
-    }
-
-
-    #######################
-    # missing value codes #
-    #######################
-
-    for (i in unique(missing[["attributeName"]])) {
-      codes <- subset(missing, attributeName == i, select = code, drop = TRUE)
-      if (!all(codes %in% unique(entity_df[[i]]))) {
-        msg <- paste(
-          "Missing code in attribute",
-          i,
-          "in metadata not matching that in data for entity",
-          entity_name
-        )
-        output_msgs <- c(output_msgs, msg)
-
-      }
-    }
-    if (length(output_msgs) > 0){
-      return(output_msgs)
-    } else return("Attributes congruence checked and found not wanting. Congratulations!")
+    } else return(paste("Attributes congruence checked and found not wanting for table", entity_name))
   }
