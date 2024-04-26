@@ -97,69 +97,42 @@ check_attribute_congruence <-
       # find values that are present in both cats and codes
       common_values <- intersect(cats, codes)
       if (length(common_values) > 0)  {
-        # Report mismatched codes along with entity and attribute names
-        #mismatched_codes <- setdiff(unique(entity_df[[i]]), c(cats, codes))
         msg <- paste0(
           "For attribute ", i, " in entity ", entity_name, 
           " the following values appear in the metadata for both DataSetAttributeEnumeration and DataSetAttributeMissingCodes: ",
-          paste(common_values, collapse = ", ")
+          paste(common_values, collapse = ", "),
+          ". A term should appear in one metadata table, not both."
         )
         output_msgs <- c(output_msgs, msg)
       }
 
-      # # 
-      # if (!all(unique(entity_df[[i]]) %in% c(cats, codes) | c(cats, codes) %in% unique(entity_df[[i]]))) {
-      #   # Report enumeration mismatch
-      #   msg <- paste(
-      #     "Enumeration in attribute", i,
-      #     "in metadata not matching that in data for entity", entity_name
-      #   )
-      #   output_msgs <- c(output_msgs, msg)
-      # }
-      
       # Check for a value in the data not present in the metadata
       missing_metadata_values <- setdiff(unique(entity_df[[i]]), c(cats, codes))
       if (length(missing_metadata_values) > 0) {
         msg <- paste(
           "Value in data not in metadata for attribute", i,
-          "for entity ", entity_name, ":", paste(missing_metadata_values, collapse = ", ")
+          "for entity", entity_name, ":", paste(missing_metadata_values, collapse = ", ")
         )
         output_msgs <- c(output_msgs, msg)
       }
       
       # Check for a value in the metadata not present in the data
-      missing_data_values <- setdiff(c(cats, codes), unique(entity_df[[i]]))
+      missing_data_values <- setdiff(cats, unique(entity_df[[i]]))
       if (length(missing_data_values) > 0) {
         msg <- paste(
-          "Value in metadata not in data for attribute", i,
-          " for entity ", entity_name, ": ", paste(missing_data_values, collapse = ", ")
+          "Value in metadata for DataSetAttributeEnumeration not in data for attribute", i,
+          "for entity", entity_name, ": ", paste(missing_data_values, collapse = ", ")
         )
         output_msgs <- c(output_msgs, msg)
-      }   
-    }
-
-    if (length(output_msgs) > 0) {
-      return(output_msgs)
-    }
-
-
-
-    #######################
-    # missing value codes #
-    #######################
-    
-    for (i in unique(missing[["attributeName"]])) {
-      codes <- subset(missing, attributeName == i, select = code, drop = TRUE)
-      if (!all(codes %in% unique(entity_df[[i]]))) {
+      }  
+      missing_data_values <- setdiff(codes, unique(entity_df[[i]]))
+      if (length(missing_data_values) > 0) {
         msg <- paste(
-          "Missing code in attribute",
-          i,
-          "in metadata not matching that in data for entity",
-          entity_name
+          "Value in metadata for DataSetAttributeMissingCodes not in data for attribute", i,
+          "for entity", entity_name, ": ", paste(missing_data_values, collapse = ", ")
         )
         output_msgs <- c(output_msgs, msg)
-
-      }
+      }    
     }
     if (length(output_msgs) > 0){
       return(output_msgs)
