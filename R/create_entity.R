@@ -112,19 +112,12 @@ create_entity <-
           authMethod = "MD5"
         )
 
-      # getting record count, skipping header rows as specified
+      # getting record count, skipping header rows as specified and also fix apostrophe in the csv cell value in a data table that messes up row count when computing number of records
+      
       if (is.na(entity_e[["entityrecords"]])) {
-      row_count <-
-        length(
-          count.fields(
-            filepath,
-            sep = ",",
-            skip = entity_e[["headerlines"]]
-          )
-        )
+      row_count <- length(count.fields(filepath, sep = ",", skip = entity_e[["headerlines"]], quote = "\""))
       } else row_count <- entity_e[["entityrecords"]]
-
-
+    
       # coalesce precision and dateTimePrecision
       attributes[["precision"]] <-
         ifelse(is.na(attributes[["precision"]]), attributes[["dateTimePrecision"]], attributes[["precision"]])
