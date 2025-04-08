@@ -27,7 +27,7 @@ create_EML <-
            expand_taxa = FALSE,
            skip_taxa = FALSE,
            ble_options = FALSE) {
-    # ----------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
     # initial check for missing arguments
 
     if (missing(meta_list)) {
@@ -43,7 +43,7 @@ create_EML <-
       stop("too many dataset ids. only one allowed for each EML document.")
     }
 
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # creators
 
     creator_list <-
@@ -64,7 +64,7 @@ create_EML <-
 
     creators <- assemble_personnel(creator_list)
 
-    # -------------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # associated parties
 
     parties <-
@@ -73,7 +73,7 @@ create_EML <-
     associated_party <- assemble_personnel(parties)
 
 
-    # -------------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # methods
 
     method_section <-
@@ -83,7 +83,7 @@ create_EML <-
       ))
 
 
-    # ------------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # assemble abstract
 
     dataset_meta <-
@@ -101,14 +101,14 @@ create_EML <-
         abstract <- abstract[!names(abstract) %in% c("@context", "@type")]
       } else if (abstract_type == "plaintext") abstract <- set_TextType(text = abstract_content)
     
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # geo, tempo, taxa coverage
 
     coverage <- assemble_coverage(meta_list,
                                   expand_taxa = expand_taxa,
                                   skip_taxa = skip_taxa)
     
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # keywords
 
     keywords <-
@@ -116,19 +116,19 @@ create_EML <-
 
     kall <- assemble_keywordset(keywords)
 
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # boilerplate information
     
     meta_list[["bp_people"]][["givenname"]] <- na_if_empty(meta_list[["bp_people"]][["givenname"]])
     meta_list[["bp_people"]][["surname"]] <- na_if_empty(meta_list[["bp_people"]][["surname"]])
     bp <- assemble_boilerplate(meta_list[["boilerplate"]], meta_list[["bp_people"]], dataset_meta[["bp_setting"]])
 
-    # ----------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
     # maintenance
     change <- subset(meta_list[["changehistory"]], datasetid == dataset_id)
     maintenance <- assemble_maintenance(dataset_df = dataset_meta, changehistory_df = change)
     
-    # -----------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     # dataset annotation
     if ("annotation" %in% names(meta_list)) {
     ds_annotations <- subset(meta_list[["annotation"]], datasetid == dataset_id & entity_position == 0 & column_position == 0)
@@ -137,7 +137,8 @@ create_EML <-
     names(annotations) <- NULL
     } else annotations <- NULL
     } else annotations <- NULL
-    # -----------------------------------------------------------------------------
+
+    # -------------------------------------------------------------------------
     # publication info
     if ("publication" %in% names(meta_list)) {
       ds_publications <- subset(meta_list[["publication"]], datasetid == dataset_id)
@@ -145,7 +146,8 @@ create_EML <-
         pubs <- assemble_publications(ds_publications)
       } else pubs <- NULL
     } else pubs <- NULL
-    # -----------------------------------------------------------------------------
+
+    # -------------------------------------------------------------------------
     # put the dataset together
 
     dataset <-
@@ -178,53 +180,58 @@ create_EML <-
         referencePublication = pubs[["ref_pub"]]
       )
 
-    # -------------------------------------------------------------------------------------
-    # units. return unit_list NULL if no units
+    # --------------------------------------------------------------------------
+    # custom units and other options in additionalMetadata
+    # return NULL for units if no attributes present (unit df empty)
 
     unit <- subset(meta_list[["unit"]], datasetid == dataset_id)
 
     if (dim(unit)[1] > 0) {
-      unit_list <- EML::set_unitList(unit)
-    } else unit_list <- NULL
-    
+      # If units are described add a unitList to additionalMetadata$metadata
+      additional_metadata <- list(metadata = list(unitList =
+                                                  EML::set_unitList(unit)))
+      # If not make additionalMetadata$metadata NULL so it won't be in the EML
+    } else additional_metadata <- list(metadata = NULL)
+
+    # If BLE options are selected do some special DAtaONE stuff
     if (ble_options) { 
       replication <- list(preferredMemberNode = "urn:node:ADC",
-                                         numberReplicas = "1",
-                                        "xmlns:d1v1" = "http://ns.dataone.org/service/types/v1",
-                                         replicationAllowed = "true")
+                          numberReplicas = "1",
+                          "xmlns:d1v1" = "http://ns.dataone.org/service/types/v1",
+                          replicationAllowed = "true")
       schema_location <- "https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd http://ns.dataone.org/service/types/v1"
       d1_namespace <- "http://ns.dataone.org/service/types/v1"
-      additional_metadata <- list(metadata = list(unitList = unit_list,
-                                                  `d1v1:ReplicationPolicy` = replication))
-      eml <-
-        list(
-          packageId = paste0(bp[["scope"]], ".", dataset_id, ".", dataset_meta[["revision_number"]]),
-          # "xmlns:d1v1" = d1_namespace,
-          system = bp[["system"]],
-          schemaLocation = schema_location,
-          access = bp[["access"]],
-          dataset = dataset,
-          additionalMetadata = additional_metadata
-        )
+      # Append the BLE replication policy to additionalMetadata$metadata
+      additional_metadata$metadata <- append(additional_metadata$metadata,
+                                             list(`d1v1:ReplicationPolicy` = replication))
+
     } else {
       schema_location <- "https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd"
-      additional_metadata <- list(metadata = list(unitList = unit_list))
-      eml <-
-        list(
-          packageId = paste0(bp[["scope"]], ".", dataset_id, ".", dataset_meta[["revision_number"]]),
-          system = bp[["system"]],
-          schemaLocation = schema_location,
-          access = bp[["access"]],
-          dataset = dataset,
-          additionalMetadata = additional_metadata
-        )
     }
 
-
-    # ------------------------------------------------------------------------------------
-    # EML EML EML EML
-
+    # --------------------------------------------------------------------------
+    # create the EML list
     
+    eml <-
+      list(
+        packageId = paste0(bp[["scope"]], ".", dataset_id, ".",
+                           dataset_meta[["revision_number"]]),
+        system = bp[["system"]],
+        schemaLocation = schema_location,
+        access = bp[["access"]],
+        dataset = dataset,
+        additionalMetadata = additional_metadata
+        )
+
+    # This was in an earlier version but throws a no-namespace error
+    # when validating
+    # 
+    # if (ble_options) {
+    #   eml[["xmlns:d1v1"]] <- d1_namespace
+    # }
+
+    # -------------------------------------------------------------------------
+    # EML EML EML EML
 
     return(eml)
   }
