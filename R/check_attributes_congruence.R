@@ -12,15 +12,15 @@
 #'
 check_attribute_congruence <-
   function(meta_list,
-            dataset_id,
-            entity,
-            file_dir = getwd(),
-            filename = "") {
+           dataset_id,
+           entity,
+           file_dir = getwd(),
+           filename = "") {
 
     # subset to specified dataset_id and entity number
     entity_e <-
-      subset(meta_list[["entities"]], datasetid == dataset_id &
-               entity_position == entity)
+      subset(meta_list[["entities"]],
+             datasetid == dataset_id & entity_position == entity)
 
     # convert whitespace strings to NA for easy checking
     entity_e <- lapply(entity_e, stringr::str_trim)
@@ -28,27 +28,39 @@ check_attribute_congruence <-
     entity_e <- as.data.frame(entity_e)
 
     factors_e <-
-      subset(meta_list[["factors"]], datasetid == dataset_id &
-               entity_position == entity)
+      subset(meta_list[["factors"]],
+             datasetid == dataset_id & entity_position == entity)
+
     attributes <-
-      subset(meta_list[["attributes"]], datasetid == dataset_id &
-               entity_position == entity)
+      subset(meta_list[["attributes"]],
+             datasetid == dataset_id & entity_position == entity)
 
     missing <-
-      subset(meta_list[["missing"]], datasetid == dataset_id &
-               entity_position == entity)
+      subset(meta_list[["missing"]],
+             datasetid == dataset_id & entity_position == entity)
 
     #############################
     # attribute names and order #
     #############################
     output_msgs <- c()
-    if (filename != "") {
-    entity_df <- data.table::fread(file.path(file_dir, filename))
-    } else entity_df <- data.table::fread(file.path(file_dir, entity_e[["filename"]]), na.strings = NULL)
+
+    # Read data file (consistent args no matter how filename is provided)
+    path_to_file <- if (filename != "") {
+      file.path(file_dir, filename)
+    } else {
+      file.path(file_dir, entity_e[["filename"]])
+    }
+
+    entity_df <- data.table::fread(
+      path_to_file,
+      na.strings  = c("NA", ""),
+      strip.white = TRUE
+    )
 
     entity_name <- entity_e[["entityname"]]
     data_cols <- colnames(entity_df)
     meta_cols <- attributes[["attributeName"]]
+
     if (length(meta_cols) - length(data_cols) != 0) {
       msg <-
         paste(
@@ -66,39 +78,87 @@ check_attribute_congruence <-
       output_msgs <- c(output_msgs, msg)
       return(output_msgs)
     }
+
     if (!all(data_cols == meta_cols)) {
-     if (!all(data_cols[order(data_cols)] == meta_cols[order(meta_cols)])) {
-       msg <- paste(
-         "Spelling of attribute names in metadata not matching that of column names in data for entity",
-         entity_name
-       )
-       output_msgs <- c(output_msgs, msg)
-       return(output_msgs)
-     } else {
-       msg <- paste(
-         "Order of attributes in metadata not matching that of columns in data for entity",
-         entity_name
-       )
-       output_msgs <- c(output_msgs, msg)
-       return(output_msgs)
-     }
+      if (!all(data_cols[order(data_cols)] == meta_cols[order(meta_cols)])) {
+        msg <- paste(
+          "Spelling of attribute names in metadata not matching that of column names in data for entity",
+          entity_name
+        )
+        output_msgs <- c(output_msgs, msg)
+        return(output_msgs)
+      } else {
+        msg <- paste(
+          "Order of attributes in metadata not matching that of columns in data for entity",
+          entity_name
+        )
+        output_msgs <- c(output_msgs, msg)
+        return(output_msgs)
+      }
     }
 
-
     #########################
-    # attribute enumeration #
+    # missing codes
     #########################
 
-    output_msgs <- c()
-    for (i in unique(factors_e[["attributeName"]])) {
-      cats <- subset(factors_e, attributeName == i, select = code, drop = TRUE)
+    # check NA missing-code congruence for ALL attributes in metadata
+    attrs_to_check <- meta_cols
+    attrs_to_check <- attrs_to_check[!is.na(attrs_to_check) & nzchar(attrs_to_check)]
+    attrs_to_check <- intersect(attrs_to_check, names(entity_df))
+
+    for (i in attrs_to_check) {
+
+      # codes from missing-code metadata 
       codes <- subset(missing, attributeName == i, select = code, drop = TRUE)
-      
-      # find values that are present in both cats and codes
-      common_values <- intersect(cats, codes)
-      if (length(common_values) > 0)  {
+      codes_chr <- trimws(as.character(codes))
+      codes_chr <- codes_chr[!is.na(codes_chr)]
+
+      # detect NA in data
+      has_na_in_data <- any(is.na(entity_df[[i]]))
+
+      # detect NA in metadata 
+      na_in_meta <- any(toupper(codes_chr) == "NA")
+
+      if (has_na_in_data && !na_in_meta) {
+        msg <- paste(
+          "Value in data not in metadata for DataSetAttributeMissingCodes for attribute", i,
+          "for entity", entity_name, ": NA"
+        )
+        output_msgs <- c(output_msgs, msg)
+      }
+
+      if (na_in_meta && !has_na_in_data) {
+        msg <- paste(
+          "Value in metadata for DataSetAttributeMissingCodes not in data for attribute", i,
+          "for entity", entity_name, ": NA"
+        )
+        output_msgs <- c(output_msgs, msg)
+      }
+    }
+
+    # enumeration checks
+    for (i in unique(factors_e[["attributeName"]])) {
+
+      if (!i %in% names(entity_df)) next
+
+      cats  <- subset(factors_e, attributeName == i, select = code, drop = TRUE)
+      codes <- subset(missing,   attributeName == i, select = code, drop = TRUE)
+
+      data_vals <- unique(entity_df[[i]])
+      data_vals_chr <- trimws(as.character(data_vals))
+      data_vals_chr[is.na(data_vals)] <- "NA"
+
+      cats_chr <- trimws(as.character(cats))
+      cats_chr <- cats_chr[!is.na(cats_chr)]
+
+      codes_chr <- trimws(as.character(codes))
+      codes_chr <- codes_chr[!is.na(codes_chr)]
+
+      # values present in both enumeration and missing-code metadata
+      common_values <- intersect(cats_chr, codes_chr)
+      if (length(common_values) > 0) {
         msg <- paste0(
-          "For attribute ", i, " in entity ", entity_name, 
+          "For attribute ", i, " in entity ", entity_name,
           " the following values appear in the metadata for both DataSetAttributeEnumeration and DataSetAttributeMissingCodes: ",
           paste(common_values, collapse = ", "),
           ". A term should appear in one metadata table, not both."
@@ -106,35 +166,32 @@ check_attribute_congruence <-
         output_msgs <- c(output_msgs, msg)
       }
 
-      # Check for a value in the data not present in the metadata
-      missing_metadata_values <- setdiff(unique(entity_df[[i]]), c(cats, codes))
+      # values in data not in enumeration OR missing codes metadata
+      missing_metadata_values <- setdiff(data_vals_chr, c(cats_chr, codes_chr))
       if (length(missing_metadata_values) > 0) {
         msg <- paste(
           "Value in data not in metadata for attribute", i,
-          "for entity", entity_name, ":", paste(missing_metadata_values, collapse = ", ")
+          "for entity", entity_name, ":",
+          paste(missing_metadata_values, collapse = ", ")
         )
         output_msgs <- c(output_msgs, msg)
       }
-      
-      # Check for a value in the metadata not present in the data
-      missing_data_values <- setdiff(cats, unique(entity_df[[i]]))
+
+      # values in enumeration metadata not present in data
+      missing_data_values <- setdiff(cats_chr, data_vals_chr)
       if (length(missing_data_values) > 0) {
         msg <- paste(
           "Value in metadata for DataSetAttributeEnumeration not in data for attribute", i,
-          "for entity", entity_name, ": ", paste(missing_data_values, collapse = ", ")
+          "for entity", entity_name, ":",
+          paste(missing_data_values, collapse = ", ")
         )
         output_msgs <- c(output_msgs, msg)
-      }  
-      missing_data_values <- setdiff(codes, unique(entity_df[[i]]))
-      if (length(missing_data_values) > 0) {
-        msg <- paste(
-          "Value in metadata for DataSetAttributeMissingCodes not in data for attribute", i,
-          "for entity", entity_name, ": ", paste(missing_data_values, collapse = ", ")
-        )
-        output_msgs <- c(output_msgs, msg)
-      }    
+      }
     }
-    if (length(output_msgs) > 0){
+
+    if (length(output_msgs) > 0) {
       return(output_msgs)
-    } else return(paste("Attributes congruence checked and found not wanting for table", entity_name))
+    }
+
+    return(paste("Attributes congruence checked and found not wanting for table", entity_name))
   }
