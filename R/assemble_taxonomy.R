@@ -16,7 +16,7 @@ assemble_taxonomic <- function(taxa_df,
       # providers supported by taxadb and by extension the EML package
       # taken from https://docs.ropensci.org/taxadb/articles/data-sources.html
       taxadb_provs <-
-        c("itis",
+        c(#"itis",
           "ncbi",
           "col",
           "tpl",
@@ -100,11 +100,42 @@ assemble_taxonomic <- function(taxa_df,
                              df[narows,])
         # remove fails from classifications
         classifications <- classifications[!narows]
-        cov <-
-          lapply(classifications,
-                 assemble_taxon_nested,
-                 providerurl = match_provider(df[1, ], type = 'url'))
-        taxcov <- c(taxcov, cov)
+        cov <- lapply(seq_along(classifications), function(j) {
+
+  cn <- tryCatch(
+  {
+    z <- NULL
+    tf <- tempfile()
+    zz <- file(tf, open = "wt")
+    sink(zz)
+    sink(zz, type = "message")
+
+    on.exit({
+      sink(type = "message")
+      sink()
+      close(zz)
+      unlink(tf)
+    }, add = TRUE)
+
+    z <- suppressWarnings(
+      suppressMessages(
+        taxize::sci2comm(df$taxonrankvalue[j])
+      )
+    )
+
+    if (length(z) == 0 || length(z[[1]]) == 0) NA_character_ else z[[1]][1]
+  },
+  error = function(e) NA_character_
+)
+  assemble_taxon_nested(
+    classification = classifications[[j]],
+
+    providerurl = match_provider(df[j, ], type = "url"),
+    commonname = cn
+  )
+})
+
+taxcov <- c(taxcov, cov)
       }
 
       # loop through and assemble as-is for unsupported providers
@@ -143,28 +174,33 @@ assemble_taxonomic <- function(taxa_df,
 #' @param classification (data.frame) One data.frame containing one full taxonomic classification tree for one leaf taxon.
 #'
 #' @return (list) A nested list structure that represents the taxonomic classification tree
-assemble_taxon_nested <- function(classification, providerurl) {
+assemble_taxon_nested <- function(classification, providerurl, commonname = NULL) {
   pop <- function(taxa) {
     if (nrow(taxa) > 1) {
       list(
         taxonRankName = taxa[1, 'rank', drop = TRUE],
         taxonRankValue = taxa[1, 'name', drop = TRUE],
         taxonId = list(taxa[1, 'id', drop = TRUE],
-                       `provider` = providerurl),
-        taxonomicClassification = pop(taxa[-1, ])
+                       provider = providerurl),
+        taxonomicClassification = pop(taxa[-1, , drop = FALSE])
       )
     }
     else {
-      list(
+      out <- list(
         taxonRankName = taxa[1, 'rank', drop = TRUE],
         taxonRankValue = taxa[1, 'name', drop = TRUE],
         taxonId = list(taxa[1, 'id', drop = TRUE],
-                       `provider` = providerurl)
+                       provider = providerurl)
       )
+
+      if (!is.null(commonname) && !is.na(commonname) && nzchar(commonname)) {
+        out$commonName <- commonname
+      }
+
+      out
     }
   }
-  taxa <- pop(classification)
-  return(taxa)
+  pop(classification)
 }
 
 #' Assemble a single non-recursive, non-nested taxonomicClassification node
