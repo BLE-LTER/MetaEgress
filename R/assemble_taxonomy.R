@@ -382,7 +382,7 @@ match_provider <- function(taxa_row, type = "url") {
       # then provider names
       else if ("taxonid_provider" %in% names(taxa_row) &&
                !is.na(taxa_row[["taxonid_provider"]])) {
-        name <- tolower(trimws(taxa_row[["providerid"]]))
+        name <- tolower(trimws(taxa_row[["taxonid_provider"]]))
         out <-
           cw$machine.readable.url[match(name[name %in% cw$human.readable], cw$human.readable)]
         if (length(out) == 0)
@@ -400,22 +400,21 @@ match_provider <- function(taxa_row, type = "url") {
         !is.na(taxa_row[["providerid"]])) {
       # all lowercase and whitespace trimmed
       id <- tolower(trimws(taxa_row[["providerid"]]))
-      out <-
+      url  <-
         cw$machine.readable.id[match(id[id %in% cw$human.readable], cw$human.readable)]
-      if (length(out) == 0)
-        out <- id
+      if (length(out) == 0) out <- id
+        url  <- id
     }
     # then provider names
     else if ("taxonid_provider" %in% names(taxa_row) &&
              !is.na(taxa_row[["taxonid_provider"]])) {
-      name <- tolower(trimws(taxa_row[["providerid"]]))
+      name <- tolower(trimws(taxa_row[["taxonid_provider"]]))
       url <-
         cw$machine.readable.id[match(name[name %in% cw$human.readable], cw$human.readable)]
       if (length(out) == 0)
         url <- id
     }
-    if (is.null(out) | is.na(out) | length(out) == 0)
-      out <- "unknown"
+    if (is.null(out) || is.na(out) || length(out) == 0) out <- "unknown"
     return(out)
   }
 }
