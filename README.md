@@ -1,5 +1,5 @@
 # MetaEgress
-March 25, 2026
+April 10, 2026
 
 ## Orientation
 `MetaEgress` is a R package to create Ecological Metadata Language (EML) standard metadata documents from an installed and populated LTER-core-metabase. LTER-core-metabase is a metadata database design for management of ecological research metadata, created by the Long Term Ecological Research (LTER) Network and oriented towards production of EML documents at LTER sites. For information on LTER-core-metabase see https://github.com/lter/LTER-core-metabase. The two projects are tightly coupled: make sure to keep both up to date. 
