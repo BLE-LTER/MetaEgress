@@ -16,7 +16,7 @@ assemble_taxonomic <- function(taxa_df,
       # providers supported by taxadb and by extension the EML package
       # taken from https://docs.ropensci.org/taxadb/articles/data-sources.html
       taxadb_provs <-
-        c("itis",
+        c(#"itis",
           "ncbi",
           "col",
           "tpl",
@@ -100,10 +100,15 @@ assemble_taxonomic <- function(taxa_df,
                              df[narows,])
         # remove fails from classifications
         classifications <- classifications[!narows]
+        df_ok <- df[!narows, , drop = FALSE]
         cov <-
-          lapply(classifications,
+          mapply(
                  assemble_taxon_nested,
-                 providerurl = match_provider(df[1, ], type = 'url'))
+                 classification = classifications,
+                 providerurl = match_provider(df_ok[1, ], type = "url"),
+                 commonname = df_ok$commonname,
+                  SIMPLIFY = FALSE
+                 )
         taxcov <- c(taxcov, cov)
       }
 
@@ -143,7 +148,7 @@ assemble_taxonomic <- function(taxa_df,
 #' @param classification (data.frame) One data.frame containing one full taxonomic classification tree for one leaf taxon.
 #'
 #' @return (list) A nested list structure that represents the taxonomic classification tree
-assemble_taxon_nested <- function(classification, providerurl) {
+assemble_taxon_nested <- function(classification, providerurl, commonname = NULL) {
   pop <- function(taxa) {
     if (nrow(taxa) > 1) {
       list(
@@ -158,6 +163,7 @@ assemble_taxon_nested <- function(classification, providerurl) {
       list(
         taxonRankName = taxa[1, 'rank', drop = TRUE],
         taxonRankValue = taxa[1, 'name', drop = TRUE],
+        commonName = commonname,
         taxonId = list(taxa[1, 'id', drop = TRUE],
                        `provider` = providerurl)
       )

@@ -19,4 +19,5 @@ Imports:
 Suggest: stringr
 RoxygenNote: 7.2.3
 Suggests: 
-    testthat (>= 2.1.0)
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

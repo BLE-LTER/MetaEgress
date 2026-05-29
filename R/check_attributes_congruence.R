@@ -135,8 +135,9 @@ check_attribute_congruence <-
         output_msgs <- c(output_msgs, msg)
       }
     }
-
+#########################
     # enumeration checks
+#########################
     for (i in unique(factors_e[["attributeName"]])) {
 
       if (!i %in% names(entity_df)) next
