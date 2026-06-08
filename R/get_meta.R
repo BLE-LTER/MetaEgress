@@ -22,8 +22,6 @@
 #' @import RPostgres
 #' @export
 
-
-
 get_meta <-
   function(dbname,
              schema = "mb2eml_r",

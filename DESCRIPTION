@@ -15,9 +15,10 @@ Imports:
     readr,
     EDIutils,
     digest,
-    RPostgres (>= 1.1.0)
-Suggest: stringr
-RoxygenNote: 7.2.3
+    RPostgres (>= 1.1.0),
+    stringr,
+    data.table
+RoxygenNote: 7.3.3
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

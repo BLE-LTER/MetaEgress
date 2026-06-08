@@ -4,7 +4,7 @@
 \alias{assemble_taxon_nested}
 \title{Assemble a single recursive nested taxonomicClassification node}
 \usage{
-assemble_taxon_nested(classification, providerurl)
+assemble_taxon_nested(classification, providerurl, commonname = NULL)
 }
 \arguments{
 \item{classification}{(data.frame) One data.frame containing one full taxonomic classification tree for one leaf taxon.}
