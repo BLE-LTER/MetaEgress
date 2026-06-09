@@ -17,8 +17,12 @@ Imports:
     digest,
     RPostgres (>= 1.1.0),
     stringr,
-    data.table
+    data.table,
+    xml2,
+    taxize,
+    emld
 RoxygenNote: 7.3.3
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    usethis
 Config/testthat/edition: 3
