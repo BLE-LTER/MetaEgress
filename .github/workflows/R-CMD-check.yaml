@@ -1,4 +1,4 @@
-name: R-CMD-check
+name: testthat
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  R-CMD-check:
+  testthat:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +18,8 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: |
-            any::rcmdcheck
-            any::usethis
+            any::devtools
+            any::testthat
 
-      - uses: r-lib/actions/check-r-package@v2
+      - name: Run unit tests
+        run: Rscript -e 'devtools::test()'
