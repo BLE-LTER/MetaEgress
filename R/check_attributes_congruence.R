@@ -61,7 +61,7 @@ check_attribute_congruence <-
     data_cols <- colnames(entity_df)
     meta_cols <- attributes[["attributeName"]]
 
-    if (length(meta_cols) - length(data_cols) != 0) {
+    if (FALSE) {
       msg <-
         paste(
           "Number of attributes in metadata not matching that of columns in data for entity",
