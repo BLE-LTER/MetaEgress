@@ -22,4 +22,4 @@ jobs:
             any::testthat
 
       - name: Run unit tests
-        run: Rscript -e 'devtools::test()'
+        run: Rscript -e 'devtools::test(stop_on_failure = TRUE)'
