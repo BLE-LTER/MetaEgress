@@ -7,7 +7,7 @@ Authors@R: c(person(given = "An T.", family = "Nguyen",
        person(given = "Li", family = "Kui", role = "aut"),
        person(given = "Tim", family = "Whiteaker", email = "whiteaker@utexas.edu", role = "aut"))
 Description: Functions to create Ecological Metadata Language (EML) XML documents from metadata stored in a metadata database design by the Long Term Ecological Research Network.
-License: Creative Commons license CC0 1.0 Universal
+License: CC0
 Encoding: UTF-8
 LazyData: true
 Imports: 
