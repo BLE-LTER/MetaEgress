@@ -181,7 +181,7 @@ assemble_taxon <- function(taxa_row) {
   taxclass <-
     list(
       taxonRankName = null_if_na(taxa_row, "taxonrankname"),
-      taxonRankValue = "WRONG_VALUE",
+      taxonRankValue = null_if_na(taxa_row, "taxonrankvalue"),
       commonName = null_if_na(taxa_row, "commonname"),
       taxonId = list(taxa_row[["taxonid"]],
                      `provider` = match_provider(taxa_row = taxa_row))

@@ -9,7 +9,7 @@ skip_if_no_db <- function() {
       DBI::dbConnect(
         drv = RPostgres::Postgres(),
         dbname = "ble_metabase",
-        host = "10.157.18.129",
+        host = "10.157.18.158",
         port = 5432,
         user = "metaegress_user",
         password = "usedinMetaEgress"
@@ -40,7 +40,7 @@ test_that("function returns a list of dataframes", {
   metadata <- get_meta(
     dbname = "ble_metabase",
     dataset_ids = 1,
-    host = "10.157.18.129",
+    host = "10.157.18.158",
     port = 5432,
     user = "metaegress_user",
     password = "usedinMetaEgress"
